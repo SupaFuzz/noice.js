@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<!--
+    insert manifest declaration on <html> to make it a true offline app
+-->
+
+<html lang="en" >
+   <head>
+       <!--
+           noiceCoreUI Demos
+           Amy Hicox <amy@hicox.com>        5/4/2020
+
+           this implements a UI switcher and an header menu
+           each UI is a demonstration of the noiceCoreUI
+           and noiceCoreUIFormElement libraries
+       -->
+
+       <!-- make it look like an app -->
+       <meta charset="utf-8" />
+       <meta name="apple-mobile-web-app-capable" content="yes">
+       <meta name="viewport" content="user-scalable=no" />
+
+       <!-- noice library includes -->
+       <script src="../lib/noiceCore.js"></script>
+       <script src="../lib/noiceCoreUI.js"></script>
+       <script src="../lib/noiceCoreUIFormElement.js"></script>
+       <script src="../lib/noiceCoreUIFormElementTable.js"></script>
+
+       <!-- each of these lib files corresponds to a UI which is a unique demo -->
+       <script src="./demos/formElementUIScreen.js"></script>
+       <script src="./demos/formElementUIScreen-select.js"></script>
+       <script src="./demos/formElementUIScreen-text.js"></script>
+       <script src="./demos/formElementUIScreen-date.js"></script>
+       <script src="./demos/formElementUIScreen-checkbox.js"></script>
+       <script src="./demos/formElementUIScreen-number.js"></script>
+       <script src="./demos/formElementUIScreen-file.js"></script>
+       <script src="./demos/formElementUIScreen-table.js"></script>
+       <script src="./demos/formElementUIScreen-multi.js"></script>
+
+       <!-- don't make Tim Gunn "question your taste level" mmmm'kay? -->
+       <link rel="stylesheet" type="text/css" href="./noice.css">
+
+       <!-- start it up -->
+       <script type="text/javascript">
+           document.addEventListener("DOMContentLoaded", function(evt){
+
+            // define some UIs
+            let UIs = {
+                formElements:  new formElementMultipleUIScreen({ name: 'formElementMultiple'}),
+            };
+
+            // make a screenHolder to keep all the UIs in
+            let screenHolder = new noiceCoreUIScreenHolder({
+                UIList:     UIs
+            }).append(document.body);
+
+            // make some buttons to go in the header menu and switch betwixt the UIs
+            let btnList = [];
+            Object.keys(UIs).forEach(function(ui){ btnList.push(`<button id="btn_${ui}">${ui}</button>`); });
+
+            // make a header menu to hold the buttons
+            let hdrMenu = new noiceCoreUIHeaderMenu({
+                menuContent:        btnList.join(""),
+                menuHandleTitle:    "Noice Demos (v.01)",
+                renderCallback:     function(self){
+                    // render stuffs
+                },
+                menuContentCallback: function(menuContentDOMElement){
+                    // attach hooks to the button to call switchUI
+                    Object.keys(UIs).forEach(function(ui){
+                        menuContentDOMElement.querySelector(`#btn_${ui}`).addEventListener('click', function(evt){
+                            screenHolder.switchUI(ui).then(function(){ hdrMenu.close(); });
+                        });
+                    })
+                },
+                openCallback:       async function(self){
+                    // do something after the menu opens? I dunno ...
+                },
+                maxHeight:          '120px',
+                minHeight:          '50px'
+            }).append(document.body);
+        });
+
+       </script>
+   </head>
+<body>
+    <!-- this space intentionally left blank -->
+</body>
+</html>

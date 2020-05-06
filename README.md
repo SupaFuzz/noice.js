@@ -8,7 +8,6 @@ This is a javascript object hierarchy that one can either use directly or extend
 This is a work in progress. Documentation is largely a to-do item at this point. The best way to get an idea of how all this works and what it can do is to have a look
 in ./example (you'll need express to run the http server).
 
-
 As of today (5/4/2020), the following are implemented and tested:
 
     * noiceCore.js

@@ -25,6 +25,7 @@
        <script src="../lib/noiceCoreUI.js"></script>
        <script src="../lib/noiceCoreUIFormElement.js"></script>
        <script src="../lib/noiceCoreUIFormElementTable.js"></script>
+        <script src="../lib/noiceCoreUIFormView.js"></script>
 
        <!-- each of these lib files corresponds to a UI which is a unique demo -->
        <script src="./demos/formElementUIScreen.js"></script>
@@ -47,6 +48,37 @@
             // define some UIs
             let UIs = {
                 formElements:  new formElementMultipleUIScreen({ name: 'formElementMultiple'}),
+                formView:      new noiceCoreUIFormView({
+                    name:   'testFormView',
+                    config: {
+                        fields: {
+                            spice: {
+                                type:   'dropdown',
+                                values: [
+                                    { 0: 'corriander' },
+                                    { 1: 'mustard powder' },
+                                    { 2: 'cumin' },
+                                    { 3: 'cinnamon' },
+                                    { 4: 'crushed red pepper' },
+                                    { 5: 'minced garlic' },
+                                    { 6: 'white vinegar' }
+                                ],
+                                label: 'select spice',
+                                name:  'spice'
+                            },
+                            recipe: {
+                                type:   'char',
+                                label:  'recipe name',
+                                name:   'recipe'
+                            },
+                            date: {
+                                type:   'date',
+                                label:  'date',
+                                name:   'date'
+                            }
+                        }
+                    }
+                })
             };
 
             // make a screenHolder to keep all the UIs in

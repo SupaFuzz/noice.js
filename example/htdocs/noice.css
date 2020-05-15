@@ -278,6 +278,15 @@ button {
 	background:					rgba(240, 240, 240, 0);
 	border:						2px solid rgba(237, 85, 59, .6);
 }
+button:disabled {
+    color:						rgba(50, 50, 50, .7);
+    border:						2px solid rgba(50, 50, 50, .7);
+}
+button:disabled:hover {
+    background-color:           rgba(50, 50, 50, .4);
+    color:						rgba(50, 50, 50, .7);
+    border:						2px solid rgba(50, 50, 50, .7);
+}
 button:hover {
 	color:						rgba(237, 85, 59, 1);
 	border:						2px solid rgba(237, 85, 59, 1);

@@ -267,6 +267,55 @@ pre.log{
 	height: 					150px;
 }
 
+/* style modal dialogs */
+.dialogContentClass {
+    background:                 radial-gradient(#F2B134, #AD7B1D);
+    width:                      17em;
+    border-radius:              .66em;
+    border:                     3px solid rgba(17, 47, 65, .8);
+    color:                      rgba(17, 47, 65, .8);
+    overflow:                   hidden;
+}
+.dialogHeadingClass {
+    font-size:                  1em;
+    text-align:                 left;
+    margin:                     0;
+    width:                      100%;
+    padding:                    .25em 0 .25em .5em;
+    border-bottom:              1px solid rgba(17, 47, 65, .8);
+    background:                 linear-gradient(rgba(240, 240, 240, .35), rgba(240, 240, 240, .1), rgba(240, 240, 240, .05));
+    box-shadow:                 0 .15em .15em rgba(17, 47, 65, .1);
+}
+.dialogMessageClass {
+    font-size:                  .8em;
+    text-align:                 left;
+    width:                      66%;
+    margin-left:                30%;
+    border-left:                .25em solid rgba(17, 47, 65, .25);
+    padding:                    .25em 0 .25em .5em;
+}
+.dialogMessageContainerClass {
+    background:                 url('./alt_warning.svg');
+    background-size:            contain;
+    background-repeat:          no-repeat;
+    background-position-x:      5%;
+}
+.dialogButtonContainerClass {
+    text-align:                 right;
+    margin: 0;
+    padding:                    0 .5em .5em 0;
+}
+.dialogButtonContainerClass button {
+    color:                      rgba(17, 47, 65, .8);
+    border:						2px solid rgba(17, 47, 65, .8);
+    margin:                     .25em;
+    font-size:                  .8em;
+}
+.dialogButtonContainerClass button:hover {
+    background-color:           rgba(17, 47, 65, .3);
+    color:                      rgba(17, 47, 65, 1);
+    border:						2px solid rgba(17, 47, 65, .8);
+}
 
 /* global defaults */
 button {

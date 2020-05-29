@@ -53,7 +53,9 @@
                     config: {
                         fields: {
                             spice: {
-                                type:   'dropdown',
+                                type:           'dropdown',
+                                name:           'spice',
+                                label:          'select spice',
                                 values: [
                                     { 0: 'corriander' },
                                     { 1: 'mustard powder' },
@@ -63,18 +65,47 @@
                                     { 5: 'minced garlic' },
                                     { 6: 'white vinegar' }
                                 ],
-                                label: 'select spice',
-                                name:  'spice'
+                                modes: {
+                                    'create': {
+                                        enable:     true,
+                                        visible:    true
+                                    },
+                                    'modify': {
+                                        enable:     true,
+                                        visible:    true
+                                    }
+                                }
                             },
                             recipe: {
-                                type:   'char',
-                                label:  'recipe name',
-                                name:   'recipe'
+                                type:           'char',
+                                name:           'recipe',
+                                label:          'recipe name',
+                                labelLocation:  'embed',
+                                modes: {
+                                    'create': {
+                                        enable:     true,
+                                        visible:    true
+                                    },
+                                    'modify': {
+                                        enable:     false,
+                                        visible:    true
+                                    }
+                                }
                             },
                             date: {
                                 type:   'date',
-                                label:  'date',
-                                name:   'date'
+                                name:   'date',
+                                label:  'created',
+                                modes: {
+                                    'create': {
+                                        enable:     false,
+                                        visible:    false
+                                    },
+                                    'modify': {
+                                        enable:     false,
+                                        visible:    true
+                                    }
+                                }
                             }
                         }
                     }
@@ -112,6 +143,8 @@
                 minHeight:          '50px'
             }).append(document.body);
         });
+
+
 
        </script>
    </head>

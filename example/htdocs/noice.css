@@ -329,8 +329,20 @@ pre.log{
     border-radius:              .25em;
     text-align:                 right;
 }
-
-
+.fvCtrlPnlTop {
+    display:                    grid;
+    grid-template-columns:      5fr 1fr;
+    width:                      100%;
+    overflow:                   hidden;
+    border:                     2px solid rgba(17, 47, 65, .8);
+    border-radius:              .25em;
+    align-items:baseline;
+    text-align:                 left;
+    background:                 radial-gradient(rgba(240,240, 240, .01), rgba(240, 240, 240, .08))
+}
+.fvCtrlPnlTop input {
+    width: 100%;
+}
 
 /* global defaults */
 button {

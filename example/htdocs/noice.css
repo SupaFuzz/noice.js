@@ -336,7 +336,7 @@ pre.log{
     overflow:                   hidden;
     border:                     2px solid rgba(17, 47, 65, .8);
     border-radius:              .25em;
-    align-items:baseline;
+    align-items:                baseline;
     text-align:                 left;
     background:                 radial-gradient(rgba(240,240, 240, .01), rgba(240, 240, 240, .08))
 }

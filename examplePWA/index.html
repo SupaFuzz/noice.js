@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+            noice.js example PWA
+            serve from a server with a valid SSL cert
+
+                - ❤️ Amy Hicox <amy@hicox.com> 8/26/21
+        -->
+
+        <!-- make it look like an app -->
+        <meta charset="utf-8" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Noice Example PWA">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <!-- app-ish assets -->
+        <link rel="apple-touch-icon" href="./gfx/touch_icon.png">
+        <link rel="apple-touch-startup-image" href="./gfx/splash_screen.png">
+        <link rel="icon" type="image/png" href="./gfx/favicon.png">
+        <link rel="manifest" href="./manifest.json">
+
+        <!-- noice library includes -->
+        <script src="../lib/noiceCore.js"></script>
+        <script src="../lib/noiceCoreUI.js"></script>
+        <script src="../lib/noiceCoreUITemplate.js"></script>
+        <script src="../lib/noiceCoreUIFormElement.js"></script>
+        <script src="../lib/noiceCoreUIFormView.js"></script>
+        <script src="../lib/UI/noiceCoreUIFormCloneView.js"></script>
+        <script src="../lib/noiceIndexedDB.js"></script>
+        <script src="../lib/UI/noicePieChart.js"></script>
+        <script src="../lib/UI/installHelpDialog.js"></script>
+
+        <!-- custom UI Screen Module includes -->
+        <script src="./lib/UI/mainUI.js"></script>
+        <script src="./lib/UI/recordEditor.js"></script>
+
+        <!-- formViews -->
+        <script src="./lib/UI/recordFormView.js"></script>
+
+        <!-- the config -->
+        <script src="./config/appConfig.js"></script>
+
+        <!-- the app -->
+        <script src="./lib/noiceExamplePWA.js"></script>
+
+        <!-- don't make Tim Gunn "question your taste level" mmmm'kay? -->
+        <link rel="stylesheet" type="text/css" href="./noiceExamplePWA.css">
+
+        <!-- set up the app, then start it -->
+        <script type="text/javascript">
+
+            // this should catch chrome users who installed the app and need past the install me banner
+            window.addEventListener('appinstalled', function(){
+                setTimeout(function(){ window.location.reload(); }, 100);
+            });
+
+            // when the document is loaded, create the application object, which starts the app
+            document.addEventListener("DOMContentLoaded", function(evt){
+                window.app = new noiceExamplePWA({
+                    appName:                    'Noice Example PWA',
+                    version:                    1,
+                    threads: {
+                        serviceWorker:          './serviceWorker.js',
+                        inventoryWorker:        './lib/threads/inventoryWorker.js',
+                        syncWorker:             './lib/threads/syncWorker.js'
+                    },
+                    config:                     window._applicationConfig,
+
+                    // if true, refuses to start app unless we're in iosAppMode or chrome standalone mode
+                    enforceAppMode:             true,
+
+                    // for development purposes, it is sometimes handy to turn off the serviceWorker
+                    enableServiceworker:        true,
+                });
+            });
+
+        </script>

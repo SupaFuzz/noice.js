@@ -1,0 +1,110 @@
+/*
+	startupDialog
+*/
+.startupDialog{
+	background:                 radial-gradient(#F2B134, #AD7B1D);
+    width:                      max-content;
+    border-radius:              .45em;
+    border:                     3px solid rgba(17, 47, 65, .8);
+    color:                      rgba(17, 47, 65, .8);
+    overflow:                   hidden;
+	user-select: 				none;
+    -webkit-user-select:        none;
+    font-size:                  .66em;
+}
+.dialogHeadingClass {
+    text-align:                 left;
+    margin:                     0;
+    width:                      100%;
+    padding:                    .25em 0 .25em .5em;
+    border-bottom:              1px solid rgba(17, 47, 65, .8);
+    background:                 linear-gradient(rgba(240, 240, 240, .35), rgba(240, 240, 240, .1), rgba(240, 240, 240, .05));
+    box-shadow:                 0 .15em .15em rgba(17, 47, 65, .1);
+	font-family:				'Comfortaa';
+}
+.dialogHeadingClass h2 {
+	font-size:					.8em;
+	margin: 					.5em 0 .5em .5em;
+}
+
+.dialogMessageClass {
+    font-size:                  .5em;
+    text-align:                 left;
+    border-left:                .25em solid rgba(17, 47, 65, .25);
+    padding:                    .25em 0 .25em .5em;
+}
+.dialogContentClass button:active, .wholeassDialog a:active {
+	color: 						rgba(240, 240, 240, .6);
+	background-color:			rgba(17, 47, 65, 1);
+}
+.dialogContentClass button:disabled, .wholeassDialog a:disabled {
+	font-weight: 				normal;
+	background-color: 			rgba(17, 47, 65, .05);
+	border:						2px solid rgba(17, 47, 65, .2);
+	color:						rgba(17, 47, 65, .5);
+}
+
+.dialogContentClass button, .wholeassDialog a {
+	margin:						.25em;
+	font-size:					1.25em;
+	font-weight: 				bold;
+	background-color: 			rgba(17, 47, 65, .2);
+	border:						2px solid rgba(17, 47, 65, .6);
+	color:						rgba(17, 47, 65, 1);
+	padding:					.25em .5em .25em .5em;
+	border-radius:				.5em;
+}
+.batchHandle .noicePieChart .chartBknd {
+	fill:						rgb(30, 32, 33);
+	stroke: rgb(98, 109, 112);
+}
+.noicePieChart .chartBknd {
+	fill:						rgba(17, 47, 65, 0);
+	stroke:						rgba(17, 47, 65, 0);
+}
+.chartBknd {
+	fill:						rgba(17, 47, 65, .2);
+	stroke:						rgba(17, 47, 65, .6);
+	stroke-width:				1px;
+}
+.startupDialog li .statusDetail {
+	margin-bottom:				.5em;
+}
+.startupDialog .statusDetail {
+	font-style: 				italic;
+	font-size: 					.75em;
+	margin-bottom:				1.5em;
+	display: 					inline-block;
+}
+.startupDialog .msg {
+	margin:						.25em 0 .25em 0;
+}
+
+
+
+
+/*
+    global defaults
+*/
+
+/* this disables scrolling on the body */
+html, body {
+  position:                     fixed;
+  overflow:                     hidden;
+  height:                       100%;
+  width:                        100%;
+}
+
+body {
+	font-size:					2.5em;
+	font-family:				-apple-system, Helvetica, Arial, sans-serif;
+	margin:						0;
+	padding:					0;
+	text-align:					center;
+    background-color:           rgb(0, 0, 0);
+}
+
+@font-face {
+    font-family:                'Comfortaa';
+    src:                        url('./gfx/fonts/Comfortaa.woff2') format("woff2");
+}

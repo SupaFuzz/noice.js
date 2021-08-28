@@ -15,20 +15,34 @@ cache: {
         './',
         './index.html',
         './noiceExamplePWA.css',
-        './manifest.json,'
+        './manifest.json',
+        './noiceExamplePWA.css',
 
         './config/appConfig.js',
 
         './lib/noiceExamplePWA.js',
         './lib/UI/mainUI.js',
-        './lib/UI/recordEditor.js,'
+        './lib/UI/recordEditor.js',
         './lib/UI/recordFormView.js',
 
         './gfx/touch_icon.png',
         './gfx/favicon.png',
         './gfx/splash_screen.png',
+        './gfx/hicox_flower.svg',
 
-        './gfx/fonts/Comfortaa.woff2'
+        './gfx/fonts/Comfortaa.woff2',
+
+        './lib/noice/noiceCore.js',
+        './lib/noice/noiceCoreUI.js',
+        './lib/noice/noiceCoreUIFormElement.js',
+        './lib/noice/noiceCoreUITemplate.js',
+        './lib/noice/noiceCoreUIFormView.js',
+        './lib/noice/noiceCoreUIFormCloneView.js',
+        './lib/noice/noiceIndexedDB.js',
+        './lib/noice/UI/noicePieChart.js',
+        './lib/noice/UI/RadialPolygonPath.js',
+        './lib/noice/UI/installHelpDialog.js',
+        './lib/noice/UI/startupDialog.js'
     ]
 },
 
@@ -274,11 +288,11 @@ indexedDBDefinition: {
 
 
 /*
-    LOH 8/26/21 @ 1039
-    install the regex army next
+    additional things you might want to add in here:
+        * a regex army
+        * build a field.id mapping table
+        * saveFilters for recipes form
 */
-
-
 
 
 } // end config definition

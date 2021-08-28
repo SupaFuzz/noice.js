@@ -21,15 +21,17 @@
         <link rel="manifest" href="./manifest.json">
 
         <!-- noice library includes -->
-        <script src="../lib/noiceCore.js"></script>
-        <script src="../lib/noiceCoreUI.js"></script>
-        <script src="../lib/noiceCoreUITemplate.js"></script>
-        <script src="../lib/noiceCoreUIFormElement.js"></script>
-        <script src="../lib/noiceCoreUIFormView.js"></script>
-        <script src="../lib/UI/noiceCoreUIFormCloneView.js"></script>
-        <script src="../lib/noiceIndexedDB.js"></script>
-        <script src="../lib/UI/noicePieChart.js"></script>
-        <script src="../lib/UI/installHelpDialog.js"></script>
+        <script src="./lib/noice/noiceCore.js"></script>
+        <script src="./lib/noice/noiceCoreUI.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormElement.js"></script>
+        <script src="./lib/noice/noiceCoreUITemplate.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormView.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormCloneView.js"></script>
+        <script src="./lib/noice/noiceIndexedDB.js"></script>
+        <script src="./lib/noice/UI/noiceRadialPolygonPath.js"></script>
+        <script src="./lib/noice/UI/noicePieChart.js"></script>
+        <script src="./lib/noice/UI/installHelpDialog.js"></script>
+        <script src="./lib/noice/UI/startupDialog.js"></script>
 
         <!-- custom UI Screen Module includes -->
         <script src="./lib/UI/mainUI.js"></script>
@@ -62,7 +64,6 @@
                     version:                    1,
                     threads: {
                         serviceWorker:          './serviceWorker.js',
-                        inventoryWorker:        './lib/threads/inventoryWorker.js',
                         syncWorker:             './lib/threads/syncWorker.js'
                     },
                     config:                     window._applicationConfig,

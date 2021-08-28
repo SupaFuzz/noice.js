@@ -33,11 +33,13 @@ constructor(args, defaults, callback){
         let that = this;
 
         /*
-            LOH 8/27/21 @ 1321 -- lunch
-            next step ... lets dream up something like
-            the nscan startupDialog, but more like a splash screen
-            for instance, not necessarily needing a start button
+            LOH 8/27/21 @ 2353
+            everything up to here works pretty good.
+            next step is to add some logic to hadle enforceAppMode
+            and give the install screen.
         */
+
+        // setup startupDialog
         this.startupDialog = new startupDialog({
             title:                  `${this.appName} (v${this.version})`,
             pieCharts: [

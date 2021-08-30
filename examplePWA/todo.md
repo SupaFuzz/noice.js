@@ -3,6 +3,7 @@
     * handleSyncWorkerStatusUpdate()
     * crashedDialog
     * startup()
+    * enforce iosAppMode (enforceAppMode)
 
 # serviceWorker.js
     * syntax validate and test from console

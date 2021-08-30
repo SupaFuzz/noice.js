@@ -8,6 +8,7 @@ This is a javascript object hierarchy that one can either use directly or extend
 This is a work in progress. Documentation is largely a to-do item at this point. The best way to get an idea of how all this works and what it can do is to have a look
 in ./example (you'll need express to run the http server).
 
+
 As of today (5/4/2020), the following are implemented and tested:
 
     * noiceCore.js
@@ -60,6 +61,13 @@ As of today (5/4/2020), the following are implemented and tested:
       this implements a noice promise-wrapped interface to the indexedDB
 
 TO-DO list:
+
+    * complete noiceExamplePWA (flatfile pull and stubs for push in the syncWorker)
+
+    * build an actual backend that can do the CRUD
+      https://leveljs.org/
+      offhand, I'm thinking levelDB plus express. Keep it simple, this is basically
+      indexedDB on the server side, and I am wholly into that at this moment.
 
     * noiceCoreUIForm
       this is a descendant of noiceCoreUIScreen ... this is a kind of UI screen

@@ -16,6 +16,7 @@ constructor(args, defaults, callback){
         localStorageKey:                'noiceExamplePWA_App',
 
         // default values for flags
+        restoreOnInstantiate:           true,
         enableServiceworker:            true,
         enforceAppMode:                 true,
 
@@ -30,73 +31,10 @@ constructor(args, defaults, callback){
         crashCallback:                  function(myself){ myself.crashedDialog(); }
 
         },defaults),callback);
-        let that = this;
 
-        /*
-            LOH 8/27/21 @ 2353
-            everything up to here works pretty good.
-            next step is to add some logic to hadle enforceAppMode
-            and give the install screen.
-        */
+        // show the install banner or the startupDialog, depending
+        this.initUI();
 
-        // setup startupDialog
-        this.startupDialog = new startupDialog({
-            title:                  `${this.appName} (v${this.version})`,
-            pieCharts: [
-                { name:'db',      fill:'rgba(6, 133, 135, .5)' },
-                { name:'network', fill:'rgba(17, 47, 65, .2)' }
-            ],
-            showCancelBtn: true,
-            cancelButtonCallback:   function(self, evt){
-                evt.target.disabled = true;
-                let errflg = false;
-                that.threadResponse({
-                  threadName:         'serviceWorker',
-                  isServiceWorker:    true,
-                  postMessage:        { type: 'forceRefresh' },
-                  awaitResponseType:  'forceRefreshComplete'
-                }).catch(function(error){
-                  errflg = true;
-                  console.log(`call error: ${error}`);
-                }).then(function(msg){
-                  console.log('success?');
-                  console.log(msg);
-                  window.location.reload();
-                });
-            },
-            startButtonCallback:    function(self, evt){
-                // start up the app (note: startup() will call setupUI() for us and the rest)
-                evt.target.disabled = true;
-                that.startup();
-            },
-            animationCallback:      function(self){
-                if (self.hasOwnProperty('_animatePolygon')){
-                    self._animatePolygon.phase = -(((self._animationFrame%2000)/2000) * Math.PI * 2);
-                    self._animatePolygon.fillOpacity = (self._animatePolygon.baseFillOpacity + (.15 * ((Math.cos(2*Math.PI * (self._animationFrame%250)/250)) + .5)));
-                    if (((self._animationFrame%100)/100) == 0){
-                        self._animatePolygon.edges = 3 + Math.floor(Math.random() * 5);
-                    }
-                }
-            },
-            animationStartCallback: function(self){
-                if (! self.hasOwnProperty('_animatePolygon')){
-                    self._animatePolygon = new noiceRadialPolygonPath({
-                        edges:          3,
-                        radius:         ((self.chartSize/2) * (6/8)),
-                        baseFillOpacity:.25
-                    }).append(self.svgDOMObject);
-                }
-            },
-            animationExitCallback:  function(self){
-                if (self.hasOwnProperty('_animatePolygon')){
-                    self._animatePolygon.remove();
-                    delete self._animatePolygon
-                }
-            },
-            showPieChart: false,
-            welcomeMode:  true,
-            _app:         this
-        }).append(document.body);
 
 
         /*
@@ -138,6 +76,144 @@ constructor(args, defaults, callback){
         })
         */
 
+}
+
+
+
+
+/*
+    initUI()
+    show the install banner or the startup dialog
+    depending on if we're in chrome standalone mode or
+    iosAppMode and if the enforceAppMode flag is set
+*/
+initUI(){
+    let that = this;
+
+    let override = false;
+    try {
+        override = that.getAppData('_enforceAppModeOverride');
+    }catch(e){
+        this.log(`${this._className} | initUI() | getAppData threw unexpectedly: ${e} `);
+    }
+
+    if (that.enforceAppMode && (! that.appMode) && (! override)){
+
+        // show the install banner
+        that.log(`initUI | showing install banner`);
+        this.installBanner = new installHelpDialog({
+            cheatCode: 'shabidoo',
+            cheatCodeCallback: function(selfReference){
+
+                // cheat code allows one to bypass the install banner from desktop browser
+                selfReference._app.writeAppData({ '_enforceAppModeOverride': true });
+                selfReference._app.installBanner.remove();
+                selfReference._app.initUI();
+            },
+            _app: that
+        }).append(document.body);
+
+    }else{
+
+        // setup startupDialog
+        this.startupDialog = new startupDialog({
+            title:        `${this.appName} (v${this.version})`,
+            welcomeTitle: 'Welcome to noice.js',
+            pieCharts: [
+                { name:'db',      fill:'rgba(6, 133, 135, .5)' },
+                { name:'network', fill:'rgba(17, 47, 65, .2)' }
+            ],
+            showCancelBtn: true,
+            cancelButtonCallback:   function(self, evt){
+                evt.target.disabled = true;
+                let errflg = false;
+                that.threadResponse({
+                  threadName:         'serviceWorker',
+                  isServiceWorker:    true,
+                  postMessage:        { type: 'forceRefresh' },
+                  awaitResponseType:  'forceRefreshComplete'
+                }).catch(function(error){
+                  errflg = true;
+                  console.log(`call error: ${error}`);
+                }).then(function(msg){
+                  console.log('success?');
+                  console.log(msg);
+                  window.location.reload();
+                });
+            },
+            startButtonCallback:    function(self, evt){
+                evt.target.disabled = true;
+                that.startup();
+            },
+            animationCallback:      function(self){
+                if (self.hasOwnProperty('_animatePolygon')){
+                    self._animatePolygon.phase = -(((self._animationFrame%2000)/2000) * Math.PI * 2);
+                    self._animatePolygon.fillOpacity = (self._animatePolygon.baseFillOpacity + (.15 * ((Math.cos(2*Math.PI * (self._animationFrame%250)/250)) + .5)));
+                    if (((self._animationFrame%100)/100) == 0){
+                        self._animatePolygon.edges = 3 + Math.floor(Math.random() * 5);
+                    }
+                }
+            },
+            animationStartCallback: function(self){
+                if (! self.hasOwnProperty('_animatePolygon')){
+                    self._animatePolygon = new noiceRadialPolygonPath({
+                        edges:          3,
+                        radius:         ((self.chartSize/2) * (6/8)),
+                        baseFillOpacity:.25
+                    }).append(self.svgDOMObject);
+                }
+            },
+            animationExitCallback:  function(self){
+                if (self.hasOwnProperty('_animatePolygon')){
+                    self._animatePolygon.remove();
+                    delete self._animatePolygon
+                }
+            },
+            showPieChart: false,
+            welcomeMode:  true,
+            _app:         this
+        }).append(document.body);
+    }
+}
+
+
+
+
+/*
+    startup()
+    setup the application and dump the user at the default UI
+*/
+startup(){
+    let that = this;
+
+    // insert shenanigans here
+
+    /*
+        LOH 8/30/21 @ 1638
+        installHelpDialog is done with a clean cheat code implementation!
+        also cleaned up the CSS around it quite thoroughly.
+
+        next up:
+            * make a placeholder in syncWorker to for fetching the file, parsing, etc
+              (we will come back to that)
+
+            * make a main UI
+
+            * make a formView
+
+            * make a submit UI
+              use this to enter a test dataset
+
+            * make a json file export like dbDump etc
+
+            * take that file, put it in the config directory or whatever
+              flesh out the placeholder in syncWorker (end around not having a backend)
+
+            * then let's thing about a backend LevelDB + Express might get the job done
+              at the same time it's less of a rabbit hole to just setup a remedy form
+              and get the whole thing done start to finish. THEN come back and have the
+              custom backend adventure.
+    */
 }
 
 

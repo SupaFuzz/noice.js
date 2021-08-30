@@ -219,7 +219,7 @@ remove(){
 
 
 /*
-    getEventListener(<functionReference>)
+    getEventListenerWrapper(<functionReference>)
     return a function in which we call thusly:
         functionReference(event, self)
 

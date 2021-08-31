@@ -127,6 +127,12 @@ function phoneHome(data){
             /*
                 insert shenanigans here
                 8/27/21 @ 1605 -- return here after we've fleshed out the rest some
+
+                8/30/21 @ 2220 -- i think the thing to do here is to break out the steps outlined above
+                into constituent functions, almost exactly as listed. First phase, all of them are pretty
+                much dummies. Second phase, we replace the constituent functions one at a time, wiring it up
+                to a known backend like ARS. Third phase, we build a custom backend and point it to that.
+
             */
             toot(true);
 

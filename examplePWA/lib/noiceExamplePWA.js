@@ -186,7 +186,38 @@ initUI(){
 startup(){
     let that = this;
 
-    // insert shenanigans here
+    /*
+        just know that everything below will eventually happen
+        in a then() block after calling the phoneHome() signal
+        against syncWorker.
+
+        But for now we have no backend, so we're just fleshing
+        out the rest and will return to that biz later
+    */
+
+
+
+    // instantiate UIs
+    that.UIs = {
+        main:   new noiceExamplePWAMainUI({
+            _app:       that,
+            hdrTitle:   `${that.appName} ${that.version}`,
+            hdrMsg:     'ready'
+        })
+    }
+
+    // remove startupDialog
+    that.startupDialog.remove();
+
+
+    // make the the screen holder and display defaultUI
+    that.screenHolder = new noiceCoreUIScreenHolder({
+        UIList:         that.UIs,
+        defaultUI:      'main',
+        showDefaultUI:  true
+    }).append(document.body);
+
+
 
     /*
         LOH 8/30/21 @ 1638

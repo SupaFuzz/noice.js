@@ -83,6 +83,7 @@ constructor(args, defaults, callback){
         _className:         'noiceCoreUIElement',
         _documentFragment:  document.createDocumentFragment(),
         _visibility:        'visible',
+        _DOMElements:       {},
         classList:          [],
         onScreen:           false,
         // stubs to prevent overriding getter/setters
@@ -112,6 +113,7 @@ constructor(args, defaults, callback){
         self.guid = self.getGUID();
         if (self.deferRender !== true){ self.render(); }
     });
+
 
 } // end constructor
 
@@ -154,13 +156,34 @@ get html(){
     render should be chainable, so we always return this (even if you override it stil do this)
 */
 render(){
-    this.DOMElement = document.createElement('div');
-    this.DOMElement.id = this.guid;
-    this._documentFragment.appendChild(this.DOMElement);
+    let that = this;
+    that.DOMElement = document.createElement('div');
+    that._documentFragment.appendChild(that.DOMElement);
     this.classList.forEach(function(c){ this.DOMElement.classList.add(c); }, this)
     this.DOMElement.innerHTML = this.html;
-    let that = this;
-    if (this.hasAttribute('renderCallback') && (this.renderCallback instanceof Function)){ that.renderCallback(that); }
+
+    //handle template elements
+    that.DOMElement.querySelectorAll(`[data-templatename]:not([data-templatename=""])`).forEach(function(el){
+
+        // snag dom element of everything with a templatename specified in dataset
+        that._DOMElements[el.dataset.templatename] = el;
+
+        // if templateattribute is set true, also spawn getter/setter for it
+        if (el.dataset.templateattribute && (el.dataset.templateattribute == "true")){
+            Object.defineProperty(that, el.dataset.templatename, {
+                get:    function(){ return(el.textContent); },
+                set:    function(v){
+                    if (v instanceof Element){
+                        el.replaceChildren(v);
+                    }else{
+                        el.textContent = v;
+                    }
+                }
+            });
+        }
+    });
+
+    if (this.renderCallback instanceof Function){ that.renderCallback(that); }
     this.onScreen = false;
     return(this);
 }
@@ -1211,11 +1234,21 @@ async close(){
           object is visible, however, changing this state invokes the focusCallback() (if
           specified).
 
-        * focusCallback     <Function>
+        * focusCallback     <Function> (DEFUNCT)
           if specified, this external function is invoked when the value of this.focus
           changes via this.setFocus(<bool>). This function may cancel the requested change to
           this.focus by throwing. The new value of bool is passed as an argument to the
           external function. This function must return a promise.
+
+        * firstFocusCallback(focusArgs)    <Function (return promise)>
+          if specified, fires the first time the UI gains focus. If the promise resolves
+          to a fault (throw in an async function), this will cancel the focus operation
+
+        * gainFocusCallback(focusArgs)  <Function (return promise)>
+          if specified, fires when the UI gains focus, if promise resolves to fault, cancels
+
+        * loseFocusCallback(focusArgs))  <Function (return promise)>
+          if specified, fires when the UI gains focus, if promise resolves to fault, cancels
 
     functions:
         * async setFocus(<bool>)
@@ -1229,7 +1262,8 @@ constructor(args, defaults, callback){
     let _classDefaults = noiceObjectCore.mergeClassDefaults({
         _version:           1,
         _className:         'noiceCoreUIScreen',
-        focus:              false
+        focus:              false,
+        firstFocus:         true,
     }, defaults);
 
     // this one will just take a string as the only arg if that's how you call it ...
@@ -1246,29 +1280,78 @@ constructor(args, defaults, callback){
 
     // set default name
     if (! this.hasAttribute('name')){ this.name = this._className; }
+
+    // call setupCallback if we've got one
+    if (this.setupCallback instanceof Function){ this.setupCallback(); }
 }
 
 
 /*
-    setFocus(<bool>)
+    setFocus(<bool>, <{arbitraryData}>)
 */
-async setFocus(bool, focusArgs){
+setFocus(bool, focusArgs){
+    let that = this;
+    let focusFlag = (bool == true);
+    return (new Promise(function(toot, boot){
 
-    let tmp = false;
-    if (bool === true){ tmp = true; }
-    if (this.hasAttribute('focusCallback') && (this.focusCallback instanceof Function)){
-        let that = this;
-        await this.focusCallback(tmp, focusArgs).catch(function(e){
-            throw(new noiceException({
-                message:        `focusCallback() threw an error preventing setFocus(${tmp}): ${e.toString()}`,
-                messageNumber:    104,
-                thrownBy:       `${that._className}/setFocus(${tmp})`
-            }));
-        });
-    }
-    this.focus = tmp;
-}
+        // handle first focus if we have a callback for that
+        if (focusFlag && that.firstFocus && (that.firstFocusCallback instanceof Function)){
+            let firstFocusError = false;
+            that.firstFocusCallback(focusArgs).catch(function(error){
+                firstFocusError = true;
+                that._app.log(`${this._className} | focusCallback | firstFocusCallback threw: ${error}`);
+                boot(error);
+            }).then(function(){
+                if (! firstFocusError){
+                    that.firstFocus = false;
+                    let gainFocusError = false;
+                    if (that.gainFocus instanceof Function){
+                        that.gainFocus(focusArgs).catch(function(error){
+                            gainFocusError = true;
+                            that._app.log(`${this._className} | focusCallback | gainFocus threw after firstFocusCallback: ${error}`);
+                            boot(error);
+                        }).then(function(){
+                            if (! gainFocusError){
+                                that.focus = focusFlag;
+                                toot(true);
+                            }
+                        });
+                    }else{
+                        that.focus = focusFlag;
+                        toot(true);
+                    }
+                }
+            })
 
+        // handle gain focus
+        }else if (focusFlag && (that.gainFocus instanceof Function)){
+
+            let gainFocusError = false;
+            that.gainFocus(focusArgs).catch(function(error){
+                gainFocusError = true;
+                that._app.log(`${this._className} | focusCallback | gainFocus threw: ${error}`);
+                boot(error);
+            }).then(function(){
+                if (! gainFocusError){ that.focus = focusFlag; toot(true); }
+            });
+
+        // handle lose focus
+    }else if ((! focusFlag) && (that.loseFocus instanceof Function)){
+
+            let loseFocusError = false;
+            that.loseFocus(focusArgs).catch(function(error){
+                loseFocusError = true;
+                that._app.log(`${this._className} | focusCallback | loseFocus threw: ${error}`);
+                boot(error);
+            }).then(function(){
+                if (! loseFocusError){ that.focus = focusFlag; toot(true); }
+            });
+
+        }else{
+            that.focus = focusFlag; toot(true);
+        }
+    }));
+} // end setFocus
 
 
 
@@ -1282,6 +1365,22 @@ async receiveMessage(args){
     return(true);
 }
 
+
+
+/*
+    append override
+    we override append here so that we can execute the onScrenCallback if we have one
+*/
+append(DOMElement){
+    super.append(DOMElement);
+    if (this.onScreenCallback instanceof Function){
+        try {
+            this.onScreenCallback();
+        }catch(e){
+            this._app.log(`${this._className} | append | onScrenCallback threw unexpectedly: ${e}`)
+        }
+    }
+}
 
 
 } // end noiceCoreUIScreen class
@@ -1327,6 +1426,9 @@ constructor(args, defaults, callback){
 
     // tag it with a timestamp if it doesn't have one
     if (! this.hasOwnProperty('time')){ this.time = this.epochTimestamp(true); }
+
+    // show defaultUI if that's what we're supposed to be doing
+    if ( this.showDefaultUI && this.isNotNull(this.defaultUI) ){ this.setDefaultUI(); }
 }
 
 /*
@@ -1438,10 +1540,14 @@ async switchUI(screenName, focusArgs){
     if the object defines a defaultUI, switch to it
 */
 async setDefaultUI(){
-    if (this.hasOwnProperty('defaultUI') && this.UIList.hasOwnProperty(this.defaultUI)){
+    if (this.isNotNull(this.defaultUI) && this.UIList.hasOwnProperty(this.defaultUI)){
         await this.switchUI(this.defaultUI);
     }
 }
+get defaultUI(){ return(this._defaultUI); }
+set defaultUI(v){ this._defaultUI = v; }
+get showDefaultUI(){ return(this._showDefaultUI); }
+set showDefaultUI(v){ this._showDefaultUI = (v == true); }
 
 
 

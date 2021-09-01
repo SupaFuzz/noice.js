@@ -144,6 +144,41 @@
 
 
 /*
+  	hdrPanel
+*/
+.hdrPanel {
+	display: grid;
+	grid-template-columns:auto auto 2.5em;
+	height: max-content;
+	align-items:  center;
+}
+.hdrPanel .hdrTitle {
+	font-size: .3em;
+	text-align: left;
+	align-self:  normal;
+	margin-left: .52em;
+	color: rgb(255,255,255);
+}
+.hdrPanel .hdrMsg {
+	text-align: right;
+	font-size: .45em;
+	font-style: italic;
+}
+.hdrPanel .btnBurger {
+	width: 2em;
+	height: 2em;
+	background:				url('./gfx/burger.svg');
+	background-repeat:		no-repeat;
+	background-position:	right;
+	background-size: 		contain;
+	opacity: 				.8;
+	border:none;
+	justify-self: center;
+}
+
+
+
+/*
     global defaults
 */
 

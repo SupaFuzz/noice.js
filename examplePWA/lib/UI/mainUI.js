@@ -29,20 +29,15 @@ get html(){ return(
 `<div class="uiContainer" style="
     display:grid;
     grid-template-columns: 1fr;
-    grid-template-rows:2em minmax(1em, 100%) minmax(2em, 3em);
+    grid-template-rows: 2em minmax(1em, 100%) minmax(2em, 3em);
     width:100%;
     height:100%;
     color: rgba(240, 240, 240, .6);
 ">
     <div class="hdrPanel">
-        <div class="left">
-            <div class="hdrTitle" data-templatename="hdrTitle" data-templateattribute="true">${this.hdrTitle}</div>
-            &nbsp;
-            <div class="hdrMsg" data-templatename="hdrMsg" data-templateattribute="true">${this.hdrMsg}</div>
-        </div>
-        <div class="right">
-        <button class="btnBurger" data-templatename="btnBurger" style="margin:.25em;">burger</button>
-        </div>
+        <span class="hdrTitle" data-templatename="hdrTitle" data-templateattribute="true">${this.hdrTitle}</span>
+        <span class="hdrMsg" data-templatename="hdrMsg" data-templateattribute="true">${this.hdrMsg}</span>
+        <button class="btnBurger" data-templatename="btnBurger" style="margin:.25em;">&nbsp;</button>
     </div>
     <div class="content">
         <div class="searchInputContainer" data-templatename="searchInputContainer" ></div>
@@ -72,6 +67,29 @@ get html(){ return(
     used in the existing CSS or something anyhow, move it out of that block and its clickable
     so we need to fix that up. Then I guess, really ... lets head straight for the form view and
     the add UI.
+
+    update 8/31/21 @ 2314
+    couldn't resist fixing up the CSS issue outlined above. it's good now.
+
+    next up is the burger menu and it probably means cleaning up the noiceBaloonDialog class
+    significantly. After that, add the search field, but it'll be a placeholder, because
+    we haven't got anything to search yet. But for aestetics, let's put it in.
+
+    after cleaning up noiceBaloonDialog the next step is clearning up noiceCoreUIFormElement
+    we've gotta nail down the setValue listeners to use proper function wrappers that can
+    be actually discarded.
+
+    then building a formView
+    then building a submit UI
+    then a file export
+    then we can have something to fetch from syncWorker, though a stroke of possible
+    genius came over me and that's to leave syncworker completely out of this demo
+
+    this demo should be simply data entry, search of what you already entered, and a file
+    export + import.
+
+    the NEXT demo would include a serviceWorker pointing to ARS
+    and the one after that pointing at the custom backend. 
 */
 
 

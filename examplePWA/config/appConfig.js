@@ -29,6 +29,7 @@ cache: {
         './gfx/favicon.png',
         './gfx/splash_screen.png',
         './gfx/hicox_flower.svg',
+        './gfx/burger.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 

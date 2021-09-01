@@ -135,7 +135,7 @@ async function refreshApp(signalData, eventObject){
     async function helper(){
 
         // open the cache
-        let cache = await caches.open(thread.config.cacheName).catch(function(error){
+        let cache = await caches.open(thread.config.cache.name).catch(function(error){
             // exit for fail to open cache
             let err = `refreshApp | cache open threw unexpectedly:  ${error}`
             thread.log(err);
@@ -147,9 +147,9 @@ async function refreshApp(signalData, eventObject){
         });
 
         // fetch all the assets again, explicitly
-        thread.log(`refreshApp | fetching ${thread.config.assets.length} assets ...`);
+        thread.log(`refreshApp | fetching ${thread.config.cache.assets.length} assets ...`);
         let pk = [];
-        thread.config.assets.forEach(function(url){
+        thread.config.cache.assets.forEach(function(url){
             pk.push(fetch(`${url}?${new Date()})`).catch(function(error){
                 thread.log(`serviceWorker | refreshApp | fetch error: ${error} | url: ${url}`);
             }));
@@ -164,7 +164,7 @@ async function refreshApp(signalData, eventObject){
             });
             throw(err);
         });
-        thread.log(`refreshApp | completed  ${thread.config.assets.length} network requests, indexing ...`)
+        thread.log(`refreshApp | completed  ${thread.config.cache.assets.length} network requests, indexing ...`)
 
         // if the fetched version is different than what's in the cache update
         let updated = [];
@@ -172,36 +172,36 @@ async function refreshApp(signalData, eventObject){
             // fetch the cache version
             updated.push(new Promise(function(t,b){
                 let different = false;
-                cache.match(thread.config.assets[idx]).catch(function(error){
-                    b(`refreshApp | unexpected error getting ${thread.config.assets[idx]} from cache: ${error}`);
+                cache.match(thread.config.cache.assets[idx]).catch(function(error){
+                    b(`refreshApp | unexpected error getting ${thread.config.cache.assets[idx]} from cache: ${error}`);
                 }).then(function(cacheCopy){
 
-                    cache.put(thread.config.assets[idx], response).catch(function(error){
-                        b(`refreshApp | unexpected error putting ${thread.config.assets[idx]} in cache: ${error}`);
+                    cache.put(thread.config.cache.assets[idx], response).catch(function(error){
+                        b(`refreshApp | unexpected error putting ${thread.config.cache.assets[idx]} in cache: ${error}`);
                     }).then(function(){
-                        cache.match(thread.config.assets[idx]).catch(function(error){
-                            b(`refreshApp | unexpected error geting ${thread.config.assets[idx]} in cache (after put?!): ${error}`);
+                        cache.match(thread.config.cache.assets[idx]).catch(function(error){
+                            b(`refreshApp | unexpected error geting ${thread.config.cache.assets[idx]} in cache (after put?!): ${error}`);
                         }).then(function(newCacheCopy){
-                            if (/\.png$/i.test(thread.config.assets[idx])){
+                            if (/\.png$/i.test(thread.config.cache.assets[idx])){
                                 // TO-DO -- figure out how to do binary comparison maybe MD5??
                                 t(false)
                             }else{
                                 if (thread.isNotNull(cacheCopy)){
                                     try {
                                         cacheCopy.text().catch(function(error){
-                                            b(`refreshApp | unexpected error serializing ${thread.config.assets[idx]} contents to text (cache old copy): ${error}`);
+                                            b(`refreshApp | unexpected error serializing ${thread.config.cache.assets[idx]} contents to text (cache old copy): ${error}`);
                                         }).then(function(cacheOldText){
                                             newCacheCopy.text().catch(function(error){
-                                                b(`refreshApp | unexpected error serializing ${thread.config.assets[idx]} contents to text (cache new copy): ${error}`);
+                                                b(`refreshApp | unexpected error serializing ${thread.config.cache.assets[idx]} contents to text (cache new copy): ${error}`);
                                             }).then(function(cacheNewText){
                                                 t(cacheOldText != cacheNewText);
                                             })
                                         });
                                     }catch(e){
-                                        b(`refreshApp | unexpected error comparing by text ${thread.config.assets[idx]}: ${e}`);
+                                        b(`refreshApp | unexpected error comparing by text ${thread.config.cache.assets[idx]}: ${e}`);
                                     }
                                 }else{
-                                    thread.log(`cacheCopy is null for: ${thread.config.assets[idx]}, ignoring`);
+                                    thread.log(`cacheCopy is null for: ${thread.config.cache.assets[idx]}, ignoring`);
                                     t(true);
                                 }
                             }

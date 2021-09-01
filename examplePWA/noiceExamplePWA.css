@@ -178,6 +178,82 @@
 
 
 
+
+/*
+ 	ballooonDialog
+*/
+.noiceBalloonDialog > * {
+	cursor:						default;
+	user-select: 				none;
+}
+.noiceBalloonDialog .dialog .body {
+	border: 2px solid rgb(191, 191, 24);
+	border-radius: .5em;
+	overflow:hidden;
+}
+.noiceBalloonDialog .dialog .dialogHeader {
+	background-color: rgb(191, 191, 24);
+	padding: .25em;
+	margin: 0;
+}
+.noiceBalloonDialog .dialog .dialogContent {
+	padding: .25em;
+}
+.noiceBalloonDialog[data-arrow='bottom'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	bottom: 					0;
+	right: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-top-color: 		    rgb(191, 191, 24);
+	border-bottom: 				0;
+	margin-left:		 		-10px;
+	margin-bottom: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='bottomLeft'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	bottom: 					0;
+	left: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-top-color: 			rgb(191, 191, 24);
+	border-bottom: 				0;
+	margin-left:		 		-10px;
+	margin-bottom: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='top'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	left: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		-10px;
+	margin-top: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='topRight'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	right: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		-10px;
+	margin-top: 				-10px;
+}
+
+
+
 /*
     global defaults
 */

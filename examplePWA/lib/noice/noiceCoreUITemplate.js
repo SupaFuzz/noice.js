@@ -1,5 +1,10 @@
 /*
 
+    NOTE: 9/1/21 @ 1415 -> THIS IS DEFUNCT(ish)
+    noiceCoreUIElement now handles templating and automatic DOMElement accessors
+    included for completeness, but really just use coreUIElement
+
+
     this implements a noiceCoreUIElement with an automatically generated
     set of getters and setters for attributes you specify on the templateElements
     object.

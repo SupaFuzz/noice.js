@@ -43,7 +43,8 @@ cache: {
         './lib/noice/UI/noicePieChart.js',
         './lib/noice/UI/RadialPolygonPath.js',
         './lib/noice/UI/installHelpDialog.js',
-        './lib/noice/UI/startupDialog.js'
+        './lib/noice/UI/startupDialog.js',
+        './lib/noice/UI/noiceBalloonDialog.js'
     ]
 },
 

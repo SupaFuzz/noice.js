@@ -12,6 +12,7 @@ constructor(args, defaults, callback){
         noiceObjectCore.mergeClassDefaults({
             _version:       1,
             _className:     'noiceExamplePWAMainUI',
+            _burgerMenu:    null,
             debug:          false,
         }, defaults),
         callback
@@ -89,7 +90,7 @@ get html(){ return(
     export + import.
 
     the NEXT demo would include a serviceWorker pointing to ARS
-    and the one after that pointing at the custom backend. 
+    and the one after that pointing at the custom backend.
 */
 
 
@@ -100,9 +101,34 @@ setupCallback(){
     let that = this;
     that._app.log(`${that._className} | setupCallback`);
 
+    // make the burger menu dialog
+    that.burgerMenuDialog = new noiceBalloonDialog({
+        title:         '',
+        hdrContent:    '',
+        dialogContent: that.burgerMenu,
+        arrow:         'topRight'
+    });
+    //that.burgerMenuDialog.dialogContent = that.burgerMenu;
+
+    /*
+        LOH 9/1/21 @ 1608
+        there's a bug in noiceCoreUIElement that's not letting me set DOMElements
+        on instantiation for the auto-generated getter/setters
+
+        really it boils down to that the getters and setters appear to
+        get setup *after* the html content is rendered?
+
+        I dunno. gotta go pay rent at the storage unit. BRB
+    */
+
     // hook for btnBurger
     that._DOMElements.btnBurger.addEventListener('click', function(evt){
-        console.log("clicked the buger button!");
+
+        let tbox = that._DOMElements.btnBurger.getBoundingClientRect();
+        that.burgerMenuDialog.append(that.DOMElement);
+        let dbox = that.burgerMenuDialog._DOMElements.dialog.getBoundingClientRect();
+        that.burgerMenuDialog.y = (tbox.bottom + 5);
+        that.burgerMenuDialog.x = ((tbox.x - dbox.width) + (tbox.width/2) + 21 + 10);
     });
 }
 
@@ -155,6 +181,52 @@ loseFocus(focusArgs){
         that._app.log(`${that._className} | loseFocus`);
         toot(true);
     }));
+}
+
+
+
+
+/*
+    get the burgerMenu contents
+*/
+get burgerMenu(){
+    let that = this;
+    if (that._burgerMenu instanceof Element){
+        return(that._burgerMenu);
+    }else{
+        that._burgerMenu = document.createElement('div');
+        that._burgerMenu.className = 'burgerMenu';
+
+        let burgerStyle = {
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            placeItems: 'center'
+        }
+        Object.keys(burgerStyle).forEach( function(c){ that._burgerMenu.style[c] = burgerStyle[c]; } );
+
+        // check for updates button
+        let btnUpdate = document.createElement('button');
+        btnUpdate.class = "btnUpdate";
+        btnUpdate.textContent = 'check for updates';
+        btnUpdate.addEventListener('click', function(evt){ that._app.checkForUpdates(evt); });
+        that._burgerMenu.appendChild(btnUpdate);
+
+        // reset button
+        let btnReset = document.createElement('button');
+        btnReset.class = "btnReset";
+        btnReset.textContent = 'reset';
+        btnReset.addEventListener('click', function(evt){ that._app.resetApp(evt); });
+        that._burgerMenu.appendChild(btnReset);
+
+        // export button
+        let btnExport = document.createElement('button');
+        btnExport.class = "btnExport";
+        btnExport.textContent = 'export to file';
+        btnExport.addEventListener('click', function(evt){ that._app.exportFile(evt); });
+        that._burgerMenu.appendChild(btnExport);
+
+        return(that._burgerMenu);
+    }
 }
 
 

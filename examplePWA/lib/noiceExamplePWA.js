@@ -276,4 +276,82 @@ crashedDialog(){
 
 
 
+/*
+    checkForUpdates(evt)
+    call refreshApp in serviceWorker and pop a dialog to restart the app if there
+    is one. Might also later tack on something to call phoneHome into syncWorker
+    and pull back new data (after I build the back end).
+    evt is optional but would be a click event if present
+*/
+checkForUpdates(evt){
+    let that = this;
+    if (evt instanceof Event){ evt.target.disabled = true; }
+    let errflg = false;
+    that.threadResponse({
+        threadName:         'serviceWorker',
+        isServiceWorker:    true,
+        postMessage:        { type: 'refreshApp' },
+        awaitResponseType:  'refreshAppComplete'
+    }).catch(function(error){
+        errflg = true;
+        that.log(`${that._className} | checkForUpdates() | serviceWorker/refreshApp call threw: ${error}`);
+        alert(`check for updates failed: ${error}`);
+        if (evt instanceof Event){ evt.target.disabled = false; }
+    }).then(function(msg){
+        if (! errflg){
+            if ((msg.data.hasOwnProperty('hasUpdate')) && (msg.data.hasUpdate == true)){
+                new Promise(function(toot, boot){
+                    let prompt = new noiceCoreUIYNDialog({
+                        heading:    'Application Update',
+                        message:    `
+                            ${that.appName} has installed an update and needs to restart.
+                            Touch 'Restart' to restart the app, or touch 'Cancel' to
+                            load the update when you exit the app.
+                        `,
+                        yesButtonTxt: 'Restart',
+                        noButtonTxt:  'Cancel',
+                        hideCallback:   function(self){
+                            toot(self.zTmpDialogResult);
+                        }
+                    }).show(that.DOMElement);
+                }).then(function(zTmpDialogResult){
+                    if (zTmpDialogResult == true){
+                        window.location.reload();
+                    }
+                })
+            }else{
+                alert("no update available");
+                if (evt instanceof Event){ evt.target.disabled = false; }
+            }
+        }
+    });
+}
+
+
+
+
+/*
+    resetApp(evt)
+    dump the journal and the cache and reload
+*/
+resetApp(evt){
+    let that = this;
+    that.log(`${that._className} | resetApp | called`)
+}
+
+
+
+
+/*
+    resetApp(evt)
+    dump the entire indexedDB into a json file and let the user download it
+*/
+exportFile(evt){
+    let that = this;
+    that.log(`${that._className} | exportFile | called`);
+}
+
+
+
+
 } // end noiceExamplePWA class

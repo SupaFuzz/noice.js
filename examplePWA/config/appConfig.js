@@ -30,6 +30,12 @@ cache: {
         './gfx/splash_screen.png',
         './gfx/hicox_flower.svg',
         './gfx/burger.svg',
+        './gfx/checkUpdates_icon.svg',
+        './gfx/reset_icon.svg',
+        './gfx/export_icon.svg',
+        './gfx/import_icon.svg',
+        './gfx/checkUpdates_icon_dark.svg',
+        './gfx/warning_dark.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 

@@ -206,24 +206,31 @@ get burgerMenu(){
 
         // check for updates button
         let btnUpdate = document.createElement('button');
-        btnUpdate.class = "btnUpdate";
+        btnUpdate.className = "btnUpdate";
         btnUpdate.textContent = 'check for updates';
         btnUpdate.addEventListener('click', function(evt){ that._app.checkForUpdates(evt); });
         that._burgerMenu.appendChild(btnUpdate);
 
         // reset button
         let btnReset = document.createElement('button');
-        btnReset.class = "btnReset";
+        btnReset.className = "btnReset";
         btnReset.textContent = 'reset';
         btnReset.addEventListener('click', function(evt){ that._app.resetApp(evt); });
         that._burgerMenu.appendChild(btnReset);
 
         // export button
         let btnExport = document.createElement('button');
-        btnExport.class = "btnExport";
+        btnExport.className = "btnExport";
         btnExport.textContent = 'export to file';
         btnExport.addEventListener('click', function(evt){ that._app.exportFile(evt); });
         that._burgerMenu.appendChild(btnExport);
+
+        // import button
+        let btnImport = document.createElement('button');
+        btnImport.className = "btnImport";
+        btnImport.textContent = 'import from file';
+        btnImport.addEventListener('click', function(evt){ that._app.importFile(evt); });
+        that._burgerMenu.appendChild(btnImport);
 
         return(that._burgerMenu);
     }

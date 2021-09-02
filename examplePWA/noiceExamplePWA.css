@@ -180,6 +180,37 @@
 
 
 /*
+  dialogs in general
+*/
+.dialogContentClass:not(.startupDialog .dialogContentClass) {
+  background-color: rgb(242, 177, 52);
+	font-size: .5em;
+	width: 25em;
+	overflow: hidden;
+	border-radius: 1em;
+}
+.dialogMessageClass:not(.startupDialog .dialogMessageClass) {
+	font-size: 1em;
+	margin-left: 39.195%;
+	padding-right:.5em;
+}
+.noiceCoreUIYNDialog[data-update="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+	background:			 url('./gfx/checkUpdates_icon_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+}
+.dialogMessageContainerClass:not(.startupDialog .dialogMessageClass) {
+	background:			 url('./gfx/warning_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+}
+
+
+
+
+/*
  	ballooonDialog
 */
 .noiceBalloonDialog > * {
@@ -188,7 +219,7 @@
 }
 .noiceBalloonDialog .dialog .body {
 	border: 2px solid rgb(191, 191, 24);
-	border-radius: .5em;
+	border-radius: .25em;
 	overflow:hidden;
 }
 .noiceBalloonDialog .dialog .dialogHeader {
@@ -198,6 +229,7 @@
 }
 .noiceBalloonDialog .dialog .dialogContent {
 	padding: .25em;
+	background-color: rgb(20, 22, 23);
 }
 .noiceBalloonDialog[data-arrow='bottom'] .dialog:after {
 	content: 					'';
@@ -251,6 +283,52 @@
 	margin-left:		 		-10px;
 	margin-top: 				-10px;
 }
+.noiceBalloonDialog .dialogContent button {
+	color: rgba(191, 191, 24, .7);
+	width: 100%;
+	font-size: .66em;
+	border: transparent;
+	padding: .25em 2em .25em .25em;
+	text-align: right;
+	background-color: transparent;
+}
+
+
+
+
+
+/*
+	global buttons
+*/
+button.btnUpdate {
+	background:			 url('./gfx/checkUpdates_icon.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: right;
+	padding-right:		 2em;
+}
+.burgerMenu button.btnReset {
+	background:			url('./gfx/reset_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+.burgerMenu button.btnExport {
+	background:			url('./gfx/export_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+.burgerMenu button.btnImport {
+	background:			url('./gfx/import_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+
 
 
 
@@ -274,7 +352,9 @@ body {
 	text-align:					center;
     background-color:           rgb(0, 0, 0);
 }
-
+button, input {
+	font-family: Comfortaa;
+}
 @font-face {
     font-family:                'Comfortaa';
     src:                        url('./gfx/fonts/Comfortaa.woff2') format("woff2");

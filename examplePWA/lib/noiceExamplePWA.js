@@ -314,6 +314,7 @@ checkForUpdates(evt){
                             toot(self.zTmpDialogResult);
                         }
                     }).show(that.DOMElement);
+                    prompt.DOMElement.dataset.update = "true";
                 }).then(function(zTmpDialogResult){
                     if (zTmpDialogResult == true){
                         window.location.reload();
@@ -343,7 +344,7 @@ resetApp(evt){
 
 
 /*
-    resetApp(evt)
+    exportFile(evt)
     dump the entire indexedDB into a json file and let the user download it
 */
 exportFile(evt){
@@ -351,6 +352,17 @@ exportFile(evt){
     that.log(`${that._className} | exportFile | called`);
 }
 
+
+
+
+/*
+    importFile(evt)
+    replace the entire indexedDB with a json file
+*/
+importFile(evt){
+    let that = this;
+    that.log(`${that._className} | importFile | called`);
+}
 
 
 

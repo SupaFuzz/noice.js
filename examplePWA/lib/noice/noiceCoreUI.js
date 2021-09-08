@@ -183,7 +183,10 @@ render(){
             Object.defineProperty(that, el.dataset.templatename, {
                 get:    function(){ return(el.textContent); },
                 set:    function(v){
-                    if (v instanceof Element){
+                    if (v instanceof noiceCoreUIElement){
+                        el.innerHTML = '';
+                        v.append(el);
+                    }else if (v instanceof Element){
                         el.replaceChildren(v);
                     }else{
                         el.textContent = v;

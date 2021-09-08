@@ -53,7 +53,8 @@ cache: {
         './lib/noice/UI/installHelpDialog.js',
         './lib/noice/UI/startupDialog.js',
         './lib/noice/UI/noiceBalloonDialog.js',
-        './lib/noice/UI/recordEditorUI.js'
+        './lib/noice/UI/recordEditorUI.js',
+        './lib/noice/formView.js'
     ]
 },
 
@@ -156,7 +157,7 @@ indexedDBDefinition: {
             labelLocation:      'left',
             valueLength:        'auto',
             displayOrder:       1,
-            displaySection:     'identification',
+            displaySection:     '  identification',
             modes: {
                 modify: { display:true, edit:false, nullable:true },
                 create: { display:false, edit:false, nullable:true },
@@ -172,7 +173,7 @@ indexedDBDefinition: {
             labelLocation:      'left',
             valueLength:        'auto',
             displayOrder:       2,
-            displaySection:     'identification',
+            displaySection:     '  identification',
             trimWhitespace:     true,
             modes:{
                 modify: { display:true, edit:true, nullable:false },
@@ -189,7 +190,7 @@ indexedDBDefinition: {
             labelLocation:      'left',
             valueLength:        'auto',
             displayOrder:       3,
-            displaySection:     'identification',
+            displaySection:     '  identification',
             trimWhitespace:     true,
             modes:{
                 modify: { display:true, edit:true, nullable:false },
@@ -222,7 +223,7 @@ indexedDBDefinition: {
             labelLocation:      'left',
             valueLength:        'auto',
             displayOrder:       3,
-            displaySection:     'main',
+            displaySection:     ' main',
             trimWhitespace:     true,
             modes:{
                 modify: { display:true, edit:true, nullable:false },
@@ -239,7 +240,7 @@ indexedDBDefinition: {
             labelLocation:      'left',
             valueLength:        'auto',
             displayOrder:       5,
-            displaySection:     'main',
+            displaySection:     ' main',
             trimWhitespace:     true,
             modes:{
                 modify: { display:true, edit:true, nullable:false },
@@ -281,7 +282,7 @@ indexedDBDefinition: {
             id:                 5,
             type:               'char',
             maxLength:          255,
-            name:               'lastModifiedBy',
+            label:              'Last Modified By',
             labelLength:        'auto',
             labelLocation:      'left',
             valueLength:        'auto',

@@ -33,8 +33,9 @@ addRow(){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
 
-    if (! (this.hasOwnProperty('handleNumber'))){ this.handleNumber = 1; }
 
+    /* eventually this will be replaced by the .rowHandle getter of the formView */
+    if (! (this.hasOwnProperty('handleNumber'))){ this.handleNumber = 1; }
     let handle = document.createElement('div');
     handle.className = 'rowHandle';
     handle.dataset.selected = "false";
@@ -45,17 +46,15 @@ addRow(){
     this._DOMElements.handlelist.appendChild(handle);
     handle.addEventListener('click', function(){ that.handleRowSelect(handle); })
 
-    /* we need to make formView objects instead
-    this.uiHolder.addUI(new noiceCoreUIScreen({
-        name: handle.dataset.guid,
-        getHTMLCallback: function(){return(`
-            <div style="color: rgb(240, 240, 240);">
-                <h3>Record #${that.handleNumber}</h3>
-                <span>GUID: ${handle.dataset.guid}
-            </div>
-        `)}
+    // add the new formView to the uiHolder
+    this.uiHolder.addUI(new formView({
+        formMode: 'create',
+        config:   { fields: that._app.config.Forms.recipe },
+        _app:     that._app
     }), handle.dataset.guid);
-    */
+
+    // then select it
+    that.handleRowSelect(handle)
 
 
     that.handleNumber++;

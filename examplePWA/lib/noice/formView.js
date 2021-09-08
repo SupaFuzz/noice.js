@@ -9,6 +9,7 @@
         3   failed to instantiate formElement
         4   no fields in config
         5   duplicate fields in config
+        6   form mode change prevented
 
     config = {
         fields:  { <fieldName>: {<fieldConfig>} ...},
@@ -37,10 +38,16 @@ constructor(args, defaults, callback){
             _className:     'formView',
             _burgerMenu:    null,
             _formElements:  {},
+            _config:        null,
+            _formMode:      null,
             debug:          false,
+            deferRender:    true
         }, defaults),
         callback
     );
+
+    // we need to defer the render until after the config is set, that's why ;-)
+    super.render();
 
 } // end constructor
 
@@ -59,7 +66,7 @@ get html(){
     let fieldListHTML = [];
     let sections = {};
     Object.keys(that._formElements).forEach(function(fieldName){
-        sectionName = (that._formElements[fieldName].hasOwnProperty('displaySection'))?that._formElements[fieldName].displaySection:'none';
+        let sectionName = (that._formElements[fieldName].hasOwnProperty('displaySection'))?that._formElements[fieldName].displaySection:'none';
         if (!(sections.hasOwnProperty(sectionName))){ sections[sectionName] = []; }
         that._formElements[fieldName].name = fieldName;
         sections[sectionName].push(that._formElements[fieldName])
@@ -163,10 +170,60 @@ get rowHandle(){
 
 
 /*
+    formMode stuff
+*/
+get formMode(){ return(this._formMode); }
+set formMode(v){
+    if (this.hasConfig){
+        var modeChangeAbort = false;
+        this.setFormMode(v).catch(function(error){
+            modeChangeAbort = true;
+            throw(new noiceException({
+                message:        `${this._className}/formMode setter: form mode change prevented setting ${v} from ${this._formMode} | ${e}`,
+                messageNumber:   6,
+                thrownBy:       `${this._className}/formMode setter`
+            }));
+        }).then(function(){
+            if(! modeChangeAbort){
+                this._formMode = v;
+            }
+        });
+    }else{
+        this._formMode = v;
+    }
+}
+setFormMode(formMode){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        /*
+            LOH 9/8/21 @ 1746
+            voice therapy session.
+            next up -> set the form mode properties from the config
+            per-field in a promise-keepin' loop
+            be sure to invoke and wait on the formModeChangeCallback()
+            if we have one, where in are you sure dialogs might get
+            popped on and such.
+
+            after that return to the LOH @ EOF
+        */
+
+        // testing
+        toot(true);
+    }));
+}
+
+
+
+
+/*
     config stuff
 */
+get hasConfig(){ return(this.isNotNull(this._config)); }
 get config(){ return(this._config); }
 set config(cfg){
+
+    console.log(`${this._className} | config setter `);
     let that = this;
 
     // bounce if the given config ain't an object at least
@@ -189,7 +246,7 @@ set config(cfg){
 
     // get formElements for everything in the config
     let parseError = false;
-    Object.keys(cfg).forEach(function(fieldName){
+    Object.keys(cfg.fields).forEach(function(fieldName){
         if ((! parseError) && (that._formElements.hasOwnProperty(fieldName))){
             parseError = true;
             throw(new noiceException({
@@ -212,6 +269,9 @@ set config(cfg){
                 cfg.fields[fieldName],
                 extraConfig
             );
+
+            // hackalicious, baybie bay bay
+            that[fieldName] = that._formElements[fieldName];
         }
     });
 
@@ -336,6 +396,13 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 }
 
 
+/*
+    LOH 9/8/21 @ 1620 :-)
+    the above works, next step is setting the mode properties (and mode default values), THEN setting any data given to us
+    THEN setting up the value change hub function, change flag, changed fields, and save callback hooks
+
+    oh! and also defining a rowHandle getter that's hooked up to the value change callback
+*/
 
 
 } // end formView class

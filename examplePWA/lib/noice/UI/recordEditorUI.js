@@ -149,7 +149,7 @@ setupCallback(){
         title:         '',
         hdrContent:    '',
         dialogContent: (this.burgerMenu instanceof Element)?this.burgerMenu:null,
-        arrow:         'topRight'
+        arrow:         'topMid'
     });
 
     // hook for burgerMenu button
@@ -158,7 +158,8 @@ setupCallback(){
         that.burgerMenuDialog.append(that.DOMElement);
         let dbox = that.burgerMenuDialog._DOMElements.dialog.getBoundingClientRect();
         that.burgerMenuDialog.y = (tbox.bottom + 5);
-        that.burgerMenuDialog.x = ((tbox.x - dbox.width) + (tbox.width/2) + 21 + 10);
+        //that.burgerMenuDialog.x = ((tbox.x - dbox.width) + (tbox.width/2) + 21 + 10);
+        that.burgerMenuDialog.x = (tbox.x - (dbox.width/2));
     });
 
     // hook for back button

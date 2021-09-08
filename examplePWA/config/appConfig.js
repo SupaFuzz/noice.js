@@ -22,8 +22,7 @@ cache: {
 
         './lib/noiceExamplePWA.js',
         './lib/UI/mainUI.js',
-        './lib/UI/recordEditor.js',
-        './lib/UI/recordFormView.js',
+        './lib/UI/recipeEditorUI.js',
 
         './gfx/touch_icon.png',
         './gfx/favicon.png',
@@ -36,6 +35,9 @@ cache: {
         './gfx/import_icon.svg',
         './gfx/checkUpdates_icon_dark.svg',
         './gfx/warning_dark.svg',
+        './gfx/back-arrow.svg',
+        './gfx/add-icon.svg',
+        './gfx/clone-icon.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 
@@ -50,7 +52,8 @@ cache: {
         './lib/noice/UI/RadialPolygonPath.js',
         './lib/noice/UI/installHelpDialog.js',
         './lib/noice/UI/startupDialog.js',
-        './lib/noice/UI/noiceBalloonDialog.js'
+        './lib/noice/UI/noiceBalloonDialog.js',
+        './lib/noice/UI/recordEditorUI.js'
     ]
 },
 

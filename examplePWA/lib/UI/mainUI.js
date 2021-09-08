@@ -108,18 +108,6 @@ setupCallback(){
         dialogContent: that.burgerMenu,
         arrow:         'topRight'
     });
-    //that.burgerMenuDialog.dialogContent = that.burgerMenu;
-
-    /*
-        LOH 9/1/21 @ 1608
-        there's a bug in noiceCoreUIElement that's not letting me set DOMElements
-        on instantiation for the auto-generated getter/setters
-
-        really it boils down to that the getters and setters appear to
-        get setup *after* the html content is rendered?
-
-        I dunno. gotta go pay rent at the storage unit. BRB
-    */
 
     // hook for btnBurger
     that._DOMElements.btnBurger.addEventListener('click', function(evt){
@@ -130,6 +118,9 @@ setupCallback(){
         that.burgerMenuDialog.y = (tbox.bottom + 5);
         that.burgerMenuDialog.x = ((tbox.x - dbox.width) + (tbox.width/2) + 21 + 10);
     });
+
+    // hook for create button
+    that._DOMElements.btnCreate.addEventListener('click', function(){ that._app.screenHolder.switchUI('recordEditor'); });
 }
 
 
@@ -188,53 +179,19 @@ loseFocus(focusArgs){
 
 /*
     get the burgerMenu contents
+    no particular reason for this redirect except to illustrate
+    that you might want to have a local attribute so as to have
+    either a completely custom burger menu, or to mutate the system
+    global one
 */
 get burgerMenu(){
     let that = this;
-    if (that._burgerMenu instanceof Element){
-        return(that._burgerMenu);
-    }else{
-        that._burgerMenu = document.createElement('div');
-        that._burgerMenu.className = 'burgerMenu';
-
-        let burgerStyle = {
-            display: 'grid',
-            gridTemplateColumns: '1fr',
-            placeItems: 'center'
-        }
-        Object.keys(burgerStyle).forEach( function(c){ that._burgerMenu.style[c] = burgerStyle[c]; } );
-
-        // check for updates button
-        let btnUpdate = document.createElement('button');
-        btnUpdate.className = "btnUpdate";
-        btnUpdate.textContent = 'check for updates';
-        btnUpdate.addEventListener('click', function(evt){ that._app.checkForUpdates(evt); });
-        that._burgerMenu.appendChild(btnUpdate);
-
-        // reset button
-        let btnReset = document.createElement('button');
-        btnReset.className = "btnReset";
-        btnReset.textContent = 'reset';
-        btnReset.addEventListener('click', function(evt){ that._app.resetApp(evt); });
-        that._burgerMenu.appendChild(btnReset);
-
-        // export button
-        let btnExport = document.createElement('button');
-        btnExport.className = "btnExport";
-        btnExport.textContent = 'export to file';
-        btnExport.addEventListener('click', function(evt){ that._app.exportFile(evt); });
-        that._burgerMenu.appendChild(btnExport);
-
-        // import button
-        let btnImport = document.createElement('button');
-        btnImport.className = "btnImport";
-        btnImport.textContent = 'import from file';
-        btnImport.addEventListener('click', function(evt){ that._app.importFile(evt); });
-        that._burgerMenu.appendChild(btnImport);
-
-        return(that._burgerMenu);
+    if (! (that._burgerMenu instanceof Element)){
+        that._burgerMenu = that._app.getBurgerMenu();
     }
+    return(that._burgerMenu);
 }
+
 
 
 

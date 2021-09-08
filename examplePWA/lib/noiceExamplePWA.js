@@ -203,6 +203,11 @@ startup(){
             _app:       that,
             hdrTitle:   `${that.appName} ${that.version}`,
             hdrMsg:     'ready'
+        }),
+        recordEditor: new recipeEditorUI({
+            _app:       that,
+            title:      'create / edit',
+            burgerMenu: that.getBurgerMenu()
         })
     }
 
@@ -362,6 +367,59 @@ exportFile(evt){
 importFile(evt){
     let that = this;
     that.log(`${that._className} | importFile | called`);
+}
+
+
+
+
+/*
+    getBurgerMenu()
+    get an instance of the system-level burger menu
+*/
+getBurgerMenu(){
+    let that = this;
+    let _burgerMenu = document.createElement('div');
+    _burgerMenu.className = 'burgerMenu';
+
+    let burgerStyle = {
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        placeItems: 'center'
+    }
+    Object.keys(burgerStyle).forEach( function(c){ _burgerMenu.style[c] = burgerStyle[c]; } );
+
+    // check for updates button
+    let btnUpdate = document.createElement('button');
+    btnUpdate.className = "btnUpdate";
+    btnUpdate.textContent = 'check for updates';
+    btnUpdate.addEventListener('click', function(evt){ that.checkForUpdates(evt); });
+    _burgerMenu.appendChild(btnUpdate);
+
+    // reset button
+    let btnReset = document.createElement('button');
+    btnReset.className = "btnReset";
+    btnReset.textContent = 'reset';
+    btnReset.addEventListener('click', function(evt){ that.resetApp(evt); });
+    _burgerMenu.appendChild(btnReset);
+
+    // export button
+    let btnExport = document.createElement('button');
+    btnExport.className = "btnExport";
+    btnExport.textContent = 'export to file';
+    btnExport.addEventListener('click', function(evt){ that.exportFile(evt); });
+    _burgerMenu.appendChild(btnExport);
+
+    // import button
+    let btnImport = document.createElement('button');
+    btnImport.className = "btnImport";
+    btnImport.textContent = 'import from file';
+    btnImport.addEventListener('click', function(evt){ that.importFile(evt); });
+    _burgerMenu.appendChild(btnImport);
+
+    // make 'em all text buttons
+    _burgerMenu.querySelectorAll('button').forEach(function(el){ el.classList.add('textButton'); });
+
+    return(_burgerMenu);
 }
 
 

@@ -1,9 +1,17 @@
+# in general
+    * absolutely none of the layout stuff seems to work on phones
+      the dimensions are just too extreme (damn! it is at least fixable I s'pose)
+      thought: move from defining dimensions by em to vh or vw based on orientation
+      and media queries.
+
 # noiceExamplePWA.js
 
     * handleSyncWorkerStatusUpdate()
-    * crashedDialog
-    * startup()
-    * enforce iosAppMode (enforceAppMode)
+    * crashedDialog()
+    * resetApp()
+    * exportFile()
+    * [wip] startup()
+
 
 # serviceWorker.js
     * syntax validate and test from console

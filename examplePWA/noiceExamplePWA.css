@@ -164,17 +164,6 @@
 	font-size: .45em;
 	font-style: italic;
 }
-.hdrPanel .btnBurger {
-	width: 2em;
-	height: 2em;
-	background:				url('./gfx/burger.svg');
-	background-repeat:		no-repeat;
-	background-position:	right;
-	background-size: 		contain;
-	opacity: 				.8;
-	border:none;
-	justify-self: center;
-}
 
 
 
@@ -182,10 +171,19 @@
 /*
   dialogs in general
 */
+@media screen and (orientation:portrait) {
+	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+		width: 66vw;
+	}
+}
+@media screen and (orientation:landscape) {
+	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+		width: 66vh;
+	}
+}
 .dialogContentClass:not(.startupDialog .dialogContentClass) {
   background-color: rgb(242, 177, 52);
 	font-size: .5em;
-	width: 25em;
 	overflow: hidden;
 	border-radius: 1em;
 }
@@ -284,22 +282,125 @@
 	margin-top: 				-10px;
 }
 .noiceBalloonDialog .dialogContent button {
-	color: rgba(191, 191, 24, .7);
 	width: 100%;
 	font-size: .66em;
-	border: transparent;
 	padding: .25em 2em .25em .25em;
 	text-align: right;
-	background-color: transparent;
 }
 
 
 
 
+/*
+	recordEditorUILayout
+*/
+.recordEditorUILayout .leftCol {
+	color: rgb(240, 240, 240);
+	background-color: rgb(5, 15, 20);
+	background: radial-gradient(ellipse at bottom right, rgba(53, 57, 59, .4), rgba(53, 57, 59, .3), rgba(53, 57, 59, .2),rgba(53, 57, 59, .1), rgba(53, 57, 59, 0));
+	border-right: 1px solid rgba(240, 240, 240, .25);
+	overflow-x: hidden;
+}
+.recordEditorUI .leftCol .header {
+	background: radial-gradient(ellipse at bottom right, rgba(53, 57, 59, 0), rgba(53, 57, 59, .1), rgba(53, 57, 59, .3),rgba(53, 57, 59, .1), rgba(53, 57, 59, .4));
+	background-color:	rgb(5, 15, 20);
+    padding: 0 0 .5em .25em;
+	border-bottom: 1px solid rgba(240, 240, 240, .25);
+	width: 100%;
+}
+.recordEditorUILayout .leftCol .navigationMenu button {
+	margin: .5em;
+	width: max-content;
+	font-size: .45em;
+}
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu {
+	padding-right: .5em;
+}
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu button {
+	padding: 0 .5em 0 .5em;
+}
+.recordEditorUI .leftCol .navigationMenu .buttonMenu button:disabled {
+	opacity: .33;
+}
+.recordEditorUILayout .leftCol .title {
+	font-size: .66em;
+	width: max-content;
+	text-align: left;
+  	margin: 0 0 0 1em;
+}
+
+
+
+
+/*
+	rowHandles
+*/
+.rowHandle {
+	text-align: 				left;
+	user-select: 				none;
+	cursor: 					default;
+	padding-left: 				.45em;
+	border-top-left-radius: 	.66em;
+	border-bottom-left-radius: 	.66em;
+	border-left-width: 			.25em;
+	border-left-style: 			solid;
+	display: 					grid;
+	grid-template-columns: 		1em auto;
+	margin: .128em 0 0 0;
+}
+.rowHandle[data-dirty='false']:before {
+	content: '';
+	font-size: 1em;
+}
+.rowHandle[data-dirty='true']:before {
+	content: '\203B';
+	font-size: 1em;
+}
+.rowHandle[data-selected='true'] {
+	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .3) inset;
+	background: 				radial-gradient(ellipse at top left, rgb(150, 167, 173), rgba(150, 167, 173, .5));
+	color:						rgb(24, 35, 38);
+}
+.rowHandle[data-status='inventory'] {
+	border-left-color: #0065b3;
+}
+.rowHandle[data-status='unassigned'] {
+	border-left-color: #E600A1;
+}
+.rowHandle[data-status='unidentified'] {
+	border-left-color: #FFFFFF;
+}
+.rowHandle[data-status='transmitted'] {
+	border-left-color: #009900;
+}
+.rowHandle[data-status='error'] {
+	border-left-color: #b30000;
+}
+.rowHandle[data-status='queued'] {
+	border-left-color: rgb(230, 138, 0);
+}
+
 
 /*
 	global buttons
 */
+button.textButton {
+	color: rgba(191, 191, 24, .7);
+	border: transparent;
+	background-color: transparent;
+}
+button.btnBack {
+	background:				url('./gfx/back-arrow.svg');
+	background-repeat:		no-repeat;
+	background-position:	left;
+	background-size: 		contain;
+	opacity: 				.8;
+	padding-left:			1.5em;
+	font-weight:			normal;
+	font-size: 				.5em;
+	color:					rgba(191, 191, 24, .75);
+	text-align: 			left;
+}
 button.btnUpdate {
 	background:			 url('./gfx/checkUpdates_icon.svg');
 	background-repeat:   no-repeat;
@@ -307,27 +408,53 @@ button.btnUpdate {
 	background-position: right;
 	padding-right:		 2em;
 }
-.burgerMenu button.btnReset {
+button.btnReset {
 	background:			url('./gfx/reset_icon.svg');
 	background-repeat:  no-repeat;
 	background-size: 	contain;
 	background-position: right;
 	padding-right:		2em;
 }
-.burgerMenu button.btnExport {
+button.btnExport {
 	background:			url('./gfx/export_icon.svg');
 	background-repeat:  no-repeat;
 	background-size: 	contain;
 	background-position: right;
 	padding-right:		2em;
 }
-.burgerMenu button.btnImport {
+button.btnImport {
 	background:			url('./gfx/import_icon.svg');
 	background-repeat:  no-repeat;
 	background-size: 	contain;
 	background-position: right;
 	padding-right:		2em;
 }
+button.btnAdd {
+	background: url('./gfx/add-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+button.btnClone {
+	background: url('./gfx/clone-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+button.btnBurger {
+	width: 2em;
+	height: 2em;
+	background:				url('./gfx/burger.svg');
+	background-repeat:		no-repeat;
+	background-position:	right;
+	background-size: 		contain;
+	opacity: 				.8;
+	border:none;
+	justify-self: center;
+}
+
 
 
 

@@ -31,3 +31,6 @@
 
 # noiceExamplePWA.css
     * the fun part :-)
+
+# noiceCoreUIFormElement / value getter
+    * breaks valueStreamCallback, so we need to fix coreUIScannerInput

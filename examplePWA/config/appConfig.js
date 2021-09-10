@@ -251,7 +251,7 @@ indexedDBDefinition: {
             trimWhitespace:     true,
             modes:{
                 modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:false },
+                create: { display:true, edit:true, nullable:true },
                 clone:  { fieldMenu: true, inheritValue: true }
             }
         },

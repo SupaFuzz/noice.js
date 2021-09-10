@@ -48,9 +48,11 @@ addRow(){
 
     // add the new formView to the uiHolder
     this.uiHolder.addUI(new formView({
-        formMode: 'create',
-        config:   { fields: that._app.config.Forms.recipe },
-        _app:     that._app
+        formMode:           'create',
+        config:             { fields: that._app.config.Forms.recipe },
+        _app:               that._app,
+        rowTitle:           `Record #${this.handleNumber}`,
+        cancelButtonText:   ''
     }), handle.dataset.guid);
 
     // then select it

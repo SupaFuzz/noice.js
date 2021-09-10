@@ -332,7 +332,7 @@
 .recordEditorUILayout .leftCol .navigationMenu .buttonMenu button {
 	padding: 0 .5em 0 .5em;
 }
-.recordEditorUI .leftCol .navigationMenu .buttonMenu button:disabled {
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu button:disabled {
 	opacity: .33;
 }
 .recordEditorUILayout .leftCol .title {
@@ -401,7 +401,105 @@
 */
 .formView {
 	color: rgb(240, 240 ,240);
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	padding: 0 .25em 0 .25em;
 }
+.formView .formHeader {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items:  center;
+}
+.formView .formHeader h1.rowTitle {
+	font-size: .75em;
+	margin: 0;
+	text-align: left;
+	padding: .25em .25em .25em 1em;
+}
+.formView[data-dirty="true"] .formHeader h1.rowTitle:before {
+	content: '\203B';
+	font-size: .75em;
+	position: relative;
+	top: -.6em;
+	right: .65em;
+}
+.formView .formHeader .btnContainer {
+	display: flex;
+  flex-direction: row-reverse;
+	padding: .25em;
+}
+.formView .formHeader .btnCancel {
+	padding: 2em;
+	margin: .25em;
+}
+.formView .formHeader .btnSave {
+	padding:  .128em .5em .128em .5em;
+	margin:    .25em;
+	font-size: 1em;
+}
+.formView fieldset {
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	border-top: 2px solid rgba(191, 191, 24, .5);
+}
+.formView fieldset legend {
+	font-family: Comfortaa;
+	font-size: .75em;
+	padding: .5em;
+	color:  rgb(191, 191, 24);
+}
+.formView .ncuFormElement {
+	align-items: center;
+}
+.formView .ncuFormElement label {
+	font-size: .66em;
+}
+.formView .ncuFormElement .ncufeFieldSection {
+	text-align: left;
+	padding-left: .128em;
+	display: grid;
+}
+.formView .ncuFormElementValidationError .ncufeLabel {
+	color: 						rgb(230, 0, 161);
+}
+.formView .ncuFormElementValidationError .ncuFormElementField {
+	border:						2px solid rgb(230, 0, 161);
+	font-style:					italic;
+	color:						rgba(230, 0, 161, .7);
+}
+.formView .ncufeLabel {
+	color:						rgba(240, 240, 240, .66);
+	margin:						.25em .25em .25em 0;
+}
+.formView .ncufeRequiredField .ncufeLabel {
+	font-weight: bolder;
+	color: rgb(242, 177, 52);
+}
+.formView .formFields input {
+	width: 85%;
+}
+.formView .ncuFormElementField:disabled {
+	background:					radial-gradient(ellipse at top left, rgba(0,0,0,0), rgba(0,0,0,1));
+	color: rgba(217, 217, 217, .4);
+	border:						2px solid rgba(98, 109, 112, .4);
+	opacity:					1;
+}
+.formView .ncuFormElementField:focus {
+	background: none;
+}
+.formView .ncuFormElementField {
+  font-size:         .66em;
+	margin-bottom: .25em;
+	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .8) inset;
+	background:					radial-gradient(ellipse at top left, rgba(98, 109, 112, .25), rgba(98, 109, 112, .1), rgba(0, 0, 0, .25));
+	color:						rgb(204, 204, 204);
+	border:						2px solid rgba(204, 204, 204, .4);
+}
+
+
+
 
 
 
@@ -425,6 +523,23 @@ button.btnBack {
 	font-size: 				.5em;
 	color:					rgba(191, 191, 24, .75);
 	text-align: 			left;
+}
+button.btnSave:disabled {
+	background-color: 			rgba(242, 177, 52, .15);
+	color:						rgba(240, 240, 240, .5);
+	border:						2px solid rgba(242, 177, 52, .5);
+}
+button.btnSave {
+	background-color:   rgb(242, 177, 52);
+	color:						  rgb(57,57,57);
+	border:						  2px solid rgba(98, 109, 112, .66);
+}
+button.btnCancel {
+	background:			 url('./gfx/cancel-icon.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: right;
+	border: none;
 }
 button.btnUpdate {
 	background:			 url('./gfx/checkUpdates_icon.svg');
@@ -506,6 +621,13 @@ body {
 }
 button, input {
 	font-family: Comfortaa;
+}
+input, textarea, select {
+	border-radius: 	.35em;
+	padding:				.25em .5em .25em .5em;
+}
+button {
+	border-radius: .35em;
 }
 @font-face {
     font-family:                'Comfortaa';

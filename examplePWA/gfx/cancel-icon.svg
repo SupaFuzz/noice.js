@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="cancel-icon.svg"
+   inkscape:version="1.0.2 (e86c8708, 2021-01-15)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 13.640093 13.640094"
+   height="13.640094mm"
+   width="13.640093mm">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="powerclip"
+       id="path-effect4552"
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4548">
+      <path
+         id="lpe_path-effect4552"
+         style="fill:#fcbf18;fill-opacity:1;stroke:none;stroke-width:0.444235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+         class="powerclip"
+         d="m 173.261,112.49401 h 22.08005 v 22.08004 H 173.261 Z m 10.53514,6.40981 c -0.45317,0 -0.81803,0.36487 -0.81803,0.81804 v 2.48925 h -2.48926 c -0.45317,0 -0.81803,0.36487 -0.81803,0.81804 v 1.00976 c 0,0.45317 0.36486,0.81803 0.81803,0.81803 h 2.48926 v 2.48926 c 0,0.45317 0.36486,0.81803 0.81803,0.81803 h 1.01028 c 0.45317,0 0.81752,-0.36486 0.81752,-0.81803 v -2.48926 h 2.48977 c 0.45317,0 0.81752,-0.36486 0.81752,-0.81803 v -1.00976 c 0,-0.45317 -0.36435,-0.81804 -0.81752,-0.81804 h -2.48977 v -2.48925 c 0,-0.45317 -0.36435,-0.81804 -0.81752,-0.81804 z" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     fit-margin-left="0.5"
+     fit-margin-bottom="0.5"
+     fit-margin-right="0.5"
+     fit-margin-top="0.5"
+     inkscape:lockguides="true"
+     inkscape:window-maximized="1"
+     inkscape:window-y="25"
+     inkscape:window-x="1440"
+     inkscape:window-height="1147"
+     inkscape:window-width="1920"
+     showgrid="true"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="31.136462"
+     inkscape:cx="19.119118"
+     inkscape:zoom="7.8413361"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <inkscape:grid
+       originy="-114.88835"
+       originx="-169.12782"
+       id="grid837"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-169.12783,-114.88835)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <path
+       id="path862"
+       transform="rotate(45,182.32828,112.5381)"
+       clip-path="url(#clipPath4548)"
+       d="m 190.20875,123.53403 a 5.9077291,5.9077291 0 0 1 -5.90772,5.90773 5.9077291,5.9077291 0 0 1 -5.90773,-5.90773 5.9077291,5.9077291 0 0 1 5.90773,-5.90773 5.9077291,5.9077291 0 0 1 5.90772,5.90773 z"
+       style="fill:#bfbf18;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
+  </g>
+</svg>

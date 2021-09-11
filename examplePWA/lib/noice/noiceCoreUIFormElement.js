@@ -1162,7 +1162,7 @@ set value(v){
     if (/^\d{10,13}$/.test(v)){
         this._dateValue = v;
     }else{
-        this._dateValue = this.toEpoch(v, true);
+        this._dateValue = this.isNull(v)?null:this.toEpoch(v, true);
     }
     super.value = this.isNull(v)?null:this.fromEpoch(this._dateValue, 'dateTimeLocale');
 }

@@ -42,6 +42,7 @@ constructor(args, defaults, callback){
             _formMode:              null,
             _viewNeedsFormModeSync: false,
             _changeFlag:            false,
+            _snapshot:              {},
             debug:                  false,
             deferRender:            true,
             rowTitle:               '',
@@ -334,7 +335,7 @@ set config(cfg){
                 extraConfig
             );
             that._formElements[fieldName].valueChangeCallback = function(newVal, oldVal, formElement){
-                return(that.fieldValueChange(fieldName, newVal, oldVal));
+                return(that.fieldValueChange(fieldName, newVal, oldVal, formElement));
             }
 
             // hackalicious, baybie bay bay
@@ -351,33 +352,149 @@ set config(cfg){
 
 
 /*
+    change flag stuff
+*/
+
+
+
+
+/*
     fieldValueChange(fieldID, newValue, oldValue, formElement)
 */
-fieldValueChange(fieldID, newValue, oldValue, formElement){
-    let that = this;
-    return(new Promise(function(toot, boot){
+fieldValueChange(fieldName, newValue, oldValue, formElement){
 
-        // insert shenanigans here
-        that._app.log(`${that._className} | fieldValueChange(${fieldID}, ${newValue}, ${oldValue})`);
-        toot(newValue);
+console.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElement})`)
+
+    let that = this;
+    let metaAbort = false;
+    return(new Promise(function(toot, boot){
+        new Promise(function(t, b){
+
+            // handle fieldValueChangeCallback() should we have one
+            if (that.fieldValueChangeCallback instanceof Function){
+                let callbackAbort = false;
+                that.fieldValueChangeCallback(fieldName, newValue, oldValue, formElement).catch(function(error){
+                    callbackAbort = true;
+                    b(`fieldValueChangeCallback cancelled value change: ${error}`);
+                }).then(function(value){
+                    if (! callbackAbort){ t(value); }
+                });
+            }else{
+
+                t(newValue);
+            }
+        }).catch(function(error){
+            metaAbort = true;
+            if (that.debug){ that._app.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElement}) cancelled value change: ${error}`); }
+            boot(error);
+
+        }).then(function(value){
+            if (! metaAbort){
+                /*
+                changeFlag logic is as follows
+
+                if the thing you're setting is different than the thing in the snapshot
+                we are obviously going to set the changeFlag
+
+                if the change flag is currently set and the thing you are setting is the
+                same as the thing in the snapshot, we're going to check all the other fields
+                against the snapshot -- if no differences are found, we'll reset the changeFlag
+
+                this is the price of using the setter to get the snapshot, really ... worth it I think.
+                */
+                if (! (
+                    (value == that._snapshot[fieldName]) ||
+                    (that.isNull(value) && that.isNull(that._snapshot[fieldName]))
+                )){
+                    that.changeFlag = true;
+                }else{
+                    if (that.changeFlag){
+                        // check all the other fields for changes and reset changeFlag if needed
+
+                        let cf = that.changedFields;
+                        if (value == that._snapshot[fieldName]){ delete(cf[fieldName]); }
+                        /*
+                            LOH 9/10/21 @ 2353
+                            since this is all asynchronous and properly await'd now, we are always
+                            executing before THIS value is set. Therefore if we are restting the last
+                            field to it's initial value, we will NEVER reset the changeFlag this way
+                            because there's always THIS ONE left in that.changedFields.
+                            so do more than check the length here. That's what I'm satying.
+                        */
+                        console.log(cf)
+
+                        if (cf.length == 0){ that.changeFlag = false; }
+                    }
+                }
+                toot(value);
+            }
+        })
+    }))
+}
+get changeFlag(){ return(this._changeFlag); }
+set changeFlag(b){
+console.log(`changeFlag(${b})`)
+    // handle the changeFlagCallback should we have one
+    if ((this.hasAttribute('changeFlagCallback')) && (this.changeFlagCallback instanceof Function)){
+        this.changeFlagCallback((b === true), this._changeFlag);
+    }
+
+    // get down to bidness
+    this._changeFlag = (b === true);
+    if (! this._changeFlag){
+        // setting change flag false, take snapshot
+        this._snapshot = {};
+        Object.keys(this.formElements).forEach(function(fieldName){
+            this._snapshot[fieldName] = this.formElements[fieldName].value;
+            this.formElements[fieldName].resetOldValue();
+        }, this);
+    }
+
+    // toggle the save button if we've got one
+    if (this.btnSave instanceof Element){
+        this.btnSave.disabled = (! this.changeFlag);
+    }
+
+    // set dirty flag on DOMElement
+    this.DOMElement.dataset.dirty = (this.changeFlag)?'true':'false';
+}
+get changedFields(){
+    /*
+        build an array of objects of the form: {
+            fieldName:*,
+            oldValue:*,
+            newValue:*,
+        }
+        and return it for all fields different than the snapshot
+    */
+
+    let tmp = [];
+    Object.keys(this._formElements).forEach(function(fieldName){
 
         /*
-            LOH 9/10/21 @ 1228
-            NOTE this is set as the hard-coded valueChangeCallback for every formElement
-            what needs to happen here (in this parent class) is we need to manage the changeFlag
-            or maybe not. Actually come to think of it that might better as a hard-coded
-            attribute that just iterates the formElements and checks if values correspond to
-            the last snapshot (which should be set in the setupCallback and in the saveCallback)
-            so actually I dunno. I was thinking we needed to handle parent class stuff in here
-            then chain to another callback for child classes to extend ... but actually,
-            this might just be that function the child classes need to override.
+            LOH 9/11/21 @ 0027
+            man I dunno. The problem we have here is that we are getting "undefined"
+            for the snapshot value (ok, understandable) and we are bizzarely getting
+            "NaN" for the field values, which are technically not the same.
 
-            actually I'm thinking that might actually be it.
-            but I got a hair appointment and I need a shower before I go
-            badly. I got da funk this morning LOL
+            I'm too tired and blearey-eyed to figure this out.
+            for tomorrow
         */
 
-    }));
+
+        if (
+            (this._snapshot[fieldName] !== this._formElements[fieldName].value) && (! (
+                this.isNull(this._snapshot[fieldName]) &&
+                this.isNull(this._formElements[fieldName].value)
+            ))){
+            tmp.push({
+                fieldName:  fieldName,
+                oldValue:   this._snapshot[fieldName],
+                newValue:   this._formElements[fieldName].value
+            });
+        }
+    }, this);
+    return(tmp);
 }
 
 

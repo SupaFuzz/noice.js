@@ -163,6 +163,25 @@ formModeChangeCallback(formMode){
 
 
 /*
+    fieldValueChangeCallback(fieldName, newValue, oldValue, formElement)
+    this fires for every value change on every formElement, before changeFlag
+    is managed etc. The value you resolve from the promise is what's set on the field
+    if your promise rejects, the value is not set
+
+    inserteth thine "active link" type hooks here
+*/
+fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        that._app.log(`${that._className} | fieldValueChangeCallback(${fieldName}, ${newValue}, ${oldValue})`);
+        toot(newValue);
+    }));
+}
+
+
+
+
+/*
     gainFocus(focusArgs)
 */
 gainFocus(focusArgs){
@@ -190,7 +209,6 @@ loseFocus(focusArgs){
 
 
 
-
 /*
     rowHandle getter
 */
@@ -201,29 +219,36 @@ get rowHandle(){
 
 
 
+/*
+    --- commonly overridden functions above, class infrastructure below
+*/
+
+
+
 
 /*
     formMode stuff
 */
 get formMode(){ return(this._formMode); }
 set formMode(v){
-    if (this.hasConfig){
+    let that = this;
+    if (that.hasConfig){
         var modeChangeAbort = false;
-        this.setFormMode(v).catch(function(error){
+        that.setFormMode(v).catch(function(error){
             modeChangeAbort = true;
             throw(new noiceException({
-                message:        `${this._className}/formMode setter: form mode change prevented setting ${v} from ${this._formMode} | ${e}`,
+                message:        `${that._className}/formMode setter: form mode change prevented setting ${v} from ${that._formMode} | ${e}`,
                 messageNumber:   6,
-                thrownBy:       `${this._className}/formMode setter`
+                thrownBy:       `${that._className}/formMode setter`
             }));
         }).then(function(){
             if(! modeChangeAbort){
-                this._formMode = v;
+                that._formMode = v;
             }
         });
     }else{
-        this._viewNeedsFormModeSync = true;
-        this._formMode = v;
+        that._viewNeedsFormModeSync = true;
+        that._formMode = v;
     }
 }
 setFormMode(formMode){
@@ -246,6 +271,7 @@ setFormMode(formMode){
                 }
             });
             that._viewNeedsFormModeSync = false;
+            that.changeFlag = false;
         }
 
         // main logic: set field properties after the callback if we have one
@@ -363,8 +389,6 @@ set config(cfg){
 */
 fieldValueChange(fieldName, newValue, oldValue, formElement){
 
-console.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElement})`)
-
     let that = this;
     let metaAbort = false;
     return(new Promise(function(toot, boot){
@@ -380,7 +404,6 @@ console.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElem
                     if (! callbackAbort){ t(value); }
                 });
             }else{
-
                 t(newValue);
             }
         }).catch(function(error){
@@ -413,16 +436,6 @@ console.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElem
 
                         let cf = that.changedFields;
                         if (value == that._snapshot[fieldName]){ delete(cf[fieldName]); }
-                        /*
-                            LOH 9/10/21 @ 2353
-                            since this is all asynchronous and properly await'd now, we are always
-                            executing before THIS value is set. Therefore if we are restting the last
-                            field to it's initial value, we will NEVER reset the changeFlag this way
-                            because there's always THIS ONE left in that.changedFields.
-                            so do more than check the length here. That's what I'm satying.
-                        */
-                        console.log(cf)
-
                         if (cf.length == 0){ that.changeFlag = false; }
                     }
                 }
@@ -433,7 +446,7 @@ console.log(`fieldValueChange(${fieldName}, ${newValue}, ${oldValue}, ${formElem
 }
 get changeFlag(){ return(this._changeFlag); }
 set changeFlag(b){
-console.log(`changeFlag(${b})`)
+
     // handle the changeFlagCallback should we have one
     if ((this.hasAttribute('changeFlagCallback')) && (this.changeFlagCallback instanceof Function)){
         this.changeFlagCallback((b === true), this._changeFlag);
@@ -444,9 +457,9 @@ console.log(`changeFlag(${b})`)
     if (! this._changeFlag){
         // setting change flag false, take snapshot
         this._snapshot = {};
-        Object.keys(this.formElements).forEach(function(fieldName){
-            this._snapshot[fieldName] = this.formElements[fieldName].value;
-            this.formElements[fieldName].resetOldValue();
+        Object.keys(this._formElements).forEach(function(fieldName){
+            this._snapshot[fieldName] = this._formElements[fieldName].value;
+            this._formElements[fieldName].resetOldValue();
         }, this);
     }
 
@@ -456,7 +469,11 @@ console.log(`changeFlag(${b})`)
     }
 
     // set dirty flag on DOMElement
-    this.DOMElement.dataset.dirty = (this.changeFlag)?'true':'false';
+    if (this.DOMElement instanceof Element){
+        this.DOMElement.dataset.dirty = (this.changeFlag)?'true':'false';
+    }else{
+        this._viewNeedsFormModeSync = true;
+    }
 }
 get changedFields(){
     /*
@@ -470,18 +487,6 @@ get changedFields(){
 
     let tmp = [];
     Object.keys(this._formElements).forEach(function(fieldName){
-
-        /*
-            LOH 9/11/21 @ 0027
-            man I dunno. The problem we have here is that we are getting "undefined"
-            for the snapshot value (ok, understandable) and we are bizzarely getting
-            "NaN" for the field values, which are technically not the same.
-
-            I'm too tired and blearey-eyed to figure this out.
-            for tomorrow
-        */
-
-
         if (
             (this._snapshot[fieldName] !== this._formElements[fieldName].value) && (! (
                 this.isNull(this._snapshot[fieldName]) &&
@@ -617,18 +622,14 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
-    LOH 9/9/21 @ 2226
+    LOH 9/11/21 @ 1325
 
     next:
-        * valueChangeCallback()
-        * changeFlag
-        * changedFields
         * set non-default values on instantiate
         * saveCallback
         * handle getter
         * handle removeCallback
         * close/cancel button
-
 */
 
 

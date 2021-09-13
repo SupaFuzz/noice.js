@@ -14,6 +14,7 @@
         8   setting value for field (set data) failed
         9   filter threw errror preventing save
         10  filter exited preventing save (soft error)
+        11  saveCallback cancelled save
     config = {
         fields:  { <fieldName>: {<fieldConfig>} ...},
         menus:   { <fieldName>: [menuValesObject] }
@@ -157,8 +158,8 @@ renderCallback(){
             that.save().catch(function(error){
 
                 // so it isnt "uncaught" in the console
-                that._app.log(`save aborted`);
-
+                that._app.log(`save aborted: ${error}`);
+                console.log(error);
             }).then(function(){
                 that._DOMElements.btnSave.disabled = false;
             })
@@ -237,7 +238,20 @@ fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
 
 /*
     saveCallback()
+    override this, and do asynchronous things like talkin' to a server
+    or writing the indexedDB and whatnot. If you boot, it won't reset
+    the changeFlag. If you toot, it will
 */
+saveCallback(){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        that._app.log(`${that._className} | saveCallback() | stub (override me sucka!) | here's my fields: `);
+        console.log(that.changedFields);
+
+        toot(true);
+    }));
+}
 
 
 
@@ -710,19 +724,24 @@ save(filterInputData){
                 that.validate().catch(function(error){
                     validateAbort = true;
                     boot(error);
-                }).then(function(vFilterOut){
+                }).then(function(){
 
-                    /*
-                        RETURN HERE 9/13/21 @ 1542
-                        go suss out validate() first,
-                        then saveCallback() time
-                    */
-                    console.log("I'M READY!")
-
+                    if (that.saveCallback instanceof Function){
+                        let saveAbort = false;
+                        that.saveCallback().catch(function(error){
+                            saveAbort = true;
+                            boot(new noiceException({
+                                message:        `saveCallback cancelled save operation: ${error}`,
+                                thrownBy:       `${that._className} | save() -> saveCallback()`,
+                                messageNumber:   11,
+                            }));
+                        }).then(function(){
+                            if (! saveAbort){ that.changeFlag = false; }
+                        })
+                    }
                 })
             }
         })
-
     }));
 }
 
@@ -912,9 +931,10 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
-    LOH 9/11/21 @ 1325
+    LOH 9/11/21 @ 1630
 
     next:
+        * body (text) is not editable?
         * validationError CSS
         * handle getter
         * handle removeCallback

@@ -48,11 +48,13 @@ addRow(){
 
     // add the new formView to the uiHolder
     this.uiHolder.addUI(new formView({
+        data:               { author:"amy", name: "tomato basil chicken" },
         formMode:           'create',
         config:             { fields: that._app.config.Forms.recipe },
         _app:               that._app,
         rowTitle:           `Record #${this.handleNumber}`,
-        cancelButtonText:   ''
+        cancelButtonText:   '',
+        // testing
     }), handle.dataset.guid);
 
     // then select it

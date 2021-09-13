@@ -423,6 +423,17 @@ set value(v){
     if that promise never resolves or rejects, your value will never be set
 */
 set value(v){
+    this.setValue(v).catch(function(error){
+        throw(new noiceException({
+            message:        `${that._className}/value setter (callback) threw an error: ${error}`,
+            messageNumber:   420,
+            thrownBy:       `${that._className}/value setter (callback)`
+        }));
+    });
+}
+
+// this is set value but we return the promise so you can catch it on your own
+setValue(v){
     let that = this;
 
     // normalize case here if we have the flag
@@ -436,48 +447,46 @@ set value(v){
     }
 
     // handle the callback if we have one
-    let setValueAbort = false;
-    new Promise(function(toot, boot){
+    return new Promise(function(t, b){
 
-        if (
-            (that.valueChangeCallback instanceof Function) &&
-            (! ((that.labelLocation == 'embed') && (v == that.label)))
-        ){
-            let callbackAbort = false;
-            that.valueChangeCallback(v, that._value, that).catch(function(error){
-                callbackAbort = true;
-                boot(error);
-            }).then(function(clbkValue){
-                if (! callbackAbort){
-                    toot(clbkValue);
-                }
-            })
-        }else{
-            toot(v);
-        }
+        let setValueAbort = false;
+        new Promise(function(toot, boot){
 
-    }).catch(function(error){
+            if (
+                (that.valueChangeCallback instanceof Function) &&
+                (! ((that.labelLocation == 'embed') && (v == that.label)))
+            ){
+                let callbackAbort = false;
+                that.valueChangeCallback(v, that._value, that).catch(function(error){
+                    callbackAbort = true;
+                    boot(error);
+                }).then(function(clbkValue){
+                    if (! callbackAbort){
+                        toot(clbkValue);
+                    }
+                })
+            }else{
+                toot(v);
+            }
 
-        setValueAbort = true;
-        throw(new noiceException({
-            message:        `${that._className}/value setter (callback) threw an error: ${error}`,
-            messageNumber:   420,
-            thrownBy:       `${that._className}/value setter (callback)`
-        }));
+        }).catch(function(error){
 
-    }).then(function(value){
+            setValueAbort = true;
+            b(error);
 
-        if (setValueAbort){
-            // handle setting the value
-            if (that.undoable){ that.oldValue = value; }
-            that._value = value;
-            if (that.formElement instanceof Element){ that.formElement.value = that._value; }
-            that.toggleDefaultValueStyle();
-        }
+        }).then(function(value){
 
+            if (! setValueAbort){
+                // handle setting the value
+                if (that.undoable){ that.oldValue = value; }
+                that._value = value;
+                if (that.formElement instanceof Element){ that.formElement.value = that._value; }
+                that.toggleDefaultValueStyle();
+                t(true);
+            }
+        });
     });
 }
-
 
 
 

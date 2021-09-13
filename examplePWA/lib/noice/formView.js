@@ -12,7 +12,8 @@
         6   form mode change prevented
         7   value on data setter is not object
         8   setting value for field (set data) failed
-
+        9   filter threw errror preventing save
+        10  filter exited preventing save (soft error)
     config = {
         fields:  { <fieldName>: {<fieldConfig>} ...},
         menus:   { <fieldName>: [menuValesObject] }
@@ -112,6 +113,11 @@ get html(){
 
 /*
     setupCallback()
+    if you want to override this, it's highly recommended to call super.setupCallback()
+    at the top, as we're handling lots of infrastructure in here actually, you're really
+    better off to override firstFocusCallback instead
+
+    NOTE: this fires BEFORE render but AFTER instantiation attribute sets
 */
 setupCallback(){
     let that = this;
@@ -129,6 +135,34 @@ setupCallback(){
         });
     }else if (that._viewNeedsDataSync){
         that.data = that._dataQueue;
+    }
+}
+
+
+
+
+/*
+    renderCallback
+    this gets called after the html template acessors have been setup etc
+    hangeth thine hooks here
+    and call super.renderCallback() at the top if you wanna override it
+*/
+renderCallback(){
+    let that = this;
+
+    // if we've got a save button, hook it to the save() function
+    if (that._DOMElements.hasOwnProperty('btnSave')){
+        that._DOMElements.btnSave.addEventListener('click', function(evt){
+            that._DOMElements.btnSave.disabled = true;
+            that.save().catch(function(error){
+
+                // so it isnt "uncaught" in the console
+                that._app.log(`save aborted`);
+
+            }).then(function(){
+                that._DOMElements.btnSave.disabled = false;
+            })
+        });
     }
 }
 
@@ -197,6 +231,13 @@ fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
         toot(newValue);
     }));
 }
+
+
+
+
+/*
+    saveCallback()
+*/
 
 
 
@@ -619,6 +660,142 @@ setData(dataObject, disableCallbacks){
 
 
 /*
+    clearValidationErrors()
+    clear validation status and remove any on-screen exception markers
+    probably-definitely called at the top of validate()
+*/
+clearValidationErrors(){
+    Object.keys(this._formElements).forEach(function(fieldName){
+        this._formElements[fieldName].clearValidationErrors();
+    }, this);
+}
+
+
+
+
+/*
+    validate()
+    execute all of the validation filters in order.
+    toot if we're all good, boot if we ain't
+*/
+validate(){
+    this.clearValidationErrors();
+    return(this.executeFilters('validate'));
+}
+
+
+
+
+/*
+    save(filterInputData)
+        * execute filters if we have them
+        * execute validate(), if that passes
+        * call the saveCallback() if we have one
+        * if all of that resolves without errors, reset the changeFlag false
+    {filterInputData} is an object reference to pass into the first filter in the chain
+*/
+save(filterInputData){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        // execute filters if we got um
+        let filterAbort = false;
+        that.executeFilters('save', filterInputData).catch(function(error){
+            filterAbort = true;
+            boot(error);
+        }).then(function(filterOutputData){
+            if (! filterAbort){
+
+                let validateAbort = false;
+                that.validate().catch(function(error){
+                    validateAbort = true;
+                    boot(error);
+                }).then(function(vFilterOut){
+
+                    /*
+                        RETURN HERE 9/13/21 @ 1542
+                        go suss out validate() first,
+                        then saveCallback() time
+                    */
+                    console.log("I'M READY!")
+
+                })
+            }
+        })
+
+    }));
+}
+
+
+
+
+/*
+    executeFilters(executeOn, inputData)
+    execute filters for the specified executeOn in order passing the input data
+*/
+executeFilters(executeOn, inputData){
+    let that = this;
+    let pipeData = (inputData instanceof Object)?inputData:{};
+    let filters = (that.config.filters instanceof Object)?that.config.filters:{};
+    return(new Promise(function(toot, boot){
+
+        // batch up and sort what we have in the filters for the executeOn
+        let filterChain = [];
+        Object.keys(filters).forEach(function(filterId){
+            if (filters[filterId].hasOwnProperty('executeOn') && (filters[filterId].executeOn == executeOn)){
+                filterChain.push(filters[filterId]);
+            }
+        })
+        filterChain = filterChain.sort(function(a,b){ return(a.order - b.order)} );
+        if (filterChain.length == 0){
+            if (that.debug){ that._app.log(`${that._className} | executeFilters(${executeOn}) | no filters to execute!`); }
+            toot({});
+        }else{
+
+            // this itterative function executes the filter code
+            function executeFilter(idx, pipe){
+                let pd = (pipe instanceof Object)?pipe:{};
+                if (idx > (filterChain.length -1)){
+                    toot(pd);
+                }else{
+                    if (that.debug){ that._app.log(`${that._className} | executeFilters(${executeOn}) | ${idx} | ${filterChain[idx].name}`); }
+
+                    let filterThrow = false;
+                    filterChain[idx].executor(that, pd).catch(function(error){
+                        filterThrow = true;
+                        boot(new noiceException({
+                            message:        `${filterChain[idx].name} | ${executeOn} filter at position ${idx} threw: ${error}`,
+                            thrownBy:       `${that._className} | executeFilters(${executeOn}) | [${idx}] ${filterChain[idx].name}`,
+                            error:           error,
+                            messageNumber:   9,
+                        }));
+
+                    }).then(function(filterOut){
+                        if (! filterThrow){
+                            if (filterOut.abort == true){
+                                boot(new noiceException({
+                                    message:        `${filterChain[idx].name} | ${executeOn} filter at position ${idx} exited`,
+                                    thrownBy:       `${that._className} | executeFilters(${executeOn}) | [${idx}] ${filterChain[idx].name}`,
+                                    messageNumber:   10,
+                                }));
+                            }else{
+                                executeFilter((idx + 1), filterOut.pipeData);
+                            }
+                        }
+                    })
+                }
+            } // end executeFilter helper function
+
+            // are you ready for some football?
+            executeFilter(0, pipeData);
+        }
+    }));
+}
+
+
+
+
+/*
     getFormElement(fieldType, fieldConfig, mergeConfig)
     static function for getting form elements from config data
 */
@@ -738,7 +915,7 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
     LOH 9/11/21 @ 1325
 
     next:
-        * saveCallback
+        * validationError CSS
         * handle getter
         * handle removeCallback
         * close/cancel button

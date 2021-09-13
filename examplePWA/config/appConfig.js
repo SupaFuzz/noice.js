@@ -149,159 +149,261 @@ indexedDBDefinition: {
 */
 'Forms': {
     recipe: {
-        entryID:    {
-            id:                 1,
-            dbIndex:            'entryId',
-            type:               'char',
-            maxLength:          15,
-            label:              'Entry ID',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displayOrder:       1,
-            displaySection:     '  identification',
-            modes: {
-                modify: { display:true, edit:false, nullable:true },
-                create: { display:false, edit:false, nullable:true },
-                clone:  { fieldMenu: false }
-            }
-        },
-        name:       {
-            id:                 8,
-            dbIndex:            'name',
-            type:               'char',
-            maxLength:          '254',
-            label:              'Name',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displayOrder:       2,
-            displaySection:     '  identification',
-            trimWhitespace:     true,
-            modes:{
-                modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:false },
-                clone:  { fieldMenu: true, inheritValue: true }
-            }
-        },
-        author:     {
-            id:                 2,
-            dbIndex:            'author',
-            type:               'char',
-            maxLength:          '254',
-            label:              'Author',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displayOrder:       3,
-            displaySection:     '  identification',
-            trimWhitespace:     true,
-            modes:{
-                modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:false },
-                clone:  { fieldMenu: true, inheritValue: true }
-            }
-        },
-        createDate: {
-            id:                 3,
-            type:               'dateTime',
-            label:              'Create Date',
-            labelLength:        'auto',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displaySection:     'etc.',
-            displayOrder:       4,
-            poExport:           false,
-            modes:{
-                modify: { display:true, edit:false, nullable:true },
-                create: { display:false, edit:false, nullable:true },
-                clone:  { fieldMenu: false }
+        fields: {
+            entryID:    {
+                id:                 1,
+                dbIndex:            'entryId',
+                type:               'char',
+                maxLength:          15,
+                label:              'Entry ID',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displayOrder:       1,
+                displaySection:     '  identification',
+                modes: {
+                    modify: { display:true, edit:false, nullable:true },
+                    create: { display:false, edit:false, nullable:true },
+                    clone:  { fieldMenu: false }
+                }
             },
-        },
-        title:      {
-            id:                 12340001,
-            dbIndex:            'title',
-            type:               'char',
-            maxLength:          '254',
-            label:              'Title',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displayOrder:       3,
-            displaySection:     ' main',
-            trimWhitespace:     true,
-            modes:{
-                modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:false },
-                clone:  { fieldMenu: true, inheritValue: true }
-            }
-        },
-        body:       {
-            id:                 12340002,
-            type:               'text',
-            maxLength:          0,
-            label:              'Body',
-            labelLength:        'auto',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displayOrder:       5,
-            displaySection:     ' main',
-            trimWhitespace:     true,
-            modes:{
-                modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:true },
-                clone:  { fieldMenu: true, inheritValue: true }
-            }
-        },
-        status:     {
-            id:                 7,
-            type:               'dropdown',
-            label:              'Status',
-            labelLength:        'auto',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            displayOrder:       6,
-            displaySection:     'etc.',
-            values:             [ 'unpublished', 'published' ],
-            modes: {
-                modify: { display:true, edit:true, nullable:false },
-                create: { display:true, edit:true, nullable:false, defaultValue: 'unpublished'},
-                clone:  { fieldMenu: true, inheritValue: true }
-            }
-        },
-        modifiedDate: {
-            id:                 6,
-            type:               'dateTime',
-            label:              'Modified Date',
-            labelLength:        'auto',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displaySection:     'etc.',
-            displayOrder:       7,
-            modes:{
-                create: { display:false, edit:false, nullable:true },
-                modify: { display:true, edit:false, nullable:true },
-                clone:  { fieldMenu: false }
+            name:       {
+                id:                 8,
+                dbIndex:            'name',
+                type:               'char',
+                maxLength:          '254',
+                label:              'Name',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displayOrder:       2,
+                displaySection:     '  identification',
+                trimWhitespace:     true,
+                modes:{
+                    modify: { display:true, edit:true, nullable:false },
+                    create: { display:true, edit:true, nullable:false },
+                    clone:  { fieldMenu: true, inheritValue: true }
+                }
             },
-        },
-        lastModifiedBy: {
-            id:                 5,
-            type:               'char',
-            maxLength:          255,
-            label:              'Last Modified By',
-            labelLocation:      'left',
-            labelLength:        '14.754060723vw',
-            valueLength:        'auto',
-            displaySection:     'etc.',
-            displayOrder:       8,
-            modes:{
-                modify: { display:true, edit:false, nullable:true },
-                create: { display:false, edit:false, nullable:true },
-                clone:  { fieldMenu: false }
+            author:     {
+                id:                 2,
+                dbIndex:            'author',
+                type:               'char',
+                maxLength:          '254',
+                label:              'Author',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displayOrder:       3,
+                displaySection:     '  identification',
+                trimWhitespace:     true,
+                modes:{
+                    modify: { display:true, edit:true, nullable:false },
+                    create: { display:true, edit:true, nullable:false },
+                    clone:  { fieldMenu: true, inheritValue: true }
+                }
+            },
+            createDate: {
+                id:                 3,
+                type:               'dateTime',
+                label:              'Create Date',
+                labelLength:        'auto',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displaySection:     'etc.',
+                displayOrder:       4,
+                poExport:           false,
+                modes:{
+                    modify: { display:true, edit:false, nullable:true },
+                    create: { display:false, edit:false, nullable:true },
+                    clone:  { fieldMenu: false }
+                },
+            },
+            title:      {
+                id:                 12340001,
+                dbIndex:            'title',
+                type:               'char',
+                maxLength:          '254',
+                label:              'Title',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displayOrder:       3,
+                displaySection:     ' main',
+                trimWhitespace:     true,
+                modes:{
+                    modify: { display:true, edit:true, nullable:false },
+                    create: { display:true, edit:true, nullable:false },
+                    clone:  { fieldMenu: true, inheritValue: true }
+                }
+            },
+            body:       {
+                id:                 12340002,
+                type:               'text',
+                maxLength:          0,
+                label:              'Body',
+                labelLength:        'auto',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displayOrder:       5,
+                displaySection:     ' main',
+                trimWhitespace:     true,
+                modes:{
+                    modify: { display:true, edit:true, nullable:false },
+                    create: { display:true, edit:true, nullable:true },
+                    clone:  { fieldMenu: true, inheritValue: true }
+                }
+            },
+            status:     {
+                id:                 7,
+                type:               'dropdown',
+                label:              'Status',
+                labelLength:        'auto',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                displayOrder:       6,
+                displaySection:     'etc.',
+                values:             [ 'unpublished', 'published' ],
+                modes: {
+                    modify: { display:true, edit:true, nullable:false },
+                    create: { display:true, edit:true, nullable:false, defaultValue: 'unpublished'},
+                    clone:  { fieldMenu: true, inheritValue: true }
+                }
+            },
+            modifiedDate: {
+                id:                 6,
+                type:               'dateTime',
+                label:              'Modified Date',
+                labelLength:        'auto',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displaySection:     'etc.',
+                displayOrder:       7,
+                modes:{
+                    create: { display:false, edit:false, nullable:true },
+                    modify: { display:true, edit:false, nullable:true },
+                    clone:  { fieldMenu: false }
+                },
+            },
+            lastModifiedBy: {
+                id:                 5,
+                type:               'char',
+                maxLength:          255,
+                label:              'Last Modified By',
+                labelLocation:      'left',
+                labelLength:        '14.754060723vw',
+                valueLength:        'auto',
+                displaySection:     'etc.',
+                displayOrder:       8,
+                modes:{
+                    modify: { display:true, edit:false, nullable:true },
+                    create: { display:false, edit:false, nullable:true },
+                    clone:  { fieldMenu: false }
+                }
             }
+        },
+        filters: {
+
+            /*
+                save | 1 - fill in auto-generated dates
+            */
+            defaultDates: {
+                name:       'set default dates',
+                enabled:    true,
+                executeOn:  'save',
+                order:      1,
+                formModes:  ['create', 'modify', 'clone'],
+                executor:   function(formView, pipeData){
+                    return(new Promise(function(toot, boot){
+
+                        // set modifiedDate to current time
+                        formView._formElements['modifiedDate'].value = formView.epochTimestamp();
+
+                        // in create mode, set createDate to current time
+                        if (formView.formMode == 'create'){
+                            formView._formElements['createDate'].value = formView.epochTimestamp();
+                        }
+
+                        // if your filter needs to stop the train without throwing set abort: true
+                        // if your filter needs to stop the train with throwing, boot with a noiceException
+                        toot({
+                            abort: false,
+                            pipeData: (pipeData instanceof Object)?pipeData:{}
+                        });
+
+                    }));
+                }
+            },
+
+
+            /*
+                validate | 1 - required fields are required
+            */
+            requiredFieldValidation: {
+                name:       'nullable field validation',
+                enabled:    true,
+                executeOn:  'validate',
+                order:      1,
+                formModes:  ['create', 'modify', 'clone'],
+                executor:  function(formView, pipeData){
+                    return(new Promise(function(toot, boot){
+
+                        let validationErrors = [];
+                        Object.keys(formView._formElements).forEach(function(fieldName){
+
+                            // look for non-nullable fields which are null
+                            if (
+                                (formView.config.fields[fieldName].modes) &&
+                                (formView.config.fields[fieldName].modes[formView.formMode]) &&
+                                (! formView.config.fields[fieldName].modes[formView.formMode].nullable) &&
+                                (formView.isNull(formView._formElements[fieldName].value))
+                            ){
+                                validationErrors.push({
+                                    type:           'field',
+                                    fieldLabel:     formView._formElements[fieldName].label,
+                                    fieldName:      fieldName,
+                                    errorNumber:    2,
+                                    errorMessage:   'a value is required'
+                                });
+                                formView._formElements[fieldName].addValidationError(validationErrors[(validationErrors.length -1)]);
+                            }
+
+                        });
+
+                        // merge validation errors into pipe data
+                        if (pipeData.hasOwnProperty('validationErrors')){
+                            validationErrors.forEach(function(err){ pipeData.validationErrors.push(err); })
+                        }else{
+                            pipeData.validationErrors = validationErrors;
+                        }
+
+                        // we out!
+                        toot({
+                            abort: (validationErrors.length > 0),
+                            pipeData: (pipeData instanceof Object)?pipeData:{}
+                        });
+
+                    }));
+                }
+            },
+
+
+
+
+            /*
+                more filters would go here
+
+                keep in mind you can do db ops by formView._app.indexedDB
+                executeOn: 'save'
+                means the filter gets executed on formView.save() before the
+                saveCallback so can cancel the save.
+                the main thing is that filters execute in order and asynchronously
+                but not concurrently. They are chained by 'order'
+
+            */
         }
     },
     // to do: make it fancy with an ingrediant list supporting table

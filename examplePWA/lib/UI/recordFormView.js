@@ -1,3 +1,0 @@
-/*
-    recordFormView.js
-*/

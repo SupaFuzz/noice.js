@@ -17,6 +17,7 @@ constructor(args, defaults, callback){
         noiceObjectCore.mergeClassDefaults({
             _version:           1,
             _className:         'recipeEditor',
+            handleNumber:       1
         }, defaults),
         callback
     );
@@ -29,7 +30,7 @@ constructor(args, defaults, callback){
 /*
     addRow() override
 */
-addRow(){
+addRowOld(){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
 
@@ -60,10 +61,53 @@ addRow(){
     // then select it
     that.handleRowSelect(handle)
 
-
     that.handleNumber++;
 }
 
+
+
+
+/*
+    addRow() override
+*/
+addRow(){
+    let that = this;
+    this._app.log(`${this._className} | addRow()`);
+
+    let view = new recipeFormView({
+        formMode:           'create',
+        config:             that._app.config.Forms.recipe,
+        _app:               that._app,
+        rowTitle:           `Record #${this.handleNumber}`,
+        cancelButtonText:   '',
+        debug:              true
+    });
+
+    let viewHandle = view.handle.append(that._DOMElements.handlelist);
+    viewHandle.selectCallback = function(selfRef){ that.handleRowSelect(viewHandle._DOMElements._handleMain); }
+
+    console.log(viewHandle.DOMElement.dataset.guid);
+
+
+    this.uiHolder.addUI(view, viewHandle._DOMElements._handleMain.dataset.guid);
+
+    // then select it
+    that.handleRowSelect(viewHandle._DOMElements._handleMain)
+
+    that.handleNumber++;
+    /*
+
+        LOH 9/13/21 @ 2302
+        can't go anymore today
+        there's a problem. recipeFormView get handleTemplate() won't override
+        no idea.
+
+        also _DOMElements._handleMain is a bit of a stretch.
+
+        otherwise makin' progress
+
+    */
+}
 
 
 }

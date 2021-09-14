@@ -50,6 +50,8 @@ constructor(args, defaults, callback){
             _data:                  {},
             _changeFlag:            false,
             _snapshot:              {},
+            _handles:               [],
+            _handle:                null,
             debug:                  false,
             deferRender:            true,
             rowTitle:               '',
@@ -284,13 +286,24 @@ loseFocus(focusArgs){
 
 
 
+
 /*
-    rowHandle getter
+    handleTemplate
+    this is like get html for a handle
+    data-templatename ... set it to match the fieldName
+    you want it to get values from
+    definitely override this
 */
-get rowHandle(){
-    // insert shenanigans here
-    return(`<h3>this is my handle!</h3>`);
+get handleTempate(){
+    return(`
+        <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified">
+            <div class="handle">
+                <h3 style="margin: .5em;">${this._className}</h3>
+            </div>
+        </div>
+    `);
 }
+
 
 
 
@@ -809,6 +822,48 @@ executeFilters(executeOn, inputData){
             executeFilter(0, pipeData);
         }
     }));
+}
+
+
+
+
+/*
+    handles stuff
+*/
+set handleTemplate(v){ this._handleTemplate = v; }
+get handles(){ return(this._handles); }
+set handles(v){ this._handles = v; }                // maybe do more with this later
+get handle(){
+    if (this.handles.length < 1){
+        let handle =
+        this.handles.push(this.getHandle());
+    }
+    return(this.handles[0]);
+}
+
+/*
+    return a formViewHandle object
+    which is just a coreUIElement of
+    this.handleTemplate
+
+    we keep a pointer to all of the handles returned by this function
+    in ._handles. updateHandles() will update them all
+*/
+getHandle(){
+    let that = this;
+    let handle = new noiceCoreUIElement({
+        className:         "formViewHandle",
+        getHTMLCallback:    function(selfRef){ return(that.handleTempate); },
+        renderCallback:     function(selfRef){
+            selfRef.DOMElement.addEventListener('click', function(evt){
+                if (selfRef.selectCallback instanceof Function){
+                    selfRef.selectCallback(selfRef);
+                }
+            });
+        }
+    })
+    that.handles.push(handle);
+    return(handle);
 }
 
 

@@ -23,6 +23,7 @@ cache: {
         './lib/noiceExamplePWA.js',
         './lib/UI/mainUI.js',
         './lib/UI/recipeEditorUI.js',
+        './lib/UI/recipeFormView.js',
 
         './gfx/touch_icon.png',
         './gfx/favicon.png',

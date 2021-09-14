@@ -258,7 +258,7 @@ set labelLocation(v){
                 this.formElementLabel.style.textAlign = 'right';
                 this.DOMElement.style.display = 'grid';
                 this.DOMElement.style.gridTemplateColumns = `${this.labelLength} ${this.valueLength}`;
-                this.formElementLabel.style.alignSelf = 'center';
+                this.formElementLabel.style.alignSelf = 'self-start';
                 this.formElementLabel.style.visibility = 'visible';
                 if (this.labelLocation == 'embed'){ this.embedLabel(false); }
             }

@@ -961,7 +961,7 @@ set readonly(v){
 /* maxLength, minLength */
 get maxLength(){ return(this._maxLength); }
 set maxLength(v){
-    if (this.isNull(v)){
+    if (this.isNull(v) || (v == 0)){
         this.formElement.removeAttribute('maxLength');
     }else{
         this.formElement.setAttribute('maxLength', v);

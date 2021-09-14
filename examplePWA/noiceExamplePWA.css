@@ -469,6 +469,25 @@
 	font-style:					italic;
 	color:						rgba(230, 0, 161, .7);
 }
+.formView .ncuFormElementValidationError .ncfueValidationErrorSection {
+	text-align: left;
+	color:		rgb(230, 0, 161);
+}
+.formView .ncuFormElementValidationError .ncfueValidationErrorSection .errorID {
+	display: none;
+}
+.formView  .ncuFormElementValidationError .ncfueValidationErrorSection p {
+	font-size: .66em;
+	margin-left: .5em;
+}
+.formView .ncfueValidationErrorSection_spacer {
+	background: url('./gfx/fuscia_warning.svg');
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size: 20%;
+	opacity: .8;
+	height: 2em;
+}
 .formView .ncufeLabel {
 	color:						rgba(240, 240, 240, .66);
 	margin:						.25em .25em .25em 0;

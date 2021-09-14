@@ -39,6 +39,7 @@ cache: {
         './gfx/add-icon.svg',
         './gfx/clone-icon.svg',
         './gfx/cancel-icon.svg',
+        './gfx/fuscia_warning.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 
@@ -242,6 +243,7 @@ indexedDBDefinition: {
                 id:                 12340002,
                 type:               'text',
                 maxLength:          0,
+                rows:               10,
                 label:              'Body',
                 labelLength:        'auto',
                 labelLocation:      'left',

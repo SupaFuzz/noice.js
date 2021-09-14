@@ -931,11 +931,9 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
-    LOH 9/11/21 @ 1630
+    LOH 9/11/21 @ 1650
 
     next:
-        * body (text) is not editable?
-        * validationError CSS
         * handle getter
         * handle removeCallback
         * close/cancel button

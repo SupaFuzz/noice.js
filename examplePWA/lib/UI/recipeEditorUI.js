@@ -30,46 +30,6 @@ constructor(args, defaults, callback){
 /*
     addRow() override
 */
-addRowOld(){
-    let that = this;
-    this._app.log(`${this._className} | addRow()`);
-
-
-    /* eventually this will be replaced by the .rowHandle getter of the formView */
-    if (! (this.hasOwnProperty('handleNumber'))){ this.handleNumber = 1; }
-    let handle = document.createElement('div');
-    handle.className = 'rowHandle';
-    handle.dataset.selected = "false";
-    handle.dataset.status = 'unassigned';
-    handle.dataset.dirty = 'true';
-    handle.dataset.guid = this.getGUID();
-    handle.insertAdjacentHTML('afterbegin', `<div class="handle"><h3 style="margin: .5em;">Record #${this.handleNumber}</h3></div>`);
-    this._DOMElements.handlelist.appendChild(handle);
-    handle.addEventListener('click', function(){ that.handleRowSelect(handle); })
-
-    // add the new formView to the uiHolder
-    this.uiHolder.addUI(new formView({
-        formMode:           'create',
-        config:             that._app.config.Forms.recipe,
-        _app:               that._app,
-        rowTitle:           `Record #${this.handleNumber}`,
-        cancelButtonText:   '',
-        debug:              true
-        // testing
-    }), handle.dataset.guid);
-
-    // then select it
-    that.handleRowSelect(handle)
-
-    that.handleNumber++;
-}
-
-
-
-
-/*
-    addRow() override
-*/
 addRow(){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
@@ -84,22 +44,25 @@ addRow(){
         handleNumber:       that.handleNumber
     });
 
-    console.log(view.getHandle());
+    // wire the formView's areYouSureCallback() to the recordEditorUI's saveChangesDialog()
+    view.areYouSureCallback = function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); }
 
+    // setup the rowHandle and add it to the handleList
     let viewHandle = view.handle.append(that._DOMElements.handlelist);
-    viewHandle.selectCallback = function(selfRef){ that.handleRowSelect(viewHandle._DOMElements._handleMain); }
+    viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }
 
-    console.log(viewHandle.DOMElement.dataset.guid);
-
-
+    // add the formView to our uiHolder with the rowHandle's GUID
     this.uiHolder.addUI(view, viewHandle._DOMElements._handleMain.dataset.guid);
 
-    // then select it
+    // then select the new rowHandle
     that.handleRowSelect(viewHandle._DOMElements._handleMain)
 
+    // increment our untitled document count
     that.handleNumber++;
 
 }
+
+
 
 
 }

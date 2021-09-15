@@ -209,7 +209,7 @@ firstFocusCallback(focusArgs){
 formModeChangeCallback(formMode){
     let that = this;
     return(new Promise(function(toot, boot){
-        if (that.debug){ that._app.log(`formModeChangeCallback(${formMode}) | called`); }
+        if (that.debug){ that._app.log(`${that._className} | formModeChangeCallback(${formMode}) | called`); }
         toot(true);
         //boot(false);
     }));
@@ -261,13 +261,17 @@ saveCallback(){
 
 
 /*
-    gainFocus(focusArgs)
+    loseFocusCallback(formViewReference, focusArgs)
+    see notes on loseFocus() below
 */
-gainFocus(focusArgs){
+loseFocusCallback(formViewReference, focusArgs){
     let that = this;
-    return (new Promise(function(toot, boot){
-        that._app.log(`${that._className} | gainFocus`);
+    return(new Promise(function(toot, boot){
+
+        // placeholder, override this if you wanna do thangs in here-uh
+        if (that.debug){ that._app.log(`${that._className} | loseFocusCallback()`); }
         toot(true);
+
     }));
 }
 
@@ -275,13 +279,12 @@ gainFocus(focusArgs){
 
 
 /*
-    loseFocus(focusArgs)
-    -- this'll be where the are you sure dialog fires
+    gainFocus(focusArgs)
 */
-loseFocus(focusArgs){
+gainFocus(focusArgs){
     let that = this;
     return (new Promise(function(toot, boot){
-        that._app.log(`${that._className} | loseFocus`);
+        that._app.log(`${that._className} | gainFocus`);
         toot(true);
     }));
 }
@@ -863,7 +866,10 @@ getHandle(){
         renderCallback:     function(selfRef){
             selfRef.DOMElement.addEventListener('click', function(evt){
                 if (selfRef.selectCallback instanceof Function){
-                    selfRef.selectCallback(selfRef);
+                    selfRef.selectCallback(selfRef).catch(function(error){
+                        // so that the console won't seem them as unhandled ...
+                        if (that.debug){ that._app.log(`${that._className} | handle -> selectCallback() | rejected: ${error}`); }
+                    });
                 }
             });
         }
@@ -933,6 +939,60 @@ set rowStatus(v){
     this.updateHandles();
 }
 
+
+
+
+/*
+    loseFocus(focusArgs)
+    we have two optional async callbacks
+    1. loseFocusCallback(formViewReference, focusArgs)
+       rejecting the promise aborts the focus change
+
+    2. areYouSureCallback(formViewReference, focusArgs)
+       only fires if changeFlag is set, rejecting aborts focus change
+       this will fire AFTER loseFocusCallback if specified AND that
+       promise resolves. If loseFocusCallback isn't specified we skip
+       right to this one (again if the changeFlag is set)
+*/
+loseFocus(focusArgs){
+    let that = this;
+
+    return(new Promise(function(toot, boot){
+        let cbAbort = false;
+        new Promise(function(cbToot, cbBoot){
+            let loseFocusCallbackAbort = false;
+            if (that.loseFocusCallback instanceof Function){
+                that.loseFocusCallback(that, focusArgs).catch(function(error){
+                    loseFocusCallbackAbort = true;
+                    cbBoot(error);
+                }).then(function(){
+                    if (! loseFocusCallbackAbort){ cbToot(true); }
+                })
+            }else{
+                cbToot(true);
+            }
+        }).catch(function(error){
+            cbAbort = true;
+            if (that.debug){ that._app.log(`${that._className} | loseFocus -> loseFocusCallback | cancelled focus change: ${error}`); }
+            boot(error);
+        }).then(function(){
+            if (! cbAbort){
+                let aysAbort = false;
+                if ((that.areYouSureCallback instanceof Function) && (that.changeFlag)){
+                    that.areYouSureCallback(that, focusArgs).catch(function(error){
+                        aysAbort = true;
+                        if (that.debug){ that._app.log(`${that._className} | loseFocus -> areYouSureCallback | cancelled focus change: ${error}`); }
+                        boot(error);
+                    }).then(function(){
+                        if (! aysAbort){ toot(true); }
+                    });
+                }else{
+                    toot(true);
+                }
+            }
+        });
+    }));
+}
 
 
 
@@ -1057,10 +1117,10 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
     LOH 9/14/21 @ 1801
 
     next:
-        * (nitpick) we don't need seconds or the full year on the modified date in the handle
         * handle removeCallback
         * close/cancel button
         * cloneView
+        * (nitpick) we don't need seconds or the full year on the modified date in the handle
 */
 
 

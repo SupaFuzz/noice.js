@@ -289,14 +289,14 @@ handleRowSelect(rowHandle){
         let focusCancel = false;
         Promise.all(pk).catch(function(error){
             focusCancel = true;
-            that._app.log(`${this._className} | handleRowSelect | focus change canceled: ${error}`);
+            that._app.log(`${that._className} | handleRowSelect | focus change canceled: ${error}`);
             boot(error);
         }).then(function(){
             if (! focusCancel){
                 let myFocusCancel = false;
                 that.uiHolder.switchUI((rowHandle.dataset.selected == 'true')?null:rowHandle.dataset.guid).catch(function(error){
                     myFocusCancel = true;
-                    that._app.log(`${this._className} | handleRowSelect | focus change canceled: ${error}`);
+                    that._app.log(`${that._className} | handleRowSelect | focus change canceled: ${error}`);
                     boot(error);
                 }).then(function(){
                     if (! myFocusCancel){
@@ -312,4 +312,42 @@ handleRowSelect(rowHandle){
 
 
 
+/*
+    saveChangesDialog(formViewReference, focusArgs)
+    wire this to the areYouSureCallback of formViews you add via addRow(), etc
+    this will pop the 'are you sure' dialog if the change flag is set
+    when we attempt to loseFocus on the formView
+
+    note: in your formView, set formViewReference._pendingExit = true to get the
+    "you're discarding these changes" version rather than the
+    "you will need return to save this" version.
+
+    toot(...) to allow the loseFocus operation to continue
+    boot(...) to disallow the loseFocus operation
+*/
+saveChangesDialog(formViewReference, focusArgs){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        let dialogArgs = {
+            heading:        'Unsaved Changes',
+            hideCallback:   function(myself){
+                if (myself.zTmpDialogResult == true){ boot(false); }else{ toot(true); }
+            }
+        }
+        if (formViewReference.hasOwnProperty('_pendingExit') && (formViewReference._pendingExit == true)){
+            dialogArgs.message          = `This will discard unsaved changes. Touch 'discard' to continue or 'cancel' to return`;
+            dialogArgs.yesButtonTxt     = 'cancel';
+            dialogArgs.noButtonTxt      = 'discard';
+        }else{
+            dialogArgs.message          = `There are unsaved changes. Touch 'cancel' to return to the record and save your changes, or 'continue' to exit`;
+            dialogArgs.yesButtonTxt     = 'cancel';
+            dialogArgs.noButtonTxt      = 'continue';
+        }
+        new noiceCoreUIYNDialog(dialogArgs).show(that.DOMElement);
+    }));
 }
+
+
+
+
+} // end recordEditorUI class

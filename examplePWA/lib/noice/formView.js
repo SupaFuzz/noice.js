@@ -1224,8 +1224,6 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
     LOH 9/14/21 @ 1801
 
     next:
-        * handle removeCallback
-        * close/cancel button
         * cloneView
         * (nitpick) we don't need seconds or the full year on the modified date in the handle
 */

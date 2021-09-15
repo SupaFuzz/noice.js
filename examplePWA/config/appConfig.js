@@ -91,7 +91,7 @@ indexedDBDefinition: {
             indexes: {
                 entryId:    { keyPath: 'entryId', unique: true},
                 author:     { keyPath: 'author' },
-                name:       { keyPath: 'name' },
+                category:   { keyPath: 'category' },
                 title:      { keyPath: 'title' }
             }
         },
@@ -169,12 +169,12 @@ indexedDBDefinition: {
                     clone:  { fieldMenu: false }
                 }
             },
-            name:       {
+            category:       {
                 id:                 8,
-                dbIndex:            'name',
+                dbIndex:            'category',
                 type:               'char',
                 maxLength:          '254',
-                label:              'Name',
+                label:              'Category',
                 labelLocation:      'left',
                 labelLength:        '14.754060723vw',
                 valueLength:        'auto',

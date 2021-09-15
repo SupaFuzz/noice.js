@@ -1,7 +1,7 @@
 /*
     recipeFormView.js
 */
-class recipeFormView extends formView{
+class recipeFormView extends formView {
 
 
 
@@ -16,14 +16,24 @@ constructor(args, defaults, callback){
             _version:           1,
             _className:         'recipeFormView',
             _handleTemplate:    '',
-            handleNumber:       1
+            _originalRowTitle:  '',
+            debug:              true
         }, defaults),
         callback
     );
-    this.DOMElement.classList.add('formView');
 
 } // end constructor
 
+
+
+
+/*
+    renderCallback
+*/
+renderCallback(){
+    super.renderCallback();
+    this._originalRowTitle = this.rowTitle;
+}
 
 
 
@@ -32,9 +42,18 @@ constructor(args, defaults, callback){
 */
 get handleTemplate(){
     return(`
-        <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified">
+        <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified" data-dirty="false">
             <div class="handle">
-                <h3 style="margin: .5em;">${this.handleNumber}</h3>
+                <h3 data-templatename="rowTitle" data-templateattribute="true">&nbsp;</h3>
+                <div class="handleDataRow">
+                    <span data-templatename="rowStatus" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="category" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="status" data-templateattribute="true">&nbsp;</span>
+                </div>
+                <div class="handleDataRow">
+                    <span data-templatename="author" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="modifiedDate" data-templateattribute="true">&nbsp;</span>
+                </div>
             </div>
         </div>
     `);
@@ -42,5 +61,26 @@ get handleTemplate(){
 
 
 
+
+/*
+    fieldValueChangeCallback(fieldName, newValue, oldValue, formElement)
+*/
+fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        if (that.debug){ that._app.log(`${that._className} | fieldValueChangeCallback(${fieldName}, ${newValue}, ${oldValue})`); }
+
+        /*
+            copy title value to the rowTitle
+        */
+        if (fieldName == 'title'){
+            that.rowTitle = (that.isNotNull(newValue))?newValue:that._originalRowTitle;
+        }
+
+        // insert thine shenanigans here
+
+        toot(newValue);
+    }));
+}
 
 } // end of class

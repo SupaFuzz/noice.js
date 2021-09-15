@@ -341,7 +341,9 @@
 	text-align: left;
   	margin: 0 0 0 1em;
 }
-
+.recordEditorUILayout .leftCol .handleList, .recordEditorUILayout .rightCol {
+	font-size: 3vw;
+}
 
 
 
@@ -358,42 +360,138 @@
 	border-left-width: 			.25em;
 	border-left-style: 			solid;
 	display: 					grid;
-	grid-template-columns: 		1em auto;
+	grid-template-columns: 		.5em auto;
 	margin: .128em 0 0 0;
 }
 .rowHandle[data-dirty='false']:before {
 	content: '';
-	font-size: 1em;
+	font-size: .66em;
 }
 .rowHandle[data-dirty='true']:before {
 	content: '\203B';
-	font-size: 1em;
+	font-size: .66em;
+	padding-top: .5em;
 }
 .rowHandle[data-selected='true'] {
 	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .3) inset;
 	background: 				radial-gradient(ellipse at top left, rgb(150, 167, 173), rgba(150, 167, 173, .5));
 	color:						rgb(24, 35, 38);
 }
-.rowHandle[data-status='inventory'] {
-	border-left-color: #0065b3;
+
+.rowHandle .handle {
+	display: grid;
+	grid-template-columns: 1fr;
+	font-size: .8em;
+	padding: .25em;
 }
-.rowHandle[data-status='unassigned'] {
-	border-left-color: #E600A1;
+.rowHandle .handle h3 {
+	margin: .128em;
 }
-.rowHandle[data-status='unidentified'] {
-	border-left-color: #FFFFFF;
+.rowHandle .handle .handleDataRow {
+	font-size: .66em;
+	margin: .128em 0 .128em 0;
 }
-.rowHandle[data-status='transmitted'] {
-	border-left-color: #009900;
+.rowHandle .handle .handleDataRow:last-child {
+	font-family: monospace;
+	margin: .5em;
 }
-.rowHandle[data-status='error'] {
-	border-left-color: #b30000;
+.rowHandle .handle .handleDataRow:last-child span:first-child {
+	font-weight: bolder;
 }
-.rowHandle[data-status='queued'] {
-	border-left-color: rgb(230, 138, 0);
+.rowHandle[data-selected='true'] .handle .handleDataRow span:last-child {
+	border-color: rgba(24, 35, 38, .33);
+}
+.rowHandle[data-selected='false'] .handle .handleDataRow span:last-child {
+	border-color: rgba(240, 240, 240, .33);
+}
+.rowHandle .handle .handleDataRow span:last-child {
+	border-left: 4px solid;
+	padding-left: .5em;
+	margin-left: .25em;
+}
+.rowHandle .handle .handleDataRow span[data-templatename='category']{
+	font-weight: bold;
+}
+.rowHandle .handle .handleDataRow span[data-templatename='rowStatus']{
+  border-width: 2px;
+	border-style: solid;
+	border-radius: .5em;
+	padding: .128em .25em .128em .25em;
+	margin-right: .5em;
+}
+
+.rowHandle[data-status='new'], .rowHandle[data-status='new'] span[data-templatename='rowStatus'] {
+	border-color: rgb(240, 240, 240);
+}
+.rowHandle[data-status='new'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgb(24, 35, 38);
+	background-color: rgb(240, 240, 240);
+}
+.rowHandle[data-status='new'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: rgb(240, 240, 240);
 }
 
 
+.rowHandle[data-status='inventory'], .rowHandle[data-status='inventory'] span[data-templatename='rowStatus'] {
+	border-color: #0065b3;
+}
+.rowHandle[data-status='inventory'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgb(240, 240, 240);
+	background-color: #0065b3;
+}
+.rowHandle[data-status='inventory'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: #0065b3;
+}
+
+
+.rowHandle[data-status='unassigned'], .rowHandle[data-status='unassigned'] span[data-templatename='rowStatus'] {
+	border-color: #E600A1;
+}
+.rowHandle[data-status='unassigned'][data-selected='true'] span[data-templatename='rowStatus'] {
+	background-color: rgb(240, 240, 240);
+	color: #E600A1;
+}
+.rowHandle[data-status='unassigned'][data-selected='false'] span[data-templatename='rowStatus'] {
+	background-color: #E600A1;
+}
+
+
+.rowHandle[data-status='transmitted'], .rowHandle[data-status='transmitted'] span[data-templatename='rowStatus'] {
+	border-color: #009900;
+}
+.rowHandle[data-status='transmitted'][data-selected='true'] span[data-templatename='rowStatus'] {
+  background-color: rgb(240, 240, 240);
+	color: #009900;
+}
+.rowHandle[data-status='transmitted'][data-selected='false'] span[data-templatename='rowStatus'] {
+	background-color: #009900;
+}
+
+
+.rowHandle[data-status='error'], .rowHandle[data-status='error'] span[data-templatename='rowStatus'] {
+	border-color: #b30000;
+}
+.rowHandle[data-status='error'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: rgb(179, 0, 0);
+	background-color: rgba(240, 240, 240, 1);
+}
+.rowHandle[data-status='error'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgba(240, 240, 240, 1);
+	background-color:  rgb(179, 0, 0);
+}
+
+
+.rowHandle[data-status='queued'], .rowHandle[data-status='queued'] span[data-templatename='rowStatus'] {
+	border-color: rgb(230, 138, 0);
+}
+.rowHandle[data-status='queued'][data-selected='true'] span[data-templatename='rowStatus'] {
+  background-color: rgb(230, 138, 0);
+	color: rgb(240, 240, 240);
+
+}
+.rowHandle[data-status='queued'][data-selected='false'] span[data-templatename='rowStatus'] {
+  color: rgb(230, 138, 0);
+}
 
 
 /*

@@ -52,12 +52,14 @@ constructor(args, defaults, callback){
             _snapshot:              {},
             _handles:               [],
             _handle:                null,
+            __rowStatus:            'new',
             debug:                  false,
             deferRender:            true,
             rowTitle:               '',
             saveButtonText:         'save',
             cancelButtonText:       'close',
-            disableValueChange:     false
+            disableValueChange:     false,
+            classList:              ['formView']
         }, defaults),
         callback
     );
@@ -98,7 +100,7 @@ get html(){
     // insert shenanigans here
     return(`
         <div class="formHeader" data-templatename="formHeader">
-            <h1 class="rowTitle" data-templatename="rowTitle">${this.rowTitle}</h1>
+            <h1 class="rowTitle" data-templatename="rowTitle" data-templateattribute="true">${this.rowTitle}</h1>
             <div class="btnContainer">
                 <button class="btnCancel" data-templatename="btnCancel">${this.cancelButtonText}</button>
                 <button class="btnSave" data-templatename="btnSave">${this.saveButtonText}</button>
@@ -294,7 +296,7 @@ loseFocus(focusArgs){
     you want it to get values from
     definitely override this
 */
-get handleTempate(){
+get handleTemplate(){
     return(`
         <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified">
             <div class="handle">
@@ -535,8 +537,10 @@ fieldValueChange(fieldName, newValue, oldValue, formElement){
                     }
                 }
                 toot(value);
+                that.updateHandles();
             }else if (that.disableValueChange == true){
                 toot(value);
+                that.updateHandles();
             }
         })
     }))
@@ -571,6 +575,7 @@ set changeFlag(b){
     }else{
         this._viewNeedsFormModeSync = true;
     }
+    this.updateHandles();
 }
 get changedFields(){
     /*
@@ -738,21 +743,22 @@ save(filterInputData){
                     validateAbort = true;
                     boot(error);
                 }).then(function(){
-
-                    if (that.saveCallback instanceof Function){
-                        let saveAbort = false;
-                        that.saveCallback().catch(function(error){
-                            saveAbort = true;
-                            boot(new noiceException({
-                                message:        `saveCallback cancelled save operation: ${error}`,
-                                thrownBy:       `${that._className} | save() -> saveCallback()`,
-                                messageNumber:   11,
-                            }));
-                        }).then(function(){
-                            if (! saveAbort){ that.changeFlag = false; }
-                        })
+                    if (! validateAbort){
+                        if (that.saveCallback instanceof Function){
+                            let saveAbort = false;
+                            that.saveCallback().catch(function(error){
+                                saveAbort = true;
+                                boot(new noiceException({
+                                    message:        `saveCallback cancelled save operation: ${error}`,
+                                    thrownBy:       `${that._className} | save() -> saveCallback()`,
+                                    messageNumber:   11,
+                                }));
+                            }).then(function(){
+                                if (! saveAbort){ that.changeFlag = false; }
+                            })
+                        }
                     }
-                })
+                });
             }
         })
     }));
@@ -853,7 +859,7 @@ getHandle(){
     let that = this;
     let handle = new noiceCoreUIElement({
         className:         "formViewHandle",
-        getHTMLCallback:    function(selfRef){ return(that.handleTempate); },
+        getHTMLCallback:    function(selfRef){ return(that.handleTemplate); },
         renderCallback:     function(selfRef){
             selfRef.DOMElement.addEventListener('click', function(evt){
                 if (selfRef.selectCallback instanceof Function){
@@ -863,8 +869,70 @@ getHandle(){
         }
     })
     that.handles.push(handle);
+    that.updateHandles();
     return(handle);
 }
+updateHandles(){
+    let that = this;
+    that.handles.forEach(function(handle){
+
+        // dirty, rowStatus & rowTitle are special attributes
+        handle._DOMElements._handleMain.dataset.dirty = that.changeFlag?'true':'false';
+        handle._DOMElements._handleMain.dataset.status = that.rowStatus;
+        ['rowStatus', 'rowTitle'].forEach(function(attributeName){
+            if (handle._DOMElements.hasOwnProperty(attributeName)){ handle[attributeName] = that[attributeName]; }
+        });
+
+        // everything else, just match up formElement names to ._DOMElements names in the handle
+        Object.keys(that._formElements).forEach(function(fieldName){
+            if (handle._DOMElements.hasOwnProperty(fieldName)){
+
+                if (that.isNotNull(that._formElements[fieldName].value)){
+                    // date, dateTime, time types need decode from epoch
+                    if (['date', 'dateTime', 'time'].indexOf(that._formElements[fieldName].type) >= 0){
+                        handle[fieldName] = that.fromEpoch(that._formElements[fieldName].value, 'dateTimeLocale');
+                    }else{
+                        handle[fieldName] = that._formElements[fieldName].value;
+                    }
+                }else{
+                    handle[fieldName] = `[${that._formElements[fieldName].label}]`;
+                }
+
+            }
+        });
+
+    });
+
+
+
+
+}
+
+
+
+
+/*
+    rowStatus
+    this indicates the processing status of the row within the indexedDB/syncWorker
+    system. Values of this attribute are arbitrary. You can setup whatever you
+    need. For demo and default purposes in the formView parent class we have this:
+
+        * new           - the record does not exist in indexedDB (default for create viewMode)
+        * inventory     - the record exists in the indexedDB (default for modify viewMode)
+        * queued        - the record has been saved to indexedDB and is awaiting syncWorker to sync to server
+        * error         - the record has been saved in indexedDB but syncWorker threw an error syncing to server
+        * transmitted   - the record exists in indexedDB and has recently synced successfuly to the sever
+
+    the value of rowStatus is present as 'status' in the dataset of this.DOMElement, as well
+    as in the handle._DOMElements._handleMain (for each handle)
+*/
+get rowStatus(){ return(this.__rowStatus); }
+set rowStatus(v){
+    this.__rowStatus = v;
+    if (this.DOMElement instanceof Element){ this.DOMElement.dataset.status = v; }
+    this.updateHandles();
+}
+
 
 
 
@@ -986,13 +1054,14 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
-    LOH 9/11/21 @ 1650
+    LOH 9/14/21 @ 1801
 
     next:
-        * handle getter
+        * leftCol sticky scroll up transparent bknd??!
+        * (nitpick) we don't need seconds or the full year on the modified date in the handle
         * handle removeCallback
         * close/cancel button
-        * cloneView getter
+        * cloneView
 */
 
 

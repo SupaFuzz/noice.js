@@ -78,10 +78,13 @@ addRow(){
         formMode:           'create',
         config:             that._app.config.Forms.recipe,
         _app:               that._app,
-        rowTitle:           `Record #${this.handleNumber}`,
+        rowTitle:           `Untitled #${this.handleNumber}`,
         cancelButtonText:   '',
-        debug:              true
+        debug:              true,
+        handleNumber:       that.handleNumber
     });
+
+    console.log(view.getHandle());
 
     let viewHandle = view.handle.append(that._DOMElements.handlelist);
     viewHandle.selectCallback = function(selfRef){ that.handleRowSelect(viewHandle._DOMElements._handleMain); }
@@ -95,8 +98,8 @@ addRow(){
     that.handleRowSelect(viewHandle._DOMElements._handleMain)
 
     that.handleNumber++;
-    /*
 
+    /*
         LOH 9/13/21 @ 2302
         can't go anymore today
         there's a problem. recipeFormView get handleTemplate() won't override

@@ -99,17 +99,6 @@ addRow(){
 
     that.handleNumber++;
 
-    /*
-        LOH 9/13/21 @ 2302
-        can't go anymore today
-        there's a problem. recipeFormView get handleTemplate() won't override
-        no idea.
-
-        also _DOMElements._handleMain is a bit of a stretch.
-
-        otherwise makin' progress
-
-    */
 }
 
 

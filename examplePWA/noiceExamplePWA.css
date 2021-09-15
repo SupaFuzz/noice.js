@@ -314,10 +314,10 @@
 	border-right: 1px solid rgba(240, 240, 240, .25);
 	overflow-x: hidden;
 }
-.recordEditorUI .leftCol .header {
+.recordEditorUILayout .leftCol .header {
 	background: radial-gradient(ellipse at bottom right, rgba(53, 57, 59, 0), rgba(53, 57, 59, .1), rgba(53, 57, 59, .3),rgba(53, 57, 59, .1), rgba(53, 57, 59, .4));
 	background-color:	rgb(5, 15, 20);
-    padding: 0 0 .5em .25em;
+  padding: 0 0 .5em .25em;
 	border-bottom: 1px solid rgba(240, 240, 240, .25);
 	width: 100%;
 }

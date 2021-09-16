@@ -338,6 +338,32 @@ cloneableCallback(formViewReference, newBoolValue){
 
 
 
+
+/*
+    removeFieldCallback(fieldName, formElement)
+    this fires whenever the user clicks btnRemove on a formElement
+    this is primarily useful in formMode: 'clone'
+
+    in fact as I flesh out the clone mode stuff, I fully 'spect
+    that there will be a removeField() function in the guts
+    that will call this rather than the formElement's own
+    removeCallback, so we can keep a field menu accurate etc.
+
+    as ever: toot it if you're ok with it, boot it to prevent
+*/
+removeFieldCallback(fieldName, formElement){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        // placeholder, override this if you wanna do thangs in here-uh
+        if (that.debug){ that._app.log(`${that._className} | removeFieldCallback(${fieldName})`); }
+        toot(true);
+
+    }));
+}
+
+
+
 /*
     gainFocus(focusArgs)
 */
@@ -513,8 +539,15 @@ set config(cfg){
                 cfg.fields[fieldName],
                 extraConfig
             );
+
+            // attach valueChangeCallback
             that._formElements[fieldName].valueChangeCallback = function(newVal, oldVal, formElement){
                 return(that.fieldValueChange(fieldName, newVal, oldVal, formElement));
+            }
+
+            // attach removeFieldCallback
+            that._formElements[fieldName].removeCallback = function(newVal, oldVal, formElement){
+                return(that.removeFieldCallback(fieldName, formElement));
             }
 
             // hackalicious, baybie bay bay
@@ -1287,6 +1320,9 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
     LOH 9/15/21 @ 1649
 
     next:
+        * formElement buttn layuout
+        * undo button
+        * remove button
         * cloneView
         * (nitpick) we don't need seconds or the full year on the modified date in the handle
 

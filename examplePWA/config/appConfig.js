@@ -41,6 +41,8 @@ cache: {
         './gfx/clone-icon.svg',
         './gfx/cancel-icon.svg',
         './gfx/fuscia_warning.svg',
+        './gfx/undo-icon.svg',
+        './gfx/remove-icon.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 
@@ -184,7 +186,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:false },
-                    clone:  { fieldMenu: true, inheritValue: true }
+                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true }
                 }
             },
             author:     {

@@ -554,11 +554,6 @@
 .formView .ncuFormElement label {
 	font-size: .66em;
 }
-.formView .ncuFormElement .ncufeFieldSection {
-	text-align: left;
-	padding-left: .128em;
-	display: grid;
-}
 .formView .ncuFormElementValidationError .ncufeLabel {
 	color: 						rgb(230, 0, 161);
 }
@@ -617,13 +612,46 @@
 
 
 
-
-
+/*
+	field button stuff
+*/
+.ncuFormElement .ncufeFieldSection {
+	text-align: left;
+	padding-left: .128em;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+.ncuFormElement .fieldBtnContainer {
+	display: flex;
+	flex-direction: row-reverse;
+	align-self: stretch;
+}
+.ncuFormElement .fieldBtnContainer button {
+	background-repeat: no-repeat;
+	background-position: center;
+	border: none;
+	height: 2.25em;
+	width: 2.25em;
+	margin-left: .25em;
+	align-self: center;
+}
+.ncuFormElement .fieldBtnContainer button:disabled{
+	opacity: .33;
+}
 
 
 /*
 	global buttons
 */
+button.btnUndo {
+	background: url('./gfx/undo-icon.svg');
+	background-size: contain;
+}
+button.btnRemove {
+	background: url('./gfx/remove-icon.svg');
+	background-size: contain;
+}
 button.textButton {
 	color: rgba(191, 191, 24, .7);
 	border: transparent;

@@ -1226,6 +1226,36 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
     next:
         * cloneView
         * (nitpick) we don't need seconds or the full year on the modified date in the handle
+
+    THOUGHTS AT 2208
+        the existing cloneView class concept is a mess.
+
+        it's tempting to re-factor this as the cloneView being a complete duplicate of self with
+        formMode = 'clone', then let the config do the heavy lifting. in terms of rendering the
+        remove button, showing default fields and rendering a field selector that we can include
+        in the html template with a special dataset attibute.
+
+        in formMode: 'clone', the saveCallback toggles to the cloneCallback
+        cloneCallback can get passed a COPY of the cloneView with formMode: 'modify', which one
+        can get a handle for, add to the handleList, insert into the viewHolder etc. We can add
+        a clean hook for auto-save the new record too.
+
+        this gets us true inputValidation identical to the create mode (and we can add filters to
+        fire on just 'clone' as well). We may need some logic to auto-add fields with validation
+        errors in the view.
+
+        and we can append cloneView right into a balloonDialog
+
+        and we can have a *cloneable <bool> attribute and we can check that on handleRowSelect
+        in recordEditorUI, and this is how we togggle the clone button. It's enabled any time
+        a handle with a cloneable view is selected and toggled off a the top of the function
+        so it's always disabled otherwise.
+
+        I think maybe we just add a data- hook in the html template to dissapear them when
+        they're in the wrong mode, and put that hook in setFormMode()
+
+        k, yeah I really am done for the day.
+
 */
 
 

@@ -47,6 +47,12 @@ addRow(){
     // wire the formView's areYouSureCallback() to the recordEditorUI's saveChangesDialog()
     view.areYouSureCallback = function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); }
 
+    // wire the formView's cloneableCallback to toggle btnClone
+    view.cloneableCallback = async function(formViewReference, flag){
+        if (formViewReference.onScreen){ that._DOMElements.btnClone.disabled = (flag == false); }
+        return(true);
+    }
+
     // setup the rowHandle and add it to the handleList
     let viewHandle = view.handle.append(that._DOMElements.handlelist);
     viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }

@@ -55,6 +55,7 @@ constructor(args, defaults, callback){
             _handle:                null,
             __rowStatus:            'new',
             _cloneable:             false,
+            _cloneableOnSave:       true,
             debug:                  false,
             deferRender:            true,
             rowTitle:               '',
@@ -816,7 +817,10 @@ save(filterInputData){
                                     messageNumber:   11,
                                 }));
                             }).then(function(){
-                                if (! saveAbort){ that.changeFlag = false; }
+                                if (! saveAbort){
+                                    that.changeFlag = false;
+                                    if (that._cloneableOnSave){ that.cloneable = true; }
+                                }
                             })
                         }
                     }
@@ -1130,6 +1134,8 @@ close(){
 
 /*
     clone stuff
+    the default behavior is that *.cloneable is false until the first successful save
+    you can disable that behavior by setting *._cloneableOnSave = false;
 */
 get cloneable(){ return(this._cloneable); }
 set cloneable(v){

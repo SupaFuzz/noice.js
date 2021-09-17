@@ -1432,6 +1432,7 @@ constructor(args, defaults, callback){
         _className:         'noiceCoreUIScreenHolder',
         _defaultUI:         '',
         _showDefaultUI:     false,
+        currentUI:          null,
         ignoreFocusErrors:  false,
         UIList:            {},
         _html:              ''
@@ -1552,6 +1553,7 @@ async switchUI(screenName, focusArgs){
     return(true);
 }
 
+
 /*
     setDefaultUI()
     if the object defines a defaultUI, switch to it
@@ -1565,6 +1567,7 @@ get defaultUI(){ return(this._defaultUI); }
 set defaultUI(v){ this._defaultUI = v; }
 get showDefaultUI(){ return(this._showDefaultUI); }
 set showDefaultUI(v){ this._showDefaultUI = (v == true); }
+
 
 
 

@@ -438,8 +438,14 @@ setValue(v){
 }
 
 
-
 // set the value and sneak around the valueChangeCallback
+setValueDirect(v){
+    this._value = v;
+    if (this.hasFormElement){ this.formElement.value = v; }
+}
+
+
+//set the defaultValue, and the value to it, without triggering valueChangeCallback()
 get defaultValue(){ return(this._defaultValue); }
 set defaultValue(v){
     this._defaultValue = v;

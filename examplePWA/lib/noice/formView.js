@@ -1319,10 +1319,60 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
-    LOH 9/15/21 @ 1649
+
+    LOH 9/17/21 @ 1036 -- return here later
+    ok so ... the clone view truly needs it own html template, not to apply
+    changes to the one programattically via set formMode() ...
+
+    this is kind of a mess. Because I could put a switch in get html(), however
+    that would effectively mean you cannot use the formMode() setter to get a clone
+    mode view, it'd have to be born that way.
+
+    now ... technically noiceCoreUIElement has an html *setter*, and we could go back
+    in and clean that up, make sure it re-renders, etc. There may be an issue though
+    in terms of removing accessors to ._DOMElements that do not exist in the selected
+    viewMode. So much logic depends on that.
+
+    Well ... maybe not that much, since all the field access is through *._formElements
+    but still. that could be tricky.
+
+    the other option is that we're just all like "yeah ok, you can't toggle into or
+    out of the clone mode, and it only exists as a copy-of-self accesssor"
+
+    another option is to go back to the mutate-a-single-template thing and set up
+    a sort of switch-via-div-container, and some things are just removed from the DOM
+    by the mode setter, then added back, depending. That could be messy too.
+
+    another option might be to set up a cloneHtml() getter. When we spawn the clone view
+    we do it as a copy of self overriding the getHTMLCallback and pointing it to our own
+    cloneHTML() getter.
+
+    three options:
+
+        1) set html(), swap out attribute accessors, 
+           and set new html template from the formMode setter
+
+        2) mutate existing html template with toggleable sections
+           formMode setter removes and inserts things from the DOM
+
+        3) clone mode isn't toggleable, we just make the one clone view from
+           *.getCloneView or whatever, and we override the html getter at
+           object instantiation
+
+        4) ok one more ... execute filters on formMode change, and have a seriously
+           severe set of filters mutating the html (this isn't a horrible idea,
+           in and of itself, but not for the purposes of wholesale changing an html
+           template)
+
+   anyhow I've not have a shower in 2 days, and I've got a lunch date with Jeny
+   so gots to think on this in the shower.
+
+
+
+    LOH 9/16/21 @ 2253
 
     next:
-        * recordEditorUI / handleRowSelect - disable btnClone at the top!
+
         * removable thangs in this._DOMElements based on mode (special data-* in get html()?)
         * manage a removedfields menu or some such
         * formMode: clone

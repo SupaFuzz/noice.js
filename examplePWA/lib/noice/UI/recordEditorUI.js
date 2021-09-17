@@ -283,6 +283,7 @@ handleRowSelect(rowHandle){
     let that = this;
     return (new Promise(function(toot, boot){
         let pk = [];
+        if (that._DOMElements.btnClone instanceof Element){ that._DOMElements.btnClone.disabled = true; }
         that._DOMElements.handlelist.querySelectorAll(`.rowHandle[data-selected='true']:not(.rowHandle[data-guid='${rowHandle.dataset.guid}'])`).forEach(function(handle){
             pk.push(that.handleRowSelect(handle));
         });
@@ -301,6 +302,7 @@ handleRowSelect(rowHandle){
                 }).then(function(){
                     if (! myFocusCancel){
                         rowHandle.dataset.selected = (rowHandle.dataset.selected == 'true')?'false':'true';
+                        if (that._DOMElements.btnClone instanceof Element){ that._DOMElements.btnClone.disabled = (! ((rowHandle.dataset.selected == 'true') && (rowHandle.dataset.cloneable == 'true'))); }
                         toot();
                     }
                 })

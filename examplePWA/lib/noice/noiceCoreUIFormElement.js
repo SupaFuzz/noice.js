@@ -67,6 +67,7 @@ constructor(args, defaults, callback){
         _showButtons:                   false,
         _externalButtons:               [],
         removeCallback:                 null,
+        removedCallback:                null,
         normalizeUpperCase:             false,
         trimWhitespace:                 false,
         _dir:                           'ltr',
@@ -799,7 +800,11 @@ handleRemove(){
         bigAbort = true;
         if (that.debug){ console.log(`${that._className} | ${that.label} | removeCallback cancelled field remove: ${error}`); }
     }).then(function(){
-        if (! bigAbort){ that.remove(); }
+        if (! bigAbort){
+            that.remove();
+            // this one fires after it's actually been removed (for managing menus n' stuff)
+            if (that.removedCallback instanceof Function){ that.removedCallback(that); }
+        }
     });
 }
 

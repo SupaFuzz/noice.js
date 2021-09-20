@@ -57,6 +57,7 @@ constructor(args, defaults, callback){
             _cloneable:             false,
             _cloneableOnSave:       true,
             _cloneView:             null,
+            _cloneData:             {},
             _formValues:            {},
             debug:                  false,
             deferRender:            true,
@@ -137,10 +138,28 @@ get cloneViewHTML(){
         ok everything up to here works.
         So next step is to render a default clone view with a
         field menu, remove callbacks, yadda yadda
+
+        NOTES @ 2340
+        displayOrder should be a view property?
+
+        batch up n' insert default fields below
+        now write something for field selector
+
+        RESUME 9/21/21 @ 0912
+        lets get the _fieldSelector menu, addFieldToView() and removeCallback() working
+        then circle back and put default included fields in, etc.
     */
 
     // get back to this
-    return('<h3>cloneView goes here</h3>');
+    return(`
+        <div class="cloneView">
+            <div class="formFields" data-templatename="formFields"></div>
+            <div class="btnContainer">
+                <div class="fieldSelector" data-templatename="_fieldSelector" data-templateattribute="true"></div>
+                <button class="btnClone" data-templatename="btnSave">clone</button>
+            </div>
+        </div>
+    `);
 }
 
 
@@ -501,6 +520,78 @@ setFormMode(formMode){
             });
             that._viewNeedsFormModeSync = false;
             that.changeFlag = false;
+
+            // handle cloneView stuff
+            if (formMode == 'clone'){
+
+
+                let abrt = false;
+                that.setData(that.cloneData, true).catch(function(error){
+                    abrt = true;
+                    that._app.log(`${that._className} | setFormMode(${formMode}) | setting data from cloneData failed: ${error}`);
+                }).then(function(){
+                    if (! abrt){
+                        let defaultFields = [];
+
+                        // remove default values on fields that don't define inheritValue
+                        Object.keys(that._formElements).forEach(function(fieldName){
+                            if (
+                                that._formElements[fieldName].hasOwnProperty('modes') &&
+                                (that._formElements[fieldName].modes instanceof Object) &&
+                                that._formElements[fieldName].modes.hasOwnProperty(formMode) &&
+                                (that._formElements[fieldName].modes[formMode] instanceof Object)
+                            ){
+
+                                // batch up the default fields for later sort and insert
+                                if (
+                                    that._formElements[fieldName].modes[formMode].hasOwnProperty('default') &&
+                                    (that._formElements[fieldName].modes[formMode].default == true) &&
+                                    (! (that._formElements[fieldName].onScreen))
+                                ){
+                                    defaultFields.push(that._formElements[fieldName]);
+                                }
+
+                                // remove default value if we're not supposed to carry it
+                                if (!(
+                                    that._formElements[fieldName].modes[formMode].hasOwnProperty('inheritValue') &&
+                                    (that._formElements[fieldName].modes[formMode].inheritValue == true)
+                                )){
+                                    that._formElements[fieldName].value = '';
+                                }
+                            }
+                        });
+
+                        // insert the default fields in the cloneView in order
+                        defaultFields.sort(function(a,b){
+                            return(
+                                (a.modes[formMode].hasOwnProperty('displayOrder')?a.modes[formMode].displayOrder:0) -
+                                (b.modes[formMode].hasOwnProperty('displayOrder')?b.modes[formMode].displayOrder:0)
+                            )
+                        }).forEach(function(formElement){
+                            that.addFieldToView(formElement.label);
+                        });
+                        that.updateFieldSelector();
+                    }
+                });
+
+                /* set default visible fields in cloneView -- this needs to be adjusted to respect view/displayOder
+                Object.keys(that._formElements).forEach(function(fieldName){
+                    if (
+                        that._formElements[fieldName].hasOwnProperty('modes') &&
+                        (that._formElements[fieldName].modes instanceof Object) &&
+                        that._formElements[fieldName].modes.hasOwnProperty(formMode) &&
+                        (that._formElements[fieldName].modes[formMode] instanceof Object) &&
+                        that._formElements[fieldName].modes[formMode].hasOwnProperty('default') &&
+                        (that._formElements[fieldName].modes[formMode].default == true) &&
+                        (! (that._formElements[fieldName].onScreen))
+                    ){
+                        that.addFieldToView(that._formElements[fieldName].label);
+                    }
+                });
+                */
+
+            }
+
         }
 
         // main logic: set field properties after the callback if we have one
@@ -600,10 +691,31 @@ set config(cfg){
                 return(that.removeFieldCallback(fieldName, formElement));
             }
 
+            // attach removedCallback to manage __fieldSelector
+            that._formElements[fieldName].removedCallback = function(formElement){ that.updateFieldSelector(); }
+
             // hackalicious, baybie bay bay
             that[fieldName] = that._formElements[fieldName];
         }
     });
+
+    // setup the _fieldSelector
+    that._fieldSelectorAddBtn = document.createElement('button');
+    that._fieldSelectorAddBtn.className = "btnAdd";
+    that._fieldSelectorAddBtn.disabled = true;
+    that.__fieldSelector = new noiceCoreUIFormElementSelect({
+        label:                  'add field',
+        labelLocation:          'none',
+        values:                 [],
+        valueChangeCallback:    async function(nv, ov){
+            that._fieldSelectorAddBtn.disabled = that.isNull(nv);
+            return(nv);
+        },
+        showButtons:            true,
+        externalButtons:        [that._fieldSelectorAddBtn]
+    });
+    that._fieldSelector = that.__fieldSelector;
+    that._fieldSelectorAddBtn.addEventListener('click', function(evt){ that.addFieldToView(that.__fieldSelector.value, evt); })
 
     // swap it out
     this._config = cfg;
@@ -1262,15 +1374,132 @@ get cloneView(){
             formMode:           'clone',
             config:             that.config,
             _app:               that._app,
-            disableValueChange: true,
-            data:               that.data,
-            saveCallback:       function(formViewReference){ return(that.cloneCallback(formViewReference)); },
+            cloneData:          that.data,
+            saveCallback:       function(formViewReference){
+                console.log("yo what?")
+                return(that.cloneCallback(formViewReference));
+            },
             getHTMLCallback:    function(formViewReference){ return(that.cloneViewHTML); }
         });
-        that._cloneView.disableValueChange = false;
         return(that._cloneView);
     }
 }
+
+
+
+
+/*
+    hiddenFields getter
+    this returns all fields in the config that are not onScreen
+    and which don't have display: false OR fieldMenu: false defined
+    in the viewmode
+*/
+get hiddenFields(){
+    let ret = [];
+    Object.keys(this._formElements).forEach(function(fieldName){
+        if (
+            (! (this._formElements[fieldName].onScreen)) &&
+
+            (! ((this._formElements[fieldName].modes instanceof Object) &&
+            (this._formElements[fieldName].modes[this.formMode] instanceof Object) &&
+            (this._formElements[fieldName].modes[this.formMode].hasOwnProperty('display')) &&
+            (this._formElements[fieldName].modes[this.formMode].display == false))) &&
+
+            (! ((this._formElements[fieldName].modes instanceof Object) &&
+            (this._formElements[fieldName].modes[this.formMode] instanceof Object) &&
+            (this._formElements[fieldName].modes[this.formMode].hasOwnProperty('fieldMenu')) &&
+            (this._formElements[fieldName].modes[this.formMode].fieldMenu == false)))
+
+        ){ ret.push(this._formElements[fieldName]); }
+    }, this)
+    return(ret)
+}
+
+
+
+
+/*
+    updateFieldSelector()
+    set the option of the this._fieldSelector dropdown
+    should be called from set formMode and from addField()
+    and from removeFieldCallback()
+*/
+updateFieldSelector(){
+    if (this.__fieldSelector instanceof noiceCoreUIFormElementSelect){
+
+        // build a fancypants menu with the same displaySections from the config
+        let cascade = {};
+        this.hiddenFields.forEach(function(formElement){
+            let displaySection = (formElement.hasOwnProperty('displaySection'))?formElement.displaySection:'...';
+            if (! (cascade.hasOwnProperty(displaySection))){ cascade[displaySection] = []; }
+            cascade[displaySection].push(formElement);
+        });
+
+        // sort the fields in each displaySection by displayOrder
+        Object.keys(cascade).forEach(function(displaySection){
+            let labelList = [];
+            cascade[displaySection].sort(function(a,b){
+                return((a.hasOwnProperty('displayOrder')?parseInt(a.displayOrder):0) - (b.hasOwnProperty('displayOrder')?parseInt(b.displayOrder):0));
+            }).forEach(function(formElement){
+                labelList.push(formElement.label)
+            });
+            cascade[displaySection] = labelList;
+        })
+
+        let map = [];
+        Object.keys(cascade).sort().forEach(function(secTitle){
+            map.push({label: secTitle, values: cascade[secTitle]});
+        });
+
+        this.__fieldSelector.values = map;
+    }
+}
+
+
+
+
+/*
+    addFieldToView(fieldLabel, evt)
+    this is the target of the click action on the add button
+    adjacent to this.__fieldSelector. Probably in the cloneView
+    but I guess you could use it for other stuff by overriding
+*/
+addFieldToView(fieldLabel, evt){
+    /*
+        NOTE: 9/20/21 @ 1405
+        ok ... doing it by fieldLabel is easy, but it means there
+        can never be a duplicate fieldLabel in the definition
+
+        the proper way would be to set {value:dislayValue} pairs
+        in the values for __fieldSelector. The problem is that the
+        current implementation of noiceCoreUIFormElementSelect doesn't
+        support {value:displayValue} beneath optGroup style lists.
+
+        and so I'm not gonna go straighten that out today, but a nice
+        project for later.
+
+        As of right now: no duplicate fieldLabel's in the config
+     */
+     let that = this;
+     let found = false;
+     let foundFieldName = null;
+     Object.keys(that._formElements).forEach(function(fieldName){
+        if (
+            (! found) &&
+            (that._formElements[fieldName].label == fieldLabel) &&
+            (! (that._formElements[fieldName].onScreen))
+        ){
+            found = true;
+            foundFieldName = fieldName;
+        }
+     });
+     if (that.isNotNull(foundFieldName)){
+         that._formElements[foundFieldName].append(that._DOMElements.formFields);
+         that.updateFieldSelector();
+     }
+
+}
+
 
 
 
@@ -1391,121 +1620,16 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 /*
+    LOH 9/20/21 @ 1637
 
-    LOH 9/17/21 @ 1036 -- return here later
-    ok so ... the clone view truly needs it own html template, not to apply
-    changes to the one programattically via set formMode() ...
-
-    this is kind of a mess. Because I could put a switch in get html(), however
-    that would effectively mean you cannot use the formMode() setter to get a clone
-    mode view, it'd have to be born that way.
-
-    now ... technically noiceCoreUIElement has an html *setter*, and we could go back
-    in and clean that up, make sure it re-renders, etc. There may be an issue though
-    in terms of removing accessors to ._DOMElements that do not exist in the selected
-    viewMode. So much logic depends on that.
-
-    Well ... maybe not that much, since all the field access is through *._formElements
-    but still. that could be tricky.
-
-    the other option is that we're just all like "yeah ok, you can't toggle into or
-    out of the clone mode, and it only exists as a copy-of-self accesssor"
-
-    another option is to go back to the mutate-a-single-template thing and set up
-    a sort of switch-via-div-container, and some things are just removed from the DOM
-    by the mode setter, then added back, depending. That could be messy too.
-
-    another option might be to set up a cloneHtml() getter. When we spawn the clone view
-    we do it as a copy of self overriding the getHTMLCallback and pointing it to our own
-    cloneHTML() getter.
-
-    three options:
-
-        1) set html(), swap out attribute accessors,
-           and set new html template from the formMode setter
-
-        2) mutate existing html template with toggleable sections
-           formMode setter removes and inserts things from the DOM
-
-        3) clone mode isn't toggleable, we just make the one clone view from
-           *.getCloneView or whatever, and we override the html getter at
-           object instantiation
-
-        4) ok one more ... execute filters on formMode change, and have a seriously
-           severe set of filters mutating the html (this isn't a horrible idea,
-           in and of itself, but not for the purposes of wholesale changing an html
-           template)
-
-   anyhow I've not have a shower in 2 days, and I've got a lunch date with Jeny
-   so gots to think on this in the shower.
-
-
-   RESUME 9/17/21 @ 1501
-   ok ... here's what imma try
-
-   let's move ahead with a getCloneView as a duplicate of self with the getHTMLCallback()
-   overridden to point at this.cloneViewTemplate, so an easy override in the descendant class
-   and with saveCallback mapped to this.cloneCallback, so again easy override.
-
-   at first, maybe we can't toggle into clone mode. When we've got all this working, come back
-   and either lock off formMode('clone') or actually dig into noiceCoreUIElement html setter
-   and make sure we do it right.
-
-   offhand, I think it might not be too bad.
-   basically something like:
-
-    foreach this._formElements -> remove();
-    this.html = this.cloneTemplate
-        -> make sure render knows to remove existing attributes that are aliases
-           to this._formElements, then re-create them
-
-    and set up a switch in get html() based on initial formMode.
-    perhas a switch statement with a default that returns something.
-
-    that woud necessitate moving some stuff around. for instance you might not want to
-    override html but pont the html getter at something like a getViewModeHTML(viewMode)
-    then have getters to override for each mode. But you know ... that can be for later
-
-    fpor the moment let's get the first part working, then we can worry about the mode
-    changeability later.
-
-
-    LOH 9/16/21 @ 2253
 
     next:
-
+        * css :disabled on btnSave in cloneView needs some visual obviousness
+        * handle auto-inserting fields with validation errors into the cloneView so we can know
+          why when the validation fails
         * manage a removedfields menu or some such
         * formMode: clone
         * (nitpick) we don't need seconds or the full year on the modified date in the handle
-
-    THOUGHTS AT 2208
-        the existing cloneView class concept is a mess.
-
-        it's tempting to re-factor this as the cloneView being a complete duplicate of self with
-        formMode = 'clone', then let the config do the heavy lifting. in terms of rendering the
-        remove button, showing default fields and rendering a field selector that we can include
-        in the html template with a special dataset attibute.
-
-        in formMode: 'clone', the saveCallback toggles to the cloneCallback
-        cloneCallback can get passed a COPY of the cloneView with formMode: 'modify', which one
-        can get a handle for, add to the handleList, insert into the viewHolder etc. We can add
-        a clean hook for auto-save the new record too.
-
-        this gets us true inputValidation identical to the create mode (and we can add filters to
-        fire on just 'clone' as well). We may need some logic to auto-add fields with validation
-        errors in the view.
-
-        and we can append cloneView right into a balloonDialog
-
-        and we can have a *cloneable <bool> attribute and we can check that on handleRowSelect
-        in recordEditorUI, and this is how we togggle the clone button. It's enabled any time
-        a handle with a cloneable view is selected and toggled off a the top of the function
-        so it's always disabled otherwise.
-
-        I think maybe we just add a data- hook in the html template to dissapear them when
-        they're in the wrong mode, and put that hook in setFormMode()
-
-        k, yeah I really am done for the day.
 
 */
 

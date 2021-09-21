@@ -62,14 +62,42 @@ function initializeThread(data){
             dbVersion:        thread.config.indexedDBDefinition.dbVersion,
             storeDefinitions: thread.config.indexedDBDefinition.storeDefinitions
         }).open({
-            destructiveSetup: false
+            destructiveSetup: false,
+            setupCallback:    function(self){
+                thread.log('initializeThread | upgrading database ...');
+                thread.signalParent({
+                    type:   'statusUpdate',
+                    data:   {
+                        signal: 'startupMessage',
+                        attributes: {
+                            showPieChart:   true,
+                            runAnimation:   true,
+                            dbStatusDetail: 'upgrading database ...'
+                        }
+                    }
+                });
+            }
         }).catch(function(error){
             mountError = true;
             boot(`cannot mount indexedDB: ${error} `);
         }).then(function(dbHandle){
             if (! mountError){
+
                 thread.log(`v ${thread.version} | initializeThread | mounted indexedDB`);
                 thread.indexedDB = dbHandle;
+
+                // signal the parent
+                thread.signalParent({
+                    type:   'statusUpdate',
+                    data:   {
+                        signal: 'startupMessage',
+                        attributes: {
+                            showPieChart:   true,
+                            runAnimation:   false,
+                            dbStatusDetail: `mounted ${thread.config.indexedDBDefinition.dbName} v${thread.config.indexedDBDefinition.dbVersion}`
+                        }
+                    }
+                });
 
                 // get database description
                 let descError = false;

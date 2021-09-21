@@ -32,9 +32,9 @@ constructor(args, defaults, callback){
 
         },defaults),callback);
 
-        // show the install banner or the startupDialog, depending
-        this.initUI();
 
+        // startup the UI
+        this.initUI();
 
 
         /*
@@ -143,7 +143,45 @@ initUI(){
             },
             startButtonCallback:    function(self, evt){
                 evt.target.disabled = true;
-                that.startup();
+
+                self.welcomeTitle = `Starting ${that.appName}`;
+                self.welcomeMessage = "initialize syncWorker thread ..."
+
+                // init the syncWorker thread then startup the UI
+                let callError = false;
+                that.threadResponse({
+                    threadName:         'syncWorker',
+                    postMessage:        { type: 'init' },
+                    awaitResponseType:  'initComplete'
+                }).catch(function(error){
+                    callError = true;
+                    that.log(`[main thread] syncWorker/init call failed?: ${error}`, true);
+                }).then(function(responseData){
+                    if (! callError){
+
+                        self.welcomeMessage = 'mounting indexedDB';
+                        let mountError = false;
+                        new noiceIndexedDB({
+                            dbName:           that.config.indexedDBDefinition.dbName,
+                            dbVersion:        that.config.indexedDBDefinition.dbVersion,
+                            storeDefinitions: that.config.indexedDBDefinition.storeDefinitions
+                        }).open({
+                            destructiveSetup: false
+                        }).catch(function(error){
+                            mountError = true;
+                            boot(`cannot mount indexedDB: ${error} `);
+                        }).then(function(dbHandle){
+
+                            // show the install banner or the startupDialog, depending
+                            that.indexedDB = dbHandle;
+                            that.startup();
+
+                        });
+
+                    }
+                });
+
+
             },
             animationCallback:      function(self){
                 if (self.hasOwnProperty('_animatePolygon')){
@@ -225,20 +263,35 @@ startup(){
 
 
     /*
-        LOH 8/30/21 @ 1638
-        installHelpDialog is done with a clean cheat code implementation!
-        also cleaned up the CSS around it quite thoroughly.
+        LOH 9/21/21 @ 1701
+
+        keeping in mind that this is a backend-less implementation, so we aren't ever really
+        going to touch the 'recipe' table, nor are we going to do anything with syncWorker
+        until we do have a backend ...
 
         next up:
-            * make a placeholder in syncWorker to for fetching the file, parsing, etc
-              (we will come back to that)
 
-            * make a main UI
+            * make something like journalAdd({row}) to write rows to indexedDB
 
-            * make a formView
+            * make something like journalLaminate({rowID}) to get a complete row record from the journal
+              we'll tack onto it later when the backend stuff comes around
 
-            * make a submit UI
-              use this to enter a test dataset
+            * make something like getRecipeFromDB({rowID}) to front-end journalLaminate (again, so we
+              can loop in the recipe table when we have one finally), and this would return a formView
+              from which we can pull the handle etc
+
+            * make some kinda searchRecipe(<str>) thing that searches indexes, or whatever to get results
+              may need extra args like what index, and do we wanna go full-text and all that crapola. But
+              something to sit behind search options, and speaking of ...
+
+            * make a search option on recordEditorUI ... baloonDialog, a text entry, perhaps some
+              index selectors. Make a tab system for search results (recently added, search result, etc).
+              add the ability for named searches. No more main screen searching. One UI per-form.
+              And the main screen can be for deciding which form you want.
+
+              WHICH MEANS ... we may want to rethink some of the indexedDB searching nomenclature, etc
+              above. eventually we want multiple forms open at once here from the main screen. Can you
+              dig this?
 
             * make a json file export like dbDump etc
 
@@ -258,11 +311,34 @@ startup(){
 /*
     handleSyncWorkerStatusUpdate(args)
     handle 'statusUpdate' messages from the syncWorker thread
+    args is of the form {
+        threadName: 'syncWorker',
+        event: {
+            data: {
+                type:   'statusUpdate',
+                data:   {
+                    signal:     <theActualMessage>,
+                    attributes: <{arbitrary data}>
+                }
+            }
+        }
+    }
 */
 handleSyncWorkerStatusUpdate(args){
     let that = this;
+    let input = args.event.data.data;
 
-    // insert shenanigans here
+    // handle startupMessage signals if the startupDialog is onScreen
+
+    // handle 'indexedDBUpgrade' messages while startupDialog is onScreen
+    if ((input.signal == 'startupMessage') && (that.startupDialog.onScreen)){
+        if (that.startupDialog.welcomeMode){ that.startupDialog.welcomeMode = false; }
+        Object.keys(input.attributes).forEach(function(attribute){
+            that.startupDialog[attribute] = input.attributes[attribute];
+        })
+    }
+
+    // insert more shenanigans here
 }
 
 

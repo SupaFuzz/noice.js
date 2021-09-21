@@ -524,6 +524,7 @@
 */
 .cloneDialog.noiceBalloonDialog .dialog .dialogContent {
 	padding: 0;
+
 }
 .cloneDialog.noiceBalloonDialog .dialog .dialogContent .formView {
 	padding :0;
@@ -535,6 +536,8 @@
 .formView .cloneView .formFields {
 	font-size: .8em;
 	padding: .25em;
+	overflow-y: auto;
+	max-height: 66vh;
 }
 .formView .cloneView .formFields button.btnRemove {
 	background-size: 75%;

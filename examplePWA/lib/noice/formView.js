@@ -15,6 +15,7 @@
         9   filter threw errror preventing save
         10  filter exited preventing save (soft error)
         11  saveCallback cancelled save
+        12  failed validation
 
     config = {
         fields:  { <fieldName>: {<fieldConfig>} ...},
@@ -59,7 +60,7 @@ constructor(args, defaults, callback){
             _cloneView:             null,
             _cloneData:             {},
             _formValues:            {},
-            debug:                  false,
+            debug:                  true,
             deferRender:            true,
             rowTitle:               '',
             saveButtonText:         'save',
@@ -132,23 +133,6 @@ get html(){
 */
 get cloneViewHTML(){
     let that = this;
-
-    /*
-        LOH 9/17/21 @ 1849
-        ok everything up to here works.
-        So next step is to render a default clone view with a
-        field menu, remove callbacks, yadda yadda
-
-        NOTES @ 2340
-        displayOrder should be a view property?
-
-        batch up n' insert default fields below
-        now write something for field selector
-
-        RESUME 9/21/21 @ 0912
-        lets get the _fieldSelector menu, addFieldToView() and removeCallback() working
-        then circle back and put default included fields in, etc.
-    */
 
     // get back to this
     return(`
@@ -969,10 +953,42 @@ clearValidationErrors(){
     toot if we're all good, boot if we ain't
 */
 validate(){
-    this.clearValidationErrors();
-    return(this.executeFilters('validate'));
+    let that = this;
+    that.clearValidationErrors();
+    return(new Promise(function(toot, boot){
+        let abrt = false;
+        that.executeFilters('validate').catch(function(error){
+            abrt = true;
+            error.messageNumber = 12;
+            if (that.validateFailCallback instanceof Function){ that.validateFailCallback(that); }
+            boot(error);
+        }).then(function(filterOut){
+            if (! abrt){ toot(filterOut); }
+        })
+    }));
+    //return(this.executeFilters('validate'));
 }
 
+
+
+
+/*
+    validateFailCallback(selfReference)
+    executes when we fail a validation.
+    this is primarily a hook for cloneView to automatically
+    add fields to the view that failed validation
+    but you could override if you needed
+    just be sure to handle the validation stuff yourself if ya do
+*/
+validateFailCallback(selfReference){
+    if (this.formMode == 'clone'){
+        Object.keys(this._formElements).forEach(function(fieldName){
+            if ((! this._formElements[fieldName].onScreen) && (this._formElements[fieldName].hasErrors)){
+                this.addFieldToView(this._formElements[fieldName].label);
+            }
+        }, this);
+    }
+}
 
 
 
@@ -1376,7 +1392,6 @@ get cloneView(){
             _app:               that._app,
             cloneData:          that.data,
             saveCallback:       function(formViewReference){
-                console.log("yo what?")
                 return(that.cloneCallback(formViewReference));
             },
             getHTMLCallback:    function(formViewReference){ return(that.cloneViewHTML); }
@@ -1618,19 +1633,5 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 
 
 
-
-/*
-    LOH 9/20/21 @ 1637
-
-
-    next:
-        * css :disabled on btnSave in cloneView needs some visual obviousness
-        * handle auto-inserting fields with validation errors into the cloneView so we can know
-          why when the validation fails
-        * manage a removedfields menu or some such
-        * formMode: clone
-        * (nitpick) we don't need seconds or the full year on the modified date in the handle
-
-*/
 
 } // end formView class

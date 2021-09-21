@@ -66,6 +66,13 @@ addRow(){
     // increment our untitled document count
     that.handleNumber++;
 
+    /*
+        LOH 9/20/21 @ 2305
+        ok ... formView / cloneView / handle seem to be nailed down!
+        hook some stuff onto saveCallback & cloneCallback
+        then its searching!
+    */
+
 }
 
 

@@ -169,7 +169,7 @@ indexedDBDefinition: {
                 modes: {
                     modify: { display:true, edit:false, nullable:true },
                     create: { display:false, edit:false, nullable:true },
-                    clone:  { fieldMenu:false, inheritValue:false }
+                    clone:  { fieldMenu:false, inheritValue:false, nullable:true }
                 }
             },
             category:       {
@@ -187,7 +187,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:false },
-                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true, default: true, displayOrder: 2 }
+                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true, default: true, displayOrder: 2, nullable:false }
                 }
             },
             author:     {
@@ -205,7 +205,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:false },
-                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true  }
+                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true, nullable:false}
                 }
             },
             createDate: {
@@ -222,7 +222,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:false, nullable:true },
                     create: { display:false, edit:false, nullable:true },
-                    clone:  { fieldMenu: false, inheritValue:false }
+                    clone:  { fieldMenu: false, inheritValue:false, nullable:true }
                 },
             },
             title:      {
@@ -240,7 +240,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:false },
-                    clone:  { fieldMenu: true, inheritValue: false, labelLocation: 'top', removable: false, default: true, displayOrder: 1 }
+                    clone:  { fieldMenu: true, inheritValue: false, labelLocation: 'top', removable: false, default: true, displayOrder: 1, nullable:false}
                 }
             },
             body:       {
@@ -259,7 +259,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:true },
-                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true }
+                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true, nullable:false}
                 }
             },
             status:     {
@@ -275,7 +275,7 @@ indexedDBDefinition: {
                 modes: {
                     modify: { display:true, edit:true, nullable:false },
                     create: { display:true, edit:true, nullable:false, defaultValue: 'unpublished'},
-                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true }
+                    clone:  { fieldMenu: true, inheritValue: true, labelLocation: 'top', removable: true, nullable:false }
                 }
             },
             modifiedDate: {
@@ -291,7 +291,7 @@ indexedDBDefinition: {
                 modes:{
                     create: { display:false, edit:false, nullable:true },
                     modify: { display:true, edit:false, nullable:true },
-                    clone:  { fieldMenu: false, inheritValue:false }
+                    clone:  { fieldMenu: false, inheritValue:false, nullable:true }
                 },
             },
             lastModifiedBy: {
@@ -307,7 +307,7 @@ indexedDBDefinition: {
                 modes:{
                     modify: { display:true, edit:false, nullable:true },
                     create: { display:false, edit:false, nullable:true },
-                    clone:  { fieldMenu: false, inheritValue:false }
+                    clone:  { fieldMenu: false, inheritValue:false, nullable:true }
                 }
             }
         },

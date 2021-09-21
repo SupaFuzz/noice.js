@@ -168,23 +168,33 @@ set showValidationErrors(v){
             this.validationErrorSpacer.className = `${this._validationErrorSectionClass}_spacer`;
             this.validationErrorSection = document.createElement('div');
             this.validationErrorSection.className = this._validationErrorSectionClass;
+            this.validationErrorSection.appendChild(this.validationErrorSpacer);
         }
 
         /* turning it on */
         Object.keys(this.validationErrors).sort().forEach(function(errorNumber){
-            this.validationErrorSection.insertAdjacentHTML('afterbegin',`<p>
+            this.validationErrorSection.insertAdjacentHTML('beforeend',`<p>
                 <span class="errorID">error#: ${errorNumber}: </span><span class="errorMessage">${this.validationErrors[errorNumber].errorMessage}</span>
             </p>`);
         }, this);
         //this.DOMElement.querySelector(`div.${this._fieldSectionClass}`).append(this.validationErrorSection);
-        this.DOMElement.append(this.validationErrorSpacer);
+        //this.DOMElement.append(this.validationErrorSpacer);
+
+        // it's ms. hicox, if ya nasty ...
+        if (this.labelLocation == 'left'){
+            let span = document.createElement('span');
+            span.innerHTML = `&nbsp;`;
+            this.DOMElement.append(span);
+
+        }
         this.DOMElement.append(this.validationErrorSection);
+        
 
     }else if (this.showValidationErrors && (! setting)){
         /* turning it off */
         this.validationErrorSection.textContent = '';
         if (this.validationErrorSection instanceof Element){
-            this.validationErrorSpacer.remove();
+            //this.validationErrorSpacer.remove();
             this.validationErrorSection.remove();
         }
     }

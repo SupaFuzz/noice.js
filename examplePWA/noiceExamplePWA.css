@@ -468,6 +468,8 @@
 }
 .formView .ncuFormElementValidationError .ncfueValidationErrorSection {
 	text-align: left;
+	display: grid;
+	grid-template-columns: 1em auto;
 	color:		rgb(230, 0, 161);
 }
 .formView .ncuFormElementValidationError .ncfueValidationErrorSection .errorID {
@@ -481,7 +483,7 @@
 	background: url('./gfx/fuscia_warning.svg');
 	background-repeat:no-repeat;
 	background-position: right;
-	background-size: 20%;
+	background-size: contain;
 	opacity: .8;
 	height: 2em;
 }
@@ -549,6 +551,10 @@
 }
 .formView .cloneView .btnContainer .ncuFormElement select {
 	border: 1px solid rgb(36, 36, 36);
+}
+.formView .cloneView .btnContainer button.btnClone:disabled {
+	background: rgba(240, 240, 240, .3);
+	border: 1px solid rgba(240, 240, 240, .7);
 }
 .formView .cloneView .btnContainer button.btnClone {
 	border: 1px solid rgb(36, 36, 36);
@@ -839,6 +845,7 @@ button, input {
 input, textarea, select {
 	border-radius: 	.35em;
 	padding:				.25em .5em .25em .5em;
+	width: 100%;
 }
 button {
 	border-radius: .35em;

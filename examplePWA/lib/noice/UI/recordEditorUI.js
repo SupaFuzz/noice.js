@@ -103,6 +103,7 @@ get html(){ return(`
                             text-align:            right;
                         "
                     >
+                        <button data-templatename="btnSearch" class="btnSearch" alt="search records">&nbsp;</button>
                         <button data-templatename="btnAdd" class="btnAdd" alt="create new record">&nbsp;</button>
                         <button data-templatename="btnClone" class="btnClone" alt="clone existing record" disabled="true">&nbsp;</button>
                         <button data-templatename="btnBurger" class="btnBurger">&nbsp;</button>
@@ -206,9 +207,32 @@ setupCallback(){
     that._DOMElements.btnBack.addEventListener('click', function(){ that._app.screenHolder.switchUI('main'); });
 
     // hook for add button
-    that._DOMElements.btnAdd.addEventListener('click', function(){ that.addRow(); })
+    that._DOMElements.btnAdd.addEventListener('click', function(){ that.addRow(); });
+
+    // the search dialog
+    that.searchMenuDialog = new noiceBalloonDialog({
+        title:         'search records',
+        classList:     ['searchDialog'],
+        hdrContent:    '',
+        dialogContent: (this.searchMenu instanceof Element)?this.searchMenu:null,
+        arrow:         'topLeft',
+        exitCallback:  async function(selfRef){
+            // whatevz
+            return(true);
+        }
+    });
+
+    // hook for btnSearch
+    that._DOMElements.btnSearch.addEventListener('click', function(evt){
 
 
+        // position and show the dialog
+        let tbox = that._DOMElements.btnSearch.getBoundingClientRect();
+        that.searchMenuDialog.append(that.DOMElement);
+        let dbox = that.searchMenuDialog._DOMElements.dialog.getBoundingClientRect();
+        that.searchMenuDialog.y = (tbox.bottom + 12);
+        that.searchMenuDialog.x = (tbox.x - 11);
+    });
 }
 
 
@@ -252,7 +276,13 @@ set burgerMenu(v){
         this.burgerMenuDialog.dialogContent = this._burgerMenu;
     }
 }
-
+get searchMenu(){ return(this._searchMenu); }
+set searchMenu(v){
+    this._searchMenu = v;
+    if (this.searchMenuDialog instanceof noiceBalloonDialog){
+        this.searchMenuDialog.dialogContent = this._searchMenu;
+    }
+}
 
 
 

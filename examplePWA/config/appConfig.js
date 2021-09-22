@@ -44,6 +44,7 @@ cache: {
         './gfx/fuscia_warning.svg',
         './gfx/undo-icon.svg',
         './gfx/remove-icon.svg',
+        './gfx/search-icon.svg',
 
         './gfx/fonts/Comfortaa.woff2',
 

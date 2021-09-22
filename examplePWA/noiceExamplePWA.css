@@ -680,6 +680,13 @@ button.btnImport {
 	background-position: right;
 	padding-right:		2em;
 }
+button.btnSearch {
+	background: url('./gfx/search-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
 button.btnAdd {
 	background: url('./gfx/add-icon.svg');
 	background-repeat: no-repeat;

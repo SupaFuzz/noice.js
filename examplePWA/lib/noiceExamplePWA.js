@@ -263,7 +263,13 @@ startup(){
 
 
     /*
-        LOH 9/22/21 @ 1543
+        LOH 9/22/21 @ 1543...
+
+            * the class default handleClone() on recordEditorUI
+
+            * a pipe to writeRecipe and handleClone() on recipeEditor
+
+            * [done] a dialog to contain the search dialog on recordEditorUI
 
             * a search mechanism, baked into recordEditorUI would be great
 

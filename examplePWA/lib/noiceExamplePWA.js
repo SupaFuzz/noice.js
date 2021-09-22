@@ -263,45 +263,17 @@ startup(){
 
 
     /*
-        LOH 9/21/21 @ 1701
+        LOH 9/22/21 @ 1543
 
-        keeping in mind that this is a backend-less implementation, so we aren't ever really
-        going to touch the 'recipe' table, nor are we going to do anything with syncWorker
-        until we do have a backend ...
+            * a search mechanism, baked into recordEditorUI would be great
 
-        next up:
+            * file export
 
-            * make something like journalAdd({row}) to write rows to indexedDB
+            * file import
 
-            * make something like journalLaminate({rowID}) to get a complete row record from the journal
-              we'll tack onto it later when the backend stuff comes around
+            * make a remedy form
 
-            * make something like getRecipeFromDB({rowID}) to front-end journalLaminate (again, so we
-              can loop in the recipe table when we have one finally), and this would return a formView
-              from which we can pull the handle etc
-
-            * make some kinda searchRecipe(<str>) thing that searches indexes, or whatever to get results
-              may need extra args like what index, and do we wanna go full-text and all that crapola. But
-              something to sit behind search options, and speaking of ...
-
-            * make a search option on recordEditorUI ... baloonDialog, a text entry, perhaps some
-              index selectors. Make a tab system for search results (recently added, search result, etc).
-              add the ability for named searches. No more main screen searching. One UI per-form.
-              And the main screen can be for deciding which form you want.
-
-              WHICH MEANS ... we may want to rethink some of the indexedDB searching nomenclature, etc
-              above. eventually we want multiple forms open at once here from the main screen. Can you
-              dig this?
-
-            * make a json file export like dbDump etc
-
-            * take that file, put it in the config directory or whatever
-              flesh out the placeholder in syncWorker (end around not having a backend)
-
-            * then let's thing about a backend LevelDB + Express might get the job done
-              at the same time it's less of a rabbit hole to just setup a remedy form
-              and get the whole thing done start to finish. THEN come back and have the
-              custom backend adventure.
+            * make a syncWorker that knows how to transmit things to it
     */
 }
 
@@ -497,6 +469,142 @@ getBurgerMenu(){
 
     return(_burgerMenu);
 }
+
+
+
+
+/*
+    writeRecipe(rowID, {data})
+    this is a pretty dumb indexedDB row writer for demo purposes
+
+        * rowID
+          either an entryID value or a GUID this is how we identify the row in the recipes table
+
+        * data, an object of the form { <fieldName>: <fieldValue> ... }
+
+    in all cases, we check for an existing row with rowID, if we find one, we will
+    merge {data} with the existing row, before using put() to replace the existing
+    row with the updated data. In the case where we can't find it, we merge an empty
+    object, but in all cases we are blowing it into the indededDB
+
+    there'll probably end up being something like a _rowMeta field with an object on it
+    to keep track of row syncStatus and all of that
+*/
+writeRecipe(rowID, data){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        // bounce if we don't have rowID
+        if (that.isNull(rowID)){
+            boot(new noiceException({
+                message:        `${that._className} | writeRecipe() | rowID is null`,
+                messageNumber:  100,
+                thrownBy:       'main thread | writeRecipe'
+            }));
+
+        // bounce if we don't have data
+        }else if (! (data instanceof Object)){
+            boot(new noiceException({
+                message:        `${that._className} | writeRecipe(${rowID}) | data is not an Object`,
+                messageNumber:  101,
+                thrownBy:       'main thread | writeRecipe'
+            }));
+
+        // bounce if we don't have the indexedDB yet
+        }else if (! (that.indexedDB instanceof noiceIndexedDB)){
+            boot(new noiceException({
+                message:        `${that._className} | writeRecipe(${rowID}) | indexedDB is not mounted`,
+                messageNumber:  102,
+                thrownBy:       'main thread | writeRecipe'
+            }));
+
+        // do that thang ...
+        }else{
+
+            // look for the rowID
+            let getAbort = false;
+            that.indexedDB.get({
+                storeName:  'recipes',
+                key:        rowID
+            }).catch(function(error){
+                if (! (error.hasOwnProperty('messageNumber') && (error.messageNumber == 404))){
+                    getAbort = true;
+                    boot(new noiceException({
+                        message:        `${that._className} | writeRecipe(${rowID}) | indexedDB threw unexpectedly on get(): ${error}`,
+                        messageNumber:  103,
+                        thrownBy:       'main thread | writeRecipe'
+                    }));
+                }
+            }).then(function(existingRow){
+                if (! getAbort){
+
+                    // merge
+                    let mergeData = (existingRow instanceof Object)?existingRow:{};
+                    Object.keys(data).forEach(function(fieldName){ mergeData[fieldName] = data[fieldName]; });
+
+                    // just in case something dumb happened
+                    mergeData.rowID = rowID;
+
+                    // insert _rowMeta
+                    mergeData._rowMeta = {
+                        queued:     that.epochTimestamp(true),
+                        rowStatus:  'queued'
+                    }
+
+                    // blow it into the table
+                    let putAbort = false;
+                    that.indexedDB.put({
+                        storeName:  'recipes',
+                        object:     mergeData
+                    }).catch(function(error){
+                        putAbort = true;
+                        boot(new noiceException({
+                            message:        `${that._className} | writeRecipe(${rowID}) | indexedDB threw unexpectedly on put(): ${error}`,
+                            messageNumber:  104,
+                            thrownBy:       'main thread | writeRecipe',
+                            data:           mergeData
+                        }));
+                    }).then(function(){
+                        // return the merged data on the promise as success
+                        if (! putAbort){ toot(mergeData); }
+                    });
+                }
+            });
+        }
+    }));
+}
+
+
+
+
+/*
+    echoRecipes()
+    dumb toubleshooting tool, dump the contents of recipes table to the console
+*/
+echoRecipes(){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        let cursorAbort = false;
+        that.indexedDB.openCursor({
+            storeName:  'recipes',
+            callback:   function(cursor){
+                if (that.isNotNull(cursor)){
+                    console.log(cursor.value);
+                    cursor.continue();
+                }
+            }
+        }).catch(function(error){
+            cursorAbort = true;
+            that.log(`echoRecipes | openCursor threw: ${error}`);
+            boot(error);
+        }).then(function(){
+            if (! cursorAbort){
+                toot(true);
+            }
+        })
+    }))
+}
+
 
 
 

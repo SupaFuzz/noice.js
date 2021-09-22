@@ -42,7 +42,7 @@ renderCallback(){
 */
 get handleTemplate(){
     return(`
-        <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified" data-dirty="false">
+        <div class="rowHandle" data-templatename="_handleMain" data-rowid="${this.rowID}" data-status="unidentified" data-dirty="false">
             <div class="handle">
                 <h3 data-templatename="rowTitle" data-templateattribute="true">&nbsp;</h3>
                 <div class="handleDataRow">

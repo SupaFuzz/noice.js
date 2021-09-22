@@ -92,7 +92,7 @@ indexedDBDefinition: {
         recipes: {
             createOptions:  { keyPath: 'rowID' },
             indexes: {
-                entryId:    { keyPath: 'entryId', unique: true},
+                entryID:    { keyPath: 'entryID', unique: true},
                 author:     { keyPath: 'author' },
                 category:   { keyPath: 'category' },
                 title:      { keyPath: 'title' }
@@ -103,7 +103,7 @@ indexedDBDefinition: {
             journal
             if the user creates a new recipe, or modifies an existing
             one, the data is written here. For changes to existing
-            recipes, the 'rowId' is the 'entryId' value from the
+            recipes, the 'rowId' is the 'entryID' value from the
             recipes table. Create transactions generate a GUID
             for the rowId, and subsequent changes to a created
             row share the same rowId
@@ -157,7 +157,7 @@ indexedDBDefinition: {
         fields: {
             entryID:    {
                 id:                 1,
-                dbIndex:            'entryId',
+                dbIndex:            'entryID',
                 type:               'char',
                 maxLength:          15,
                 label:              'Entry ID',

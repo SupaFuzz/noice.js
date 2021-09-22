@@ -1483,12 +1483,12 @@ getUI(uiName){
 changeUIName(oldName, newName){
     if (
         this.isNotNull(oldName) &&
-        this.isNotnull(newName) &&
-        (this.isNotNull(this.getUIName(oldName))) &&
-        (this.isNull(this.getUIName(newName)))
+        this.isNotNull(newName) &&
+        (this.isNotNull(this.getUI(oldName))) &&
+        (this.isNull(this.getUI(newName)))
     ){
-        let tmp = this.getUIName(oldName);
-        this.UIList.delete(oldName);
+        let tmp = this.getUI(oldName);
+        delete this.UIList.oldName;
         this.UIList[newName] = tmp;
     }
 }

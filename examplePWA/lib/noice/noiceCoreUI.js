@@ -1480,6 +1480,19 @@ getUI(uiName){
     return(this.UIList[uiName] || null);
 }
 
+changeUIName(oldName, newName){
+    if (
+        this.isNotNull(oldName) &&
+        this.isNotnull(neName) &&
+        (this.isNotNull(this.getUIName(oldName))) &&
+        (this.isNull(this.getUIName(newName)))
+    ){
+        let tmp = this.getUIName(oldName);
+        this.UIList.delete(oldName);
+        this.UIList[newName] = tmp;
+    }
+}
+
 
 
 /*

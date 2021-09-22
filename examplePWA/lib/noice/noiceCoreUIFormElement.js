@@ -188,7 +188,7 @@ set showValidationErrors(v){
 
         }
         this.DOMElement.append(this.validationErrorSection);
-        
+
 
     }else if (this.showValidationErrors && (! setting)){
         /* turning it off */
@@ -384,6 +384,7 @@ resetOldValue(){
     if that promise never resolves or rejects, your value will never be set
 */
 set value(v){
+    let that = this;
     this.setValue(v).catch(function(error){
         throw(new noiceException({
             message:        `${that._className}/value setter (callback) threw an error: ${error}`,

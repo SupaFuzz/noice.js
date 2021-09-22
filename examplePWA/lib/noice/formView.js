@@ -444,7 +444,7 @@ gainFocus(focusArgs){
 */
 get handleTemplate(){
     return(`
-        <div class="rowHandle" data-templatename="_handleMain" data-guid="${this.getGUID()}" data-status="unidentified">
+        <div class="rowHandle" data-templatename="_handleMain" data-rowid="${this.rowID}" data-status="unidentified">
             <div class="handle">
                 <h3 style="margin: .5em;">${this._className}</h3>
             </div>
@@ -462,7 +462,10 @@ get handleTemplate(){
     record in the application (for instance when writing to indexedDB, etc)
 */
 get rowID(){ return(this._rowID); }
-set rowID(v){ this._rowID = v; }
+set rowID(v){
+    this._rowID = v;
+    if (this.DOMElement instanceof Element){ this.DOMElement.dataset.rowid = this.rowID; }
+}
 
 
 
@@ -1162,8 +1165,11 @@ getHandle(){
                     });
                 }
             });
-        }
-    })
+        },
+        rowID: that.rowID
+    });
+
+
     that.handles.push(handle);
     that.updateHandles();
     return(handle);
@@ -1176,6 +1182,7 @@ updateHandles(){
         handle._DOMElements._handleMain.dataset.cloneable = that.cloneable?'true':'false';
         handle._DOMElements._handleMain.dataset.dirty = that.changeFlag?'true':'false';
         handle._DOMElements._handleMain.dataset.status = that.rowStatus;
+        handle._DOMElements._handleMain.dataset.rowid = that.rowID;
         ['rowStatus', 'rowTitle'].forEach(function(attributeName){
             if (handle._DOMElements.hasOwnProperty(attributeName)){ handle[attributeName] = that[attributeName]; }
         });

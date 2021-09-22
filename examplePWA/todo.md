@@ -34,3 +34,8 @@
 
 # noiceCoreUIFormElement / value getter
     * breaks valueStreamCallback, so we need to fix coreUIScannerInput
+
+# indexedDB
+    * change 'self' variable to something better
+    * add timeouts
+    * clean it up

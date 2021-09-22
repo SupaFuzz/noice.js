@@ -55,6 +55,7 @@ constructor(args, defaults, callback){
             _handles:               [],
             _handle:                null,
             __rowStatus:            'new',
+            _rowID:                 null,
             _cloneable:             false,
             _cloneableOnSave:       true,
             _cloneView:             null,
@@ -70,6 +71,9 @@ constructor(args, defaults, callback){
         }, defaults),
         callback
     );
+
+    // if we didn't get a rowID on instantiation, set a default one
+    if (this.isNull(this.rowID)){ this.rowID = this.getGUID(); }
 
     // we need to defer the render until after the config is set, that's why ;-)
     super.render();
@@ -447,6 +451,18 @@ get handleTemplate(){
         </div>
     `);
 }
+
+
+
+
+/*
+    rowID getter / setter
+    you might want to override this to for instance, use entryID or some other
+    formElement value as the rowID. This is the unique identifier of a given
+    record in the application (for instance when writing to indexedDB, etc)
+*/
+get rowID(){ return(this._rowID); }
+set rowID(v){ this._rowID = v; }
 
 
 

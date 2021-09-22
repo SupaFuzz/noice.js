@@ -100,4 +100,32 @@ fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
 }
 
 
+
+
+/*
+    saveCallback(formViewReference)
+    call the app's writeRecipe()
+*/
+saveCallback(formViewReference){
+    let that = this;
+
+    return(new Promise(function(toot, boot){
+        let writeFields = {};
+        that.changedFields.forEach(function(field){
+            writeFields[field.fieldName] = field.newValue;
+        });
+        let writeAbort = false;
+        that._app.writeRecipe(that.rowID, writeFields).catch(function(error){
+            writeAbort = true;
+            boot(error);
+        }).then(function(dbRow){
+            if (! writeAbort){
+                that.rowStatus = dbRow._rowMeta.rowStatus;
+                toot(dbRow);
+            }
+        });
+    }));
+}
+
+
 } // end of class

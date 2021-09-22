@@ -32,7 +32,16 @@ constructor(args, defaults, callback){
 */
 renderCallback(){
     super.renderCallback();
+
+    // setup the rowTitle
     this._originalRowTitle = this.rowTitle;
+
+    // if we're being born with a non-null entryID, use that for the rowID
+    if (this._formElements.entryID instanceof noiceCoreUIFormElement){
+        if (this.isNotNull(this._formElements.entryID.value)){
+            this.rowID = this.formElements.entryID.value;
+        }
+    }
 }
 
 
@@ -77,10 +86,18 @@ fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
             that.rowTitle = (that.isNotNull(newValue))?newValue:that._originalRowTitle;
         }
 
+        /*
+            link entryID value to rowID
+        */
+        if ((fieldName == 'entryID') && (that.isNotNull(newValue))){
+            that.rowID = newValue;
+        }
+
         // insert thine shenanigans here
 
         toot(newValue);
     }));
 }
+
 
 } // end of class

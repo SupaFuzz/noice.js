@@ -90,7 +90,7 @@ indexedDBDefinition: {
             order to the record on view.
         */
         recipes: {
-            createOptions:  { keyPath: 'entryId' },
+            createOptions:  { keyPath: 'rowID' },
             indexes: {
                 entryId:    { keyPath: 'entryId', unique: true},
                 author:     { keyPath: 'author' },

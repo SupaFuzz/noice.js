@@ -57,11 +57,11 @@ addRow(){
     let viewHandle = view.handle.append(that._DOMElements.handlelist);
     viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }
 
-    // add the formView to our uiHolder with the rowHandle's GUID
-    this.uiHolder.addUI(view, viewHandle._DOMElements._handleMain.dataset.guid);
+    // add the formView to our uiHolder with the view's rowID
+    this.uiHolder.addUI(view, view.rowID);
 
     // then select the new rowHandle
-    that.handleRowSelect(viewHandle._DOMElements._handleMain)
+    that.handleRowSelect(viewHandle);
 
     // increment our untitled document count
     that.handleNumber++;

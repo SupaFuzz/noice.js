@@ -265,6 +265,16 @@ startup(){
     /*
         LOH 9/22/21 @ 1543...
 
+            * [done] < back button css is horkarooni'd
+
+            * add an updatePosition() callback thing on balloonDialog
+              make it so you can define a function that sets the dialog's
+              x/y.
+                * call that function on append()
+                  like an appendCallback() or something
+
+                * add an 'orientationchange' listner to it, and call updatePosition() from it
+
             * the class default handleClone() on recordEditorUI
 
             * a pipe to writeRecipe and handleClone() on recipeEditor

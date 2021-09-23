@@ -248,7 +248,9 @@
 .recordEditorUILayout .leftCol .handleList, .recordEditorUILayout .rightCol {
 	font-size: 3vw;
 }
-
+.recordEditorUILayout .leftCol .header .navigationMenu .btnBack {
+	align-self: center;
+}
 
 
 /*
@@ -624,16 +626,12 @@ button.textButton {
 	background-color: transparent;
 }
 button.btnBack {
-	background:				url('./gfx/back-arrow.svg');
-	background-repeat:		no-repeat;
-	background-position:	left;
-	background-size: 		contain;
-	opacity: 				.8;
-	padding-left:			1.5em;
-	font-weight:			normal;
-	font-size: 				.5em;
-	color:					rgba(191, 191, 24, .75);
-	text-align: 			left;
+  height: min-content;
+	padding-left: 1em;
+	background: url('./gfx/back-arrow.svg');
+	background-repeat: no-repeat;
+  background-position:	left;
+	background-size: 		15%;
 }
 button.btnSave:disabled {
 	background-color: 			rgba(242, 177, 52, .15);

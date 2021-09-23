@@ -93,7 +93,7 @@ get html(){ return(`
                     data-templatename="navigationMenu"
                     style="
                         display: grid;
-                        grid-template-columns: 1fr 3fr;
+                        grid-template-columns: 1.5em 8fr;
                     "
                 >
                     <button data-templatename="btnBack" class="btnBack textButton">back</button>

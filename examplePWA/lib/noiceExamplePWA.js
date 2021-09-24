@@ -263,7 +263,7 @@ startup(){
 
 
     /*
-        LOH 9/22/21 @ 1543...
+        LOH 9/24/21 @ 1854 ...
 
             * [done] < back button css is horkarooni'd
 
@@ -275,9 +275,9 @@ startup(){
 
                 * add an 'orientationchange' listner to it, and call updatePosition() from it
 
-            * the class default handleClone() on recordEditorUI
+            * [done] the class default handleClone() on recordEditorUI
 
-            * a pipe to writeRecipe and handleClone() on recipeEditor
+            * [done] a pipe to writeRecipe and handleClone() on recipeEditor
 
             * [done] a dialog to contain the search dialog on recordEditorUI
 

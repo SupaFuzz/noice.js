@@ -30,7 +30,7 @@ constructor(args, defaults, callback){
 /*
     addRow() override
 */
-addRow(otherView){
+async addRow(otherView){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
 
@@ -61,7 +61,7 @@ addRow(otherView){
     if (that.isNotNull(otherView) && (otherView instanceof formView)){
         view = otherView;
     }else{
-        view = that.makeNewFormView();
+        view = await that.makeNewFormView();
     }
 
     // setup the rowHandle and add it to the handleList
@@ -77,6 +77,7 @@ addRow(otherView){
     // increment our untitled document count
     that.handleNumber++;
 
+    return(true);
 }
 
 
@@ -90,32 +91,36 @@ addRow(otherView){
 */
 makeNewFormView(externalFormView){
     let that = this;
-    let newView = new recipeFormView({
-        formMode:           'create',
-        config:             that._app.config.Forms.recipe,
-        _app:               that._app,
-        rowTitle:           `Untitled #${this.handleNumber}`,
-        cancelButtonText:   '',
+    return(new Promise(function(toot, boot){
+        let newView = new recipeFormView({
+            formMode:           'create',
+            config:             that._app.config.Forms.recipe,
+            _app:               that._app,
+            rowTitle:           `Untitled #${that.handleNumber}`,
+            cancelButtonText:   '',
 
-        // custom stuff
-        handleNumber:       that.handleNumber,
+            // custom stuff
+            handleNumber:       that.handleNumber,
 
-        // callbacks
-        saveCallback:       function(formViewReference){ return(that.handleFormViewSave(formViewReference)); },
-        cloneCallback:      function(cloneViewReference){ return(that.handleFormViewClone(cloneViewReference)); },
-        cloneableCallback:  function(formViewReference, flag){ return(that.toggleCloneIcon(formViewReference, flag)); },
-        areYouSureCallback: function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); },
+            // callbacks
+            saveCallback:       function(formViewReference){ return(that.handleFormViewSave(formViewReference)); },
+            cloneCallback:      function(cloneViewReference){ return(that.handleFormViewClone(cloneViewReference)); },
+            cloneableCallback:  function(formViewReference, flag){ return(that.toggleCloneIcon(formViewReference, flag)); },
+            areYouSureCallback: function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); },
 
-        // debug stuff
-        //cloneable:          true,
-        //_cloneableOnSave:   false,
-        debug:              true,
-    });
-    if (that.isNotNull(externalFormView) && (externalFormView instanceof formView)){
-        newView.rowTitle = externalFormView.rowTitle;
-        newView.data = externalFormView.data;
-    }
-    return(newView);
+            debug:              true,
+        });
+        if (that.isNotNull(externalFormView) && (externalFormView instanceof formView)){
+            newView.rowTitle = externalFormView.rowTitle;
+            newView.setData(externalFormView.data).then(function(){
+                newView.data = externalFormView.data;
+                toot(newView);
+            });
+        }else{
+            toot(newView)
+        }
+    }));
+
 }
 
 
@@ -174,22 +179,25 @@ handleFormViewSave(formViewReference){
 handleFormViewClone(cloneViewReference){
     let that = this;
     return(new Promise(function(toot, boot){
-        that._app.log(`${that._className} | handleFormViewClone | called`);
-
-        let newView = that.makeNewFormView(cloneViewReference);
-        that.addRow(newView);
-
-        /*
-            LOH 9/24/21 @ 1334
-            gotta scoot, CAT scan. Probably kidney stones but God only knows.
-            anyhow clone stuff is hooked up. Next step is to add a flag or something
-            for auto-save, then we can call the clone thing nailed up.
-
-            and then it's on to fun indexedDB and query builders.
-            actual fun stuff!
-        */
-
-        toot(true);
+        if (that.debug){ that._app.log(`${that._className} | handleFormViewClone | called`); }
+        let abrt = false;
+        that.makeNewFormView(cloneViewReference).catch(function(error){
+            abrt = true;
+            that._app.log(`${that._className} | handleFormViewClone | failed to instantiate new formView from cloneView: ${error}`);
+            boot(error);
+        }).then(function(newView){
+            if (! abrt){
+                that.addRow(newView);
+                let saveAbrt = false
+                newView.save().catch(function(error){
+                    saveAbrt = true;
+                    that._app.log(`${that._className} | handleFormViewClone | clone created but save() failed: ${error}`);
+                    boot(error);
+                }).then(function(){
+                    if (! saveAbrt){ toot(true); }
+                })
+            }
+        });
     }));
 }
 

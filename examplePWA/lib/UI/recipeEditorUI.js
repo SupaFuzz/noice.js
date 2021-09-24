@@ -40,18 +40,21 @@ addRow(){
         _app:               that._app,
         rowTitle:           `Untitled #${this.handleNumber}`,
         cancelButtonText:   '',
+
+        // custom stuff
+        handleNumber:       that.handleNumber,
+
+        // callbacks
+        saveCallback:       function(formViewReference){ return(that.handleFormViewSave(formViewReference)); },
+        cloneCallback:      function(cloneViewReference){ return(that.handleFormViewClone(cloneViewReference)); },
+        cloneableCallback:  function(formViewReference, flag){ return(that.toggleCloneIcon(formViewReference, flag)); },
+        areYouSureCallback: function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); },
+
+        // debug stuff
+        cloneable:          true,
+        _cloneableOnSave:   false,
         debug:              true,
-        handleNumber:       that.handleNumber
     });
-
-    // wire the formView's areYouSureCallback() to the recordEditorUI's saveChangesDialog()
-    view.areYouSureCallback = function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); }
-
-    // wire the formView's cloneableCallback to toggle btnClone
-    view.cloneableCallback = async function(formViewReference, flag){
-        if (formViewReference.onScreen){ that._DOMElements.btnClone.disabled = (flag == false); }
-        return(true);
-    }
 
     // setup the rowHandle and add it to the handleList
     let viewHandle = view.handle.append(that._DOMElements.handlelist);
@@ -71,4 +74,71 @@ addRow(){
 
 
 
+/*
+    toggleCloneIcon(formViewReference, flag)
+    this is the cloneableCallback for our formViews
+*/
+async toggleCloneIcon(formViewReference, flag){
+    if (formViewReference.onScreen){ this._DOMElements.btnClone.disabled = (flag == false); }
+    return(true);
 }
+
+
+
+/*
+    handleFormViewSave(formViewReference)
+    this is the formView's saveCallback, and we pipe it to the app's writeRecipe() function
+*/
+handleFormViewSave(formViewReference){
+    let that = this;
+
+    return(new Promise(function(toot, boot){
+        let writeFields = {};
+        formViewReference.changedFields.forEach(function(field){
+            writeFields[field.fieldName] = field.newValue;
+        });
+        let writeAbort = false;
+        that._app.writeRecipe(formViewReference.rowID, writeFields).catch(function(error){
+            writeAbort = true;
+            boot(error);
+        }).then(function(dbRow){
+            if (! writeAbort){
+                formViewReference.rowStatus = dbRow._rowMeta.rowStatus;
+                toot(dbRow);
+            }
+        });
+    }));
+}
+
+
+
+
+/*
+    handleFormViewClone(cloneViewReference)
+    this is the formView's cloneCallback, the cloneFormViewReference is a
+    reference to the selected formView's cloneView.
+
+    We'll need to make a new formView from cloneFormViewReference's .data,
+    get the handle, and add it to the uiHolder etc.
+    so really what we need is a function for adding a formView to the UI, etc.
+    which is technically what addRow() should be except that it should take
+    a formView as an argument and if there isn't one already, *then* spawn one
+*/
+handleFormViewClone(cloneViewReference){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        that._app.log(`${this._className} | handleFormViewClone | called`);
+
+        /*
+            LOH 9/24/21 @ 1016
+            after get-ready and face lasers ...
+        */
+
+        toot(true);
+    }));
+}
+
+
+
+
+} // end class

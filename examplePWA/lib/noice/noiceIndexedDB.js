@@ -538,6 +538,67 @@ getKey (args){
 }
 
 
+
+
+/*
+    getAllKeys({
+        storeName:  <storeName>,
+        indexName:  <optional>,
+        query:      <query>
+        count:      <maxResults>
+    });
+    https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/getAllKeys
+
+    thghis returns all of the keys for the keyPath on the table matching the
+    query, count and index options. 
+
+*/
+getAllKeys (args){
+    let self = this;
+
+    return(new Promise(function(toot, boot){
+
+        // input validation goes here
+        if (! (args instanceof Object)){ boot(`args is not an Object`); }
+        if (! (args.hasOwnProperty('storeName') && (self.isNotNull(args.storeName)))){ boot(`a value for storeName is required`); }
+
+        // setup the transaction
+        let trans = self.db.transaction(args.storeName, "readonly");
+        trans.onerror = function(e){ boot(e); }
+        trans.onabort = function(e){ boot(e); }
+
+        // setup the request
+        let req;
+        if (args.hasOwnProperty('indexName')){
+            if (! (trans.objectStore(args.storeName).indexNames.contains(args.indexName))){
+                boot('indexName does not exist on specified storeName');
+            }
+            if (args.hasOwnProperty('count')){
+                req = trans.objectStore(args.storeName).index(args.indexName).getAllKeys(args.query, args.count);
+            }else{
+                req = trans.objectStore(args.storeName).index(args.indexName).getAllKeys(args.query);
+            }
+        }else{
+            if (args.hasOwnProperty('query')){
+                if (args.hasOwnProperty('count')){
+                    req = trans.objectStore(args.storeName).getAllKeys(args.query, args.count);
+                }else{
+                    req = trans.objectStore(args.storeName).getAllKeys(args.query);
+                }
+            }else{
+                req = trans.objectStore(args.storeName).getAllKeys();
+            }
+        }
+        req.onerror = function(e){ boot(e); }
+        req.onabort = function(e){ boot(e); }
+        req.onsuccess = function(e){ toot(e.target.result); }
+
+    }));
+}
+
+
+
+
 /*
     getAll({
         storeName:  <storeName>,

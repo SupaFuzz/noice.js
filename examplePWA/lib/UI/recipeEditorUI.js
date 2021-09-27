@@ -22,6 +22,11 @@ constructor(args, defaults, callback){
         callback
     );
 
+    // setup a custom search menu
+    let that = this;
+    that.openSearchMenuCallback = function(selfRef){ return(that.handleOpenSearchMenu(selfRef)); }
+    that.searchMenu = that.getSearchMenu();
+
 } // end constructor
 
 
@@ -201,6 +206,119 @@ handleFormViewClone(cloneViewReference){
     }));
 }
 
+
+
+
+/*
+    getSearchMenu()
+    just a really dumb search menu. in practice this would of course
+    be much more elaborate
+*/
+getSearchMenu(){
+    let that = this;
+
+    let container = document.createElement('div');
+    container.className = 'searchMenu';
+
+    // btnContiner
+    let btnContainer = document.createElement('div');
+    btnContainer.className = 'btnContainer';
+
+    // footer msg
+    let ftrMsg = document.createElement('span');
+    ftrMsg.className = 'ftrMsg';
+    ftrMsg.innerHTML = '&nbsp;';
+    btnContainer.appendChild(ftrMsg);
+
+    // search button
+    let btnSearch = document.createElement('button');
+    btnSearch.textContent = 'search';
+    btnSearch.className = 'btnSearch';
+    btnContainer.appendChild(btnSearch);
+
+    // "recipe google", LOL
+    that.roogleInput = new noiceCoreUIFormElementInput({
+        label:                  'search',
+        labelLocation:          'none',
+        maxLength:              0,
+        trimWhitespace:         true,
+        valueChangeCallback:    async function(newVal, oldVal, formElement){
+
+            // keeping in mind this is just a dumb demo ... :-)
+            btnSearch.disabled = that.isNull(newVal);
+            return(newVal);
+        }
+    }).append(container);
+    container.appendChild(btnContainer);
+
+    btnSearch.addEventListener('click', function(evt){
+
+        // let um know ya here!
+        if (that.debug){ that._app.log(`${that._className} | btnSearch with searchtext: ${that.roogleInput.value}`); }
+
+        // do that thang!
+        let searchAbort = false;
+        that._app.searchRecipesByTitle({
+            title:  that.roogleInput.value,
+
+            // insert search options here later
+
+        }).catch(function(error){
+            searchAbort = true;
+            that._app.log(`${that._className} | btnSearch | searchRecipesByTitle() threw unexpectedly: ${error}`);
+        }).then(function(dbRows){
+            if ((! searchAbort) && (dbRows.length > 0)){
+
+                /*
+                    LOH 9/27/21 @ 1753 -- time for voice therapy!
+
+                    modify makeNewFormView() above to take the second
+                    argument as an Object, not a fully constructed view or perhaps an else if
+                    or what have you. use makeNewFormView() to make the new views, then
+                    make a prompt to let the user replace or append existing records in view on
+                    the leftCol.
+                    
+                */
+                console.log('got my search results yo!');
+                console.log(dbRows);
+
+            }
+        });
+    });
+
+    return(container);
+}
+
+
+
+
+/*
+    handleOpenSearchMenu(selfRef)
+    fires when the user clicks the search button and can abort menu
+    open by throwing. Using it here to just get all the recipe names
+    and put them in the data list for the search field
+
+    yeah ... I did say this was a dumb demo up there :-)
+*/
+handleOpenSearchMenu(selfRef){
+    let that = this;
+    return(new Promise(function(toot, boot){
+
+        // insert shenanigans here
+        let abrt = false;
+        that._app.getRecipeTitlelist().catch(function(error){
+            abrt = true;
+            that._app.log(`${that._className} | handleOpenSearchMenu | main/getRecipeTitlelist threw unexepectedly: ${error}`);
+            boot(error);
+        }).then(function(result){
+            if (that.roogleInput instanceof noiceCoreUIFormElementInput){
+                that.roogleInput.values = result;
+            }
+        });
+
+        toot(true);
+    }))
+}
 
 
 

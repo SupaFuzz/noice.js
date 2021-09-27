@@ -624,4 +624,80 @@ echoRecipes(){
 
 
 
+/*
+    getRecipeTitlelist()
+    return a unique lit of all title values in the recipes table
+    there are probably much better ways of doing this. We're writing
+    a demo here, m'kay?
+*/
+getRecipeTitlelist(){
+    let that = this;
+    let recipeList = {};
+    let abrt = false;
+    return(new Promise(function(toot, boot){
+        that.indexedDB.openCursor({
+            storeName:  'recipes',
+            indexName:  'title',
+            callback:   function(cursor){
+                if (that.isNotNull(cursor)){
+                    recipeList[cursor.value.title] = 1;
+                    cursor.continue();
+                }
+            }
+        }).catch(function(error){
+            abrt = true;
+            that.log(`${that.className} | getRecipeTitlelist | openCursor threw unexpectedly: ${error}`);
+            boot(error);
+        }).then(function(){
+            if (! abrt){
+                toot(Object.keys(recipeList).sort());
+            }
+        });
+    }));
+}
+
+
+
+
+/*
+    searchRecipesByTitle({
+        title:  that.roogleInput.value,
+
+        // insert search options here later
+
+    })
+
+    this searches the recipes table by 'title' attribute
+    bydefault anyhow. Would be cool to hack in a case-insensitive
+    full-text-search if the search by title index doesn't find stuff
+    etc. But again ... this is a demo, no need to go apeshit, LOL
+
+    but seriously though.
+    this, when I get back around to it:
+
+    https://hacks.mozilla.org/2014/06/breaking-the-borders-of-indexeddb/
+
+    so many cool db shenanigans ... so many ...
+*/
+searchRecipesByTitle(args){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        let queryFail = false;
+        that.indexedDB.getAll({
+            storeName:  'recipes',
+            indexName:  'title',
+            query:      args.title
+        }).catch(function(error){
+            queryFail = true;
+            that.log(`${that._className} | searchRecipesByTitle | indexedDB.getAll() threw unexpectedly: ${error}`);
+            boot(error);
+        }).then(function(results){
+            if (! queryFail){ toot(results); }
+        });
+    }));
+}
+
+
+
+
 } // end noiceExamplePWA class

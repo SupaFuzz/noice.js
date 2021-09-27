@@ -27,6 +27,9 @@
     basically subclass this and override addRow() & cloneRow(), and send in content
     for burgerMenu and you're good to go
 
+    * openSearchMenuCallback(selfReference)
+      async callback can cancel menu by throwing. for setting up stuff like datalists, etc
+
 */
 class recordEditorUI extends noiceCoreUIScreen {
 
@@ -220,13 +223,23 @@ setupCallback(){
             let tbox = that._DOMElements.btnSearch.getBoundingClientRect();
             let dbox = selfReference._DOMElements.dialog.getBoundingClientRect();
             selfReference.y = (tbox.bottom + 12);
-            selfReference.x = (tbox.x - 11);    
+            selfReference.x = (tbox.x - 11);
         }
     });
 
     // hook for btnSearch
     that._DOMElements.btnSearch.addEventListener('click', function(evt){
-        that.searchMenuDialog.append(that.DOMElement);
+        if (that.openSearchMenuCallback instanceof Function){
+            let abrt = false;
+            that.openSearchMenuCallback(that).catch(function(error){
+                abrt = true;
+                that._app.log(`${that._className} | openSearchMenuCallback() prevented menu open: ${error}`);
+            }).then(function(){
+                if (! abrt){ that.searchMenuDialog.append(that.DOMElement); }
+            });
+        }else{
+            that.searchMenuDialog.append(that.DOMElement);
+        }
     });
 }
 

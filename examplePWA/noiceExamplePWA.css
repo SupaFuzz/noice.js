@@ -253,6 +253,8 @@
 }
 
 
+
+
 /*
 	rowHandles
 */
@@ -493,23 +495,23 @@
 	color:						rgba(240, 240, 240, .66);
 	margin:						.25em .25em .25em 0;
 }
-.formView .ncufeRequiredField .ncufeLabel {
+.formView .ncufeRequiredField .ncufeLabel, .searchMenu .ncufeRequiredField .ncufeLabel  {
 	font-weight: bolder;
 	color: rgb(242, 177, 52);
 }
 .formView .formFields input {
 	width: 85%;
 }
-.formView .ncuFormElementField:disabled {
+.formView .ncuFormElementField:disabled,  .searchMenu .ncuFormElementField:disabled {
 	background:					radial-gradient(ellipse at top left, rgba(0,0,0,0), rgba(0,0,0,1));
 	color: rgba(217, 217, 217, .4);
 	border:						2px solid rgba(98, 109, 112, .4);
 	opacity:					1;
 }
-.formView .ncuFormElementField:focus {
+.formView .ncuFormElementField:focus, .searchMenu .ncuFormElementField:focus {
 	background: none;
 }
-.formView .ncuFormElementField {
+.formView .ncuFormElementField, .searchMenu .ncuFormElementField {
   font-size:         .66em;
 	margin-bottom: .25em;
 	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .8) inset;
@@ -825,7 +827,32 @@ button.btnBurger {
 }
 
 
+/*
+  searchMenu
+*/
+.searchMenu .btnContainer {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	align-items:  center;
+}
+.searchMenu .btnContainer .ftrMsg {
+	color: rgba(238, 238, 30, .75);
+	font-size: .5em;
+	font-style: italic;
+	text-align: left;
+	padding-left: .66em;
+}
+.searchMenu button.btnSearch:disabled {
+	opacity: .5;
+}
+.searchMenu button.btnSearch {
+	color: rgba(238, 238, 30, .75);
+	margin: 0;
+	padding: 0 1.5em 0 0;
+	background-position: right;
 
+
+}
 
 /*
     global defaults

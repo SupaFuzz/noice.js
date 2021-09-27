@@ -549,8 +549,8 @@ getKey (args){
     });
     https://developer.mozilla.org/en-US/docs/Web/API/IDBObjectStore/getAllKeys
 
-    thghis returns all of the keys for the keyPath on the table matching the
-    query, count and index options. 
+    this returns all of the keys for the keyPath on the table matching the
+    query, count and index options.
 
 */
 getAllKeys (args){

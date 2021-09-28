@@ -39,29 +39,6 @@ async addRow(otherView){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
 
-    /*
-    let view = new recipeFormView({
-        formMode:           'create',
-        config:             that._app.config.Forms.recipe,
-        _app:               that._app,
-        rowTitle:           `Untitled #${this.handleNumber}`,
-        cancelButtonText:   '',
-
-        // custom stuff
-        handleNumber:       that.handleNumber,
-
-        // callbacks
-        saveCallback:       function(formViewReference){ return(that.handleFormViewSave(formViewReference)); },
-        cloneCallback:      function(cloneViewReference){ return(that.handleFormViewClone(cloneViewReference)); },
-        cloneableCallback:  function(formViewReference, flag){ return(that.toggleCloneIcon(formViewReference, flag)); },
-        areYouSureCallback: function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); },
-
-        // debug stuff
-        cloneable:          true,
-        _cloneableOnSave:   false,
-        debug:              true,
-    });
-    */
     let view;
     if (that.isNotNull(otherView) && (otherView instanceof formView)){
         view = otherView;
@@ -118,7 +95,12 @@ makeNewFormView(externalFormView){
         if (that.isNotNull(externalFormView) && (externalFormView instanceof formView)){
             newView.rowTitle = externalFormView.rowTitle;
             newView.setData(externalFormView.data).then(function(){
-                newView.data = externalFormView.data;
+                //newView.data = externalFormView.data;
+                toot(newView);
+            });
+        }else if (that.isNotNull(externalFormView) && (externalFormView instanceof Object)){
+            newView.setData(externalFormView).then(function(){
+                //newView.data = externalFormView;    // 'sok, it's just an object yo
                 toot(newView);
             });
         }else{
@@ -269,19 +251,60 @@ getSearchMenu(){
         }).then(function(dbRows){
             if ((! searchAbort) && (dbRows.length > 0)){
 
+                // spawn new recipeFormViews with the local bindings for each of the returned rows
+                let newViews = [];
+                let pk = [];
+                dbRows.forEach(function(row){ pk.push(new Promise(function(t,b){
+                    let abrt = false;
+                    that.makeNewFormView(row).catch(function(error){
+                        abrt = true;
+                        b(error);
+                    }).then(function(nv){
+                        if (! abrt){
+                            newViews.push(nv);
+                            t(nv);
+                        }
+                    });
+
+                }))});
+
+                // when all the view making is complete
+                let makeAbrt = false;
+                Promise.all(pk).catch(function(error){
+                    makeAbrt = true;
+                    that._app.log(`${that._className} | btnSearch | makeNewFormView() threw unexpectedly: ${error}`);
+                }).then(function(){
+                    if (! makeAbrt){
+
+                        /*
+                            LOH 9/27/21 @ 2017 -- time for taco bell!
+                            k ... everything works up to here.
+                            we need a dialog to handle append or replace search results
+                            and of course, we'll need to await losing focus on everything
+                            in case anyone's changeFlag is set
+                        */
+                        let showAbort = false;
+                        that.showSearchResults(newViews).catch(function(error){
+                            showAbort = true;
+                            that._app.log(`${that._className} | btnSearch | showSearchResults() threw unexpectedly: ${error}`);
+
+                        }).then(function(){
+                            if (! showAbort){
+                                // search results displayed, close dialog
+                                that.searchMenuDialog.remove();
+                            }
+                        });
+                    }
+                });
+
+
+
+            }else{
                 /*
-                    LOH 9/27/21 @ 1753 -- time for voice therapy!
-
-                    modify makeNewFormView() above to take the second
-                    argument as an Object, not a fully constructed view or perhaps an else if
-                    or what have you. use makeNewFormView() to make the new views, then
-                    make a prompt to let the user replace or append existing records in view on
-                    the leftCol.
-                    
+                    set a "no results" message and reset btnSearch
+                    so the user has to change search criteria and when
+                    they do, remove th e message
                 */
-                console.log('got my search results yo!');
-                console.log(dbRows);
-
             }
         });
     });
@@ -319,6 +342,113 @@ handleOpenSearchMenu(selfRef){
         toot(true);
     }))
 }
+
+
+
+
+/*
+    showSearchResults(formViews)
+
+    LOH 9/27/21 @ 2242
+    ok this is a whole mess somehow. not even sure. got a split pane somehow?
+    two formViews selected at once?
+
+    for in the morning ...
+*/
+showSearchResults(formViews){
+    let that = this;
+    return( new Promise(function(bigToot, bigBoot){
+
+        /*
+            show dialog if there are existing search results
+        */
+        let dialogAbort = false;
+        new Promise(function(toot, boot){
+            if (that.uiHolder.listUIs().length > 0){
+                try {
+                    new noiceCoreUIYNDialog({
+                        heading:        'Existing Search Results',
+                        message:        'Discard existing search results and show new? or merge new search reulsts with existing?',
+                        yesButtonTxt:   'merge',
+                        noButtonTxt:    'discard',
+                        hideCallback:   function(myself){ toot(myself.zTmpDialogResult); }
+                    }).show(that.DOMElement);
+                }catch(e){
+                    boot(e);
+                }
+            }else{
+                toot(true);
+            }
+        }).catch(function(error){
+            // this should never happen
+            dialogAbort = true;
+            that._app.log(`${that._className} | showSearchResults | noiceCoreUIYNDialog threw unexpectedly: ${error}`);
+        }).then(function(mergeFlag){
+            if (! dialogAbort){
+                if (mergeFlag){
+                    /*
+                        LOOSE END: 9/27/21 @ 2223
+                        we need to check GUID here, otherwise we can stack up duplicate formViews for the same
+                        db row (you can search the same thing over and over and make duplicate views)
+                        this necessitates setting the GUID externally on formView (can't remember if we do already)
+                        and it also necessitates storing the GUID in the db, which I think we are doing. rowID I think?
+
+                        for now, to get a working prototype, I'm just gonna allow the dupes ...
+                    */
+                    let pk = [];
+                    formViews.forEach(function(formView){ pk.push(that.addRow(formView)); });
+                    let abrt = false;
+                    Promise.all(pk).catch(function(error){
+                        abrt = true;
+                        that._app.log(`${that._className} | showSearchResults | addRow threw unexpectedly: ${error}`);
+                        bigBoot(error);
+                    }).then(function(){
+                        bigToot(true);
+                    });
+                }else{
+                    // deselect anything selected and await the exit
+                    let pk = [];
+                    that._DOMElements.handlelist.querySelectorAll(`.rowHandle[data-selected='true']:not(.rowHandle[data-rowid='${useRowHandle.dataset.rowid}'])`).forEach(function(handle){
+                        pk.push(that.handleRowSelect(handle));
+                    });
+                    let focusCancel = false;
+                    Promise.all(pk).catch(function(error){
+                        focusCancel = true;
+                        that._app.log(`${that._className} | showSearchResults(discard) | focus change canceled: ${error}`);
+                        bigBoot(error);
+                    }).then(function(){
+                        if (! focusCancel){
+                            // remove everything we got
+                            let pkk = [];
+                            Object.keys(that.uiHolder.UIList).forEach(function(formView){
+                                pkk.push(formView.close());
+                            });
+                            nabrt = false;
+                            Promise.all(pkk).catch(function(error){
+                                nabrt = true;
+                                that._app.log(`${that._className} | showSearchResults(discard) | remove views canceled: ${error}`);
+                            }).then(function(){
+                                if (! nabrt){
+                                    let pkkk = [];
+                                    formViews.forEach(function(formView){ pkkk.push(that.addRow(formView)); });
+                                    let abrt = false;
+                                    Promise.all(pkkk).catch(function(error){
+                                        abrt = true;
+                                        that._app.log(`${that._className} | showSearchResults(discard) | addRow threw unexpectedly: ${error}`);
+                                        bigBoot(error);
+                                    }).then(function(){
+                                        bigToot(true);
+                                    });
+                                }
+                            })
+                        }
+                    });
+                }
+            }
+        });
+    }));
+}
+
 
 
 

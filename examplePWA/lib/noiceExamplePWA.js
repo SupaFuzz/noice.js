@@ -263,7 +263,7 @@ startup(){
 
 
     /*
-        LOH 9/24/21 @ 1854 ...
+        LOH 9/30/21 @ 1504 ...
 
             * [done] < back button css is horkarooni'd
 
@@ -281,7 +281,7 @@ startup(){
 
             * [done] a dialog to contain the search dialog on recordEditorUI
 
-            * a search mechanism, baked into recordEditorUI would be great
+            * [done] a search mechanism, baked into recordEditorUI would be great
 
             * file export
 

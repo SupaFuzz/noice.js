@@ -34,30 +34,39 @@ constructor(args, defaults, callback){
 
 /*
     addRow() override
+
 */
-async addRow(otherView){
+async addRow(otherView, autoSelect){
     let that = this;
     this._app.log(`${this._className} | addRow()`);
+    let skipForDupe = false;
 
     let view;
     if (that.isNotNull(otherView) && (otherView instanceof formView)){
         view = otherView;
+
+        // do we already have this one? if so, we gonna exit
+        skipForDupe = that.uiHolder.UIList.hasOwnProperty(view.rowID);;
+
+
     }else{
         view = await that.makeNewFormView();
     }
 
-    // setup the rowHandle and add it to the handleList
-    let viewHandle = view.handle.append(that._DOMElements.handlelist);
-    viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }
+    if (! skipForDupe){
+        // setup the rowHandle and add it to the handleList
+        let viewHandle = view.handle.append(that._DOMElements.handlelist);
+        viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }
 
-    // add the formView to our uiHolder with the view's rowID
-    this.uiHolder.addUI(view, view.rowID);
+        // add the formView to our uiHolder with the view's rowID
+        this.uiHolder.addUI(view, view.rowID);
 
-    // then select the new rowHandle
-    that.handleRowSelect(viewHandle);
+        // then select the new rowHandle (this causes real problems in a loop somehow?)
+        if (! (autoSelect == false)){ await that.handleRowSelect(viewHandle); }
 
-    // increment our untitled document count
-    that.handleNumber++;
+        // increment our untitled document count
+        that.handleNumber++;
+    }
 
     return(true);
 }
@@ -95,12 +104,12 @@ makeNewFormView(externalFormView){
         if (that.isNotNull(externalFormView) && (externalFormView instanceof formView)){
             newView.rowTitle = externalFormView.rowTitle;
             newView.setData(externalFormView.data).then(function(){
-                //newView.data = externalFormView.data;
+                newView.changeFlag = false;
                 toot(newView);
             });
         }else if (that.isNotNull(externalFormView) && (externalFormView instanceof Object)){
             newView.setData(externalFormView).then(function(){
-                //newView.data = externalFormView;    // 'sok, it's just an object yo
+                newView.changeFlag = false;
                 toot(newView);
             });
         }else{
@@ -261,6 +270,10 @@ getSearchMenu(){
                         b(error);
                     }).then(function(nv){
                         if (! abrt){
+                            nv.rowID = row.rowID;
+                            if (row.hasOwnProperty('_rowMeta') && (row._rowMeta instanceof Object) && row._rowMeta.hasOwnProperty('rowStatus')){
+                                nv.rowStatus = row._rowMeta.rowStatus;
+                            }
                             newViews.push(nv);
                             t(nv);
                         }
@@ -275,14 +288,6 @@ getSearchMenu(){
                     that._app.log(`${that._className} | btnSearch | makeNewFormView() threw unexpectedly: ${error}`);
                 }).then(function(){
                     if (! makeAbrt){
-
-                        /*
-                            LOH 9/27/21 @ 2017 -- time for taco bell!
-                            k ... everything works up to here.
-                            we need a dialog to handle append or replace search results
-                            and of course, we'll need to await losing focus on everything
-                            in case anyone's changeFlag is set
-                        */
                         let showAbort = false;
                         that.showSearchResults(newViews).catch(function(error){
                             showAbort = true;
@@ -348,12 +353,6 @@ handleOpenSearchMenu(selfRef){
 
 /*
     showSearchResults(formViews)
-
-    LOH 9/27/21 @ 2242
-    ok this is a whole mess somehow. not even sure. got a split pane somehow?
-    two formViews selected at once?
-
-    for in the morning ...
 */
 showSearchResults(formViews){
     let that = this;
@@ -386,29 +385,33 @@ showSearchResults(formViews){
         }).then(function(mergeFlag){
             if (! dialogAbort){
                 if (mergeFlag){
-                    /*
-                        LOOSE END: 9/27/21 @ 2223
-                        we need to check GUID here, otherwise we can stack up duplicate formViews for the same
-                        db row (you can search the same thing over and over and make duplicate views)
-                        this necessitates setting the GUID externally on formView (can't remember if we do already)
-                        and it also necessitates storing the GUID in the db, which I think we are doing. rowID I think?
 
-                        for now, to get a working prototype, I'm just gonna allow the dupes ...
+                    /*
+                        NOTE: 9/30/21 -- Promise.all is not synchronous, LOL
+                        like it doesn't chain your promises and execute them one at time,
+                        it shotguns those suckas. Which is why the handleRowSelect call inside addRow()
+                        causes some problems ... it depends on the DOM being all setup
+
+                        what would be more appropriate would be a recursive function to execute 'em
+                        all in sequence. But I'm lazy and this is just a demo. So, we send a flag not to
+                        execute the handleRowSelect(), LOL
                     */
+
                     let pk = [];
-                    formViews.forEach(function(formView){ pk.push(that.addRow(formView)); });
+                    formViews.forEach(function(formView){ pk.push(that.addRow(formView, false)); });
                     let abrt = false;
                     Promise.all(pk).catch(function(error){
                         abrt = true;
                         that._app.log(`${that._className} | showSearchResults | addRow threw unexpectedly: ${error}`);
                         bigBoot(error);
                     }).then(function(){
+                        that.handleRowSelect(formViews[(formViews.length -1)].handle);
                         bigToot(true);
                     });
                 }else{
                     // deselect anything selected and await the exit
                     let pk = [];
-                    that._DOMElements.handlelist.querySelectorAll(`.rowHandle[data-selected='true']:not(.rowHandle[data-rowid='${useRowHandle.dataset.rowid}'])`).forEach(function(handle){
+                    that._DOMElements.handlelist.querySelectorAll(`.rowHandle[data-selected='true']`).forEach(function(handle){
                         pk.push(that.handleRowSelect(handle));
                     });
                     let focusCancel = false;
@@ -420,23 +423,24 @@ showSearchResults(formViews){
                         if (! focusCancel){
                             // remove everything we got
                             let pkk = [];
-                            Object.keys(that.uiHolder.UIList).forEach(function(formView){
-                                pkk.push(formView.close());
+                            Object.keys(that.uiHolder.UIList).forEach(function(formViewGUID){
+                                pkk.push(that.uiHolder.UIList[formViewGUID].close());
                             });
-                            nabrt = false;
+                            let nabrt = false;
                             Promise.all(pkk).catch(function(error){
                                 nabrt = true;
                                 that._app.log(`${that._className} | showSearchResults(discard) | remove views canceled: ${error}`);
                             }).then(function(){
                                 if (! nabrt){
                                     let pkkk = [];
-                                    formViews.forEach(function(formView){ pkkk.push(that.addRow(formView)); });
+                                    formViews.forEach(function(formView){ pkkk.push(that.addRow(formView, false)); });
                                     let abrt = false;
                                     Promise.all(pkkk).catch(function(error){
                                         abrt = true;
                                         that._app.log(`${that._className} | showSearchResults(discard) | addRow threw unexpectedly: ${error}`);
                                         bigBoot(error);
                                     }).then(function(){
+                                        that.handleRowSelect(formViews[(formViews.length -1)].handle);
                                         bigToot(true);
                                     });
                                 }

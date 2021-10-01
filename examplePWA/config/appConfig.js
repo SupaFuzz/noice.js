@@ -34,6 +34,7 @@ cache: {
         './gfx/reset_icon.svg',
         './gfx/export_icon.svg',
         './gfx/import_icon.svg',
+        './gfx/import_icon_dark.svg',
         './gfx/checkUpdates_icon_dark.svg',
         './gfx/warning_dark.svg',
         './gfx/back-arrow.svg',

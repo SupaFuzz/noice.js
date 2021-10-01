@@ -419,6 +419,8 @@ resetApp(evt){
 exportFile(evt){
     let that = this;
     that.log(`${that._className} | exportFile | called`);
+
+
 }
 
 
@@ -431,6 +433,64 @@ exportFile(evt){
 importFile(evt){
     let that = this;
     that.log(`${that._className} | importFile | called`);
+
+    new Promise(function(toot, boot){
+
+        let prompt = new noiceCoreUIYNDialog({
+            heading:    'Import Data File',
+            yesButtonTxt: 'Import',
+            noButtonTxt:  'Cancel',
+            hideCallback:   function(self){
+                toot(self.zTmpDialogResult);
+            }
+        }).show(that.DOMElement);
+
+        let msg = document.createElement('div');
+        msg.insertAdjacentHTML('afterbegin',`
+            <span class="msg">
+                Select a JSON file containing a databse
+                import and click 'Import', otherwise 'Cancel'
+            </span>
+            <input type="file" id="importFile" name="importFile" accept=".json" />
+        `);
+        prompt._DOMElements._dialogMessage.replaceChildren(msg);
+        prompt._DOMElements.btnYes.disabled = true;
+        prompt.DOMElement.dataset.import = "true";
+
+        /*
+            LOH 9/30/21 @ 2230
+            next step is a managing the import button state from file select
+            then parsing and doing the deed
+        */
+
+    }).then(function(zTmpDialogResult){
+        if (zTmpDialogResult == true){
+
+            // loose end
+            console.log('import the db dump');
+
+        }
+    })
+
+
+
+    /*
+        for refernce
+        var dlg = new noiceCoreUIDialog({
+
+        }).append(document.body);
+
+        dlg.show();
+
+        var bs = document.createElement('div');
+        bs.insertAdjacentHTML('afterbegin',`
+        	<h1>import DB dump</h1>
+          <input type="file" id="importFile" name="importFile" accept=".json" style="font-size: .66em; "/>
+          <button class="btnImport" disabled>Import file</button>
+          <button class="btnCancel">Cancel</button>
+        `);
+        dlg.altContent = bs;
+    */
 }
 
 

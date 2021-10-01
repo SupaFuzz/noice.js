@@ -192,6 +192,13 @@
 	margin-left: 39.195%;
 	padding-right:.5em;
 }
+.noiceCoreUIYNDialog[data-export="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+	background:			 url('./gfx/export_icon_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+	padding: 2em .5em 1em .5em;
+}
 .noiceCoreUIYNDialog[data-import="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
 	background:			 url('./gfx/import_icon_dark.svg');
 	background-repeat:   no-repeat;
@@ -864,8 +871,9 @@ button.btnBurger {
     global defaults
 */
 
+
 #importFile {
-	font-size: 1em;
+	font-size: .8em;
 	margin-top: 1.5em;
 	padding: .5em;
 	border-top-left-radius: .75em;
@@ -877,6 +885,7 @@ button.btnBurger {
 #importFile::file-selector-button {
 	margin: .25em;
 	font-weight: bold;
+	font-size: .8em;
 	background-color: rgba(17, 47, 65, .2);
 	border: 2px solid rgba(17, 47, 65, .6);
 	color: rgba(17, 47, 65, 1);

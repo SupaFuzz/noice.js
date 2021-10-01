@@ -283,9 +283,17 @@ startup(){
 
             * [done] a search mechanism, baked into recordEditorUI would be great
 
-            * file export
+            * [done] file export
 
-            * file import
+            * [done] file import
+
+            * formViews restored from search should be cloneable from the get-go
+
+            * no result searches should be more obvious
+
+            * wildcard searches
+
+            * Category searches
 
             * make a remedy form
 
@@ -419,8 +427,65 @@ resetApp(evt){
 exportFile(evt){
     let that = this;
     that.log(`${that._className} | exportFile | called`);
+    let prompt;
+    let abrt = false;
+    let link;
+    new Promise(function(toot, boot){
+        prompt = new noiceCoreUIYNDialog({
+            heading:      'Export Data File',
+            message:      'preparing export ...',
+            yesButtonTxt: 'Export',
+            noButtonTxt:  'Cancel',
+            hideCallback:   function(self){
+                toot(self.zTmpDialogResult);
+            }
+        }).show(that.DOMElement);
+        prompt.DOMElement.dataset.export = "true";
+        prompt._DOMElements.btnYes.disabled = true;
 
+        let exportAbort = false;
+        that.exportIndexedDB().catch(function(error){
+            exportAbort = true;
+            that.log(`${that._className} | exportFile | exportIndexedDB() threw unexpectedly: ${error}`);
+            boot(error);
+        }).then(function(dataStruct){
+            if (! exportAbort){
+                prompt.message = "Choose 'Export' to download a database export file";
+                prompt._DOMElements.btnYes.disabled = false;
 
+                /*
+                    stringify the data and then build a link we can do something
+                    with when the user clicks the "Export" button
+                */
+                try {
+                    let jsonData = JSON.stringify(dataStruct);
+                    link = document.createElement('a');
+                    link.href = `data:text/json;charset=UTF-8,${encodeURIComponent(jsonData)}`;
+                    link.download = `dbDump_${Math.floor(new Date()/1000)}.json`;
+
+                    // ok ... this is also stupid but might actually work?
+                    // holy shit. that works!
+                    let tmp = prompt._DOMElements.btnYes.parentElement;
+                    link.appendChild(prompt._DOMElements.btnYes);
+                    tmp.appendChild(link);
+
+                }catch(e){
+                    exportAbort = true;
+                    that.log(`${that._className} | exportFile | unexpected error serializing database export: ${e}`);
+                    boot(e);
+                }
+            }
+        })
+
+    }).catch(function(error){
+        abrt = true;
+        if (prompt instanceof noiceCoreUIYNDialog){ prompt.message = `cannot generate export: ${error}`; }
+    }).then(function(zTmpDialogResult){
+        if ((zTmpDialogResult == true) && (! abrt)){
+            // there's really nothing to do down here, but if you wanted
+            // to execute something after download you could I guess.
+        }
+    });
 }
 
 
@@ -434,6 +499,17 @@ importFile(evt){
     let that = this;
     that.log(`${that._className} | importFile | called`);
 
+    // set up the custom dialog message content with file selector
+    let msg = document.createElement('div');
+    msg.insertAdjacentHTML('afterbegin',`
+        <span class="msg">
+            Select a JSON file containing a databse
+            import and click 'Import', otherwise 'Cancel'
+        </span>
+        <input type="file" id="importFile" name="importFile" accept=".json" />
+    `);
+    let fileInput = msg.querySelector('#importFile');
+
     new Promise(function(toot, boot){
 
         let prompt = new noiceCoreUIYNDialog({
@@ -445,52 +521,43 @@ importFile(evt){
             }
         }).show(that.DOMElement);
 
-        let msg = document.createElement('div');
-        msg.insertAdjacentHTML('afterbegin',`
-            <span class="msg">
-                Select a JSON file containing a databse
-                import and click 'Import', otherwise 'Cancel'
-            </span>
-            <input type="file" id="importFile" name="importFile" accept=".json" />
-        `);
+
         prompt._DOMElements._dialogMessage.replaceChildren(msg);
         prompt._DOMElements.btnYes.disabled = true;
         prompt.DOMElement.dataset.import = "true";
 
-        /*
-            LOH 9/30/21 @ 2230
-            next step is a managing the import button state from file select
-            then parsing and doing the deed
-        */
+        // hooks for the fileInput
+        fileInput.addEventListener('change', function(evt){
+            prompt._DOMElements.btnYes.disabled = (evt.target.files.length < 1);
+        });
 
     }).then(function(zTmpDialogResult){
         if (zTmpDialogResult == true){
 
-            // loose end
-            console.log('import the db dump');
-
+            if ((fileInput instanceof Element) && (fileInput.files.length > 0)){
+                let file = fileInput.files[0];
+                let reader = new FileReader();
+                reader.addEventListener('load', function(){
+                    //btnImport.disabled = true;
+                    //btnImport.textContent = "importing ...";
+                    let importError = false;
+                    that.importIndexedDB(reader.result).catch(function(error){
+                        that.log(`${that._className} | importFile(clickHandler) -> importIndexedDB threw unexpectedly ${error}`);
+                        alert(error);
+                        importError = true;
+                    }).then(function(){
+                        if (! importError){
+                            //btnImport.disabled = false;
+                            //btnImport.textContent = "Import file";
+                            //dlg.hide();
+                            alert('import successful');
+                        }
+                    });
+                });
+                if (file){ reader.readAsText(file); }
+            }
         }
     })
-
-
-
-    /*
-        for refernce
-        var dlg = new noiceCoreUIDialog({
-
-        }).append(document.body);
-
-        dlg.show();
-
-        var bs = document.createElement('div');
-        bs.insertAdjacentHTML('afterbegin',`
-        	<h1>import DB dump</h1>
-          <input type="file" id="importFile" name="importFile" accept=".json" style="font-size: .66em; "/>
-          <button class="btnImport" disabled>Import file</button>
-          <button class="btnCancel">Cancel</button>
-        `);
-        dlg.altContent = bs;
-    */
 }
 
 
@@ -753,6 +820,161 @@ searchRecipesByTitle(args){
             boot(error);
         }).then(function(results){
             if (! queryFail){ toot(results); }
+        });
+    }));
+}
+
+
+
+
+/*
+    importIndexedDB(jsonData)
+    blow the given datastructure into the indexedDB.
+    storeName is the root-level key, if the indexedDB defines it
+    we dump everything in it and replace with whatever you got
+    bulkPut style
+*/
+importIndexedDB(jsonData){
+    let that = this;
+    that.log(`MAIN | importIndexedDB() | start, with input data ${jsonData.length} bytes`);
+    return(new Promise(function(toot, boot){
+
+        // parse it
+        let parseError = false;
+        let data;
+        try {
+            data = JSON.parse(jsonData);
+        }catch(e){
+            parseError = true;
+            that.log(`MAIN | importIndexedDB | failed to parse input JSON: ${e}`);
+            boot(e);
+        }
+
+        // do the damn thang
+        if (! parseError){
+
+            // get the database description so we can know what tables we have
+            let descError = false;
+            let tableIndex = {};
+            that.indexedDB.getDescription().catch(function(error){
+                descError = true;
+                that.log(`MAIN | importIndexedDB | cannot get indexedDB description? (not mounted?): ${error}`);
+                boot(error);
+            }).then(function(desc){
+                if (! descError){
+                    // generate tableIndex
+                    desc.forEach(function(tableDescription){ tableIndex[tableDescription.name] = tableDescription; });
+
+                    // push promises to bulk put everything we've got for each table in the input data that we have in our db
+                    let promiseKeeper = [];
+                    Object.keys(data).forEach(function(tableName){
+                        if (tableIndex.hasOwnProperty(tableName)){
+                            promiseKeeper.push(new Promise(function(liltoot, lilboot){
+                                let clearError = false;
+                                that.indexedDB.clear({ storeName: tableName}).catch(function(error){
+                                    clearError = true;
+                                    that.log(`MAIN | importIndexedDB | clear failed for table: ${tableName} |  ${error}`);
+                                    lilboot(error);
+                                }).then(function(){
+                                    if (! clearError){
+                                        // ve ahhh heeeaaah ... to pump you up ...
+                                        let putError = false;
+                                        that.indexedDB.bulkPut({
+                                            storeName:  tableName,
+                                            objects:    data[tableName]
+                                        }).catch(function(error){
+                                            putError = true;
+                                            that._app.log(`MAIN | importIndexedDB | bulkPut failed for table: ${tableName} |  ${error}`);
+                                            lilboot(error);
+                                        }).then(function(){
+                                            if (! putError){
+                                                let miniDescError = false;
+                                                that.indexedDB.getDescription(tableName).catch(function(error){
+                                                    miniDescError = true;
+                                                    that.log(`MAIN | importIndexedDB | bulkPut success with getDescription failure?: ${tableName} |  ${error}`);
+                                                    lilboot(error);
+                                                }).then(function(miniDesc){
+                                                    if (! miniDescError){
+                                                        that.log(`MAIN | importIndexedDB | ${tableName} |  imported: ${miniDesc[0].count} rows`);
+                                                        liltoot(true);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            })); // end ze puuush
+                        }
+                    }); // end iterating the table list
+
+                    let pkError = false;
+                    Promise.all(promiseKeeper).catch(function(error){
+                        pkError = true;
+                        that.log(`MAIN | importIndexedDB | import data dump | importError: ${error}`);
+                        boot(error);
+                    }).then(function(){
+                        if (! pkError){
+                            that.log(`MAIN | importIndexedDB | import data dump | import complete`);
+                            toot(true);
+                        }
+                    });
+                }
+            });
+        }
+    }));
+}
+
+
+
+
+/*
+    exportIndexedDB()
+    this returns an object reference as these results could be quite large and so
+    we let the caller decide what to do with the pointer, but no need to pass massive
+    strings around, can you dig it?
+*/
+exportIndexedDB(){
+    let that = this;
+    that.log(`MAIN | exportIndexedDB() | start`);
+    return (new Promise(function(toot, boot){
+        let exp = {};
+        let promiseKeeper = [];
+        Object.keys(that.config.indexedDBDefinition.storeDefinitions).forEach(function(tableName){
+            promiseKeeper.push(new Promise( function(lilToot, lilBoot){
+                let cursorError = false;
+                that.indexedDB.openCursor({
+                    storeName: tableName,
+                    callback:  function(cursor){
+                        if (that.isNotNull(cursor)){
+                            if (! (exp.hasOwnProperty(tableName))){  exp[tableName] = []; }
+                            exp[tableName].push(cursor.value);
+                            cursor.continue();
+                        }
+                    }
+                }).catch(function(error){
+                    that.log(`MAIN | exportIndexedDB() | openCursor failure for: ${tableName} | ${error}`);
+                    cursorError = true;
+                    lilBoot(error);
+                }).then(function(){
+                    if (! cursorError){
+                        that.log(`MAIN | exportIndexedDB() | complete for: ${tableName}`);
+                        lilToot(true);
+                    }
+                });
+            })); // end pushing to the suspiciously mens-only, faith-based array
+        });
+        let exportError = false;
+        Promise.all(promiseKeeper).catch(function(error){
+            // error
+            that.log(`MAIN | exportIndexedDB() | export failure: ${error}`);
+            exportError = true;
+            boot(error);
+        }).then(function(){
+            // succes
+            if (! exportError){
+                that.log(`MAIN | exportIndexedDB() | export complete`);
+                toot(exp);
+            }
         });
     }));
 }

@@ -33,6 +33,7 @@ cache: {
         './gfx/checkUpdates_icon.svg',
         './gfx/reset_icon.svg',
         './gfx/export_icon.svg',
+        './gfx/export_icon_dark.svg',
         './gfx/import_icon.svg',
         './gfx/import_icon_dark.svg',
         './gfx/checkUpdates_icon_dark.svg',

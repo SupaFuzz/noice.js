@@ -1,4 +1,7 @@
 # in general
+    * actual freakin' DOCUMENTATION
+      it's documentation time sucka
+
     * absolutely none of the layout stuff seems to work on phones
       the dimensions are just too extreme (damn! it is at least fixable I s'pose)
       thought: move from defining dimensions by em to vh or vw based on orientation
@@ -11,7 +14,11 @@
     * resetApp()
     * exportFile()
     * [wip] startup()
-
+    * wildcard searches
+    * Category searches
+    * make a remedy form
+    * make a syncWorker that knows how to transmit things to it
+    * pin the balloonDialog to the burger menu on the main landing UI
 
 # serviceWorker.js
     * syntax validate and test from console

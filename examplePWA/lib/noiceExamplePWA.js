@@ -252,7 +252,6 @@ startup(){
     // remove startupDialog
     that.startupDialog.remove();
 
-
     // make the the screen holder and display defaultUI
     that.screenHolder = new noiceCoreUIScreenHolder({
         UIList:         that.UIs,
@@ -260,45 +259,6 @@ startup(){
         showDefaultUI:  true
     }).append(document.body);
 
-
-
-    /*
-        LOH 9/30/21 @ 1504 ...
-
-            * [done] < back button css is horkarooni'd
-
-            * [done] add an updatePosition() callback thing on balloonDialog
-              make it so you can define a function that sets the dialog's
-              x/y.
-                * call that function on append()
-                  like an appendCallback() or something
-
-                * add an 'orientationchange' listner to it, and call updatePosition() from it
-
-            * [done] the class default handleClone() on recordEditorUI
-
-            * [done] a pipe to writeRecipe and handleClone() on recipeEditor
-
-            * [done] a dialog to contain the search dialog on recordEditorUI
-
-            * [done] a search mechanism, baked into recordEditorUI would be great
-
-            * [done] file export
-
-            * [done] file import
-
-            * formViews restored from search should be cloneable from the get-go
-
-            * no result searches should be more obvious
-
-            * wildcard searches
-
-            * Category searches
-
-            * make a remedy form
-
-            * make a syncWorker that knows how to transmit things to it
-    */
 }
 
 
@@ -823,6 +783,7 @@ searchRecipesByTitle(args){
         });
     }));
 }
+
 
 
 

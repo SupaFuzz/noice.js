@@ -105,11 +105,13 @@ makeNewFormView(externalFormView){
             newView.rowTitle = externalFormView.rowTitle;
             newView.setData(externalFormView.data).then(function(){
                 newView.changeFlag = false;
+                newView.cloneable = true;
                 toot(newView);
             });
         }else if (that.isNotNull(externalFormView) && (externalFormView instanceof Object)){
             newView.setData(externalFormView).then(function(){
                 newView.changeFlag = false;
+                newView.cloneable = true;
                 toot(newView);
             });
         }else{
@@ -260,6 +262,9 @@ getSearchMenu(){
         }).then(function(dbRows){
             if ((! searchAbort) && (dbRows.length > 0)){
 
+                // reset the footer message
+                ftrMsg.innerHTML = '&nbsp;';
+
                 // spawn new recipeFormViews with the local bindings for each of the returned rows
                 let newViews = [];
                 let pk = [];
@@ -310,6 +315,8 @@ getSearchMenu(){
                     so the user has to change search criteria and when
                     they do, remove th e message
                 */
+                ftrMsg.textContent = 'no match';
+                btnSearch.disabled = true;
             }
         });
     });

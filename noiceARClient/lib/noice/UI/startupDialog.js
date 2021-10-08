@@ -20,7 +20,7 @@ class startupDialog extends noiceCoreUIOverlay{
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
         _version:               1,
-        _className:             'npamStartupDialog',
+        _className:             'startupDialog',
         _netStatus:             'network status:',
         _dbStatus:              'database status:',
         _netReadBytes:          '0 bytes',
@@ -54,7 +54,7 @@ constructor(args, defaults, callback){
 get html(){
 
     return(`
-        <div class="startupDialog">
+        <div class="startupDialogUI">
             <div class="${this.headingClass}"><h2>${this.title}</h2></div>
             <div class="${this.contentClass}" style="display:grid;grid-template-columns:2fr 3fr;align-items:center;">
                 <div class="gfx"">
@@ -75,7 +75,7 @@ get html(){
                     </div>
                     <div class="startupWelcome" style="display:none;">
                             <h2 class="welcomeTitle">${this.welcomeTitle}</h2>
-                        <p class="welcomeMessage">${this.welcomeMessage}</p>
+                            <p class="welcomeMessage">${this.welcomeMessage}</p>
                     </div>
                     <div class="btnContainer" style="width:100%;text-align:right;">
                         <button id="btnInventoryStart">start</button>

@@ -63,7 +63,8 @@ initUI(){
         // setup authStartupDialog
         this.startupDialog = new authStartupDialog({
             title:        `${this.appName} (v${this.version})`,
-            welcomeTitle: 'Welcome to noice.js',
+            welcomeTitle: 'Welcome',
+            welcomeMessage: `To begin, enter your AR System Login ID and Password, then touch Login`,
             pieCharts: [
                 { name:'db',      fill:'rgba(6, 133, 135, .5)' },
                 { name:'network', fill:'rgba(17, 47, 65, .2)' }
@@ -151,6 +152,18 @@ initUI(){
                     self._animatePolygon.remove();
                     delete self._animatePolygon
                 }
+            },
+            authCallback:   function(authObject){
+                return(new Promise(function(t, b){
+
+                    /*
+                        LOH 10/8/21 @ 1333
+                        next up, do the API here
+                    */
+
+                    //b('login failed: bad password');
+                    t({some: 'bullshit'});
+                }))
             },
             showPieChart: false,
             welcomeMode:  true,

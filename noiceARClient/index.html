@@ -54,6 +54,7 @@
 
         <!-- don't make Tim Gunn "question your taste level" mmmm'kay? -->
         <link rel="stylesheet" type="text/css" href="./noiceExamplePWA.css">
+        <link rel="stylesheet" type="text/css" href="./noiceARClient.css">
 
         <!-- set up the app, then start it -->
         <script type="text/javascript">
@@ -65,7 +66,7 @@
 
             // when the document is loaded, create the application object, which starts the app
             document.addEventListener("DOMContentLoaded", function(evt){
-                window.app = new noiceExamplePWA({
+                window.app = new noiceARClient({
                     appName:                    'Noice PWA AR Client',
                     version:                    1,
                     threads: {

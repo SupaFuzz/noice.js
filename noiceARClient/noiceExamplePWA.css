@@ -1,7 +1,7 @@
 /*
 	startupDialog
 */
-.startupDialog{
+.startupDialogUI {
 	background:                 radial-gradient(#F2B134, #AD7B1D);
     width:                      max-content;
     border-radius:              .45em;
@@ -12,75 +12,84 @@
     -webkit-user-select:        none;
     font-size:                  .66em;
 }
-.dialogHeadingClass {
-    text-align:                 left;
-    margin:                     0;
-    width:                      100%;
-    padding:                    .25em 0 .25em .5em;
-    border-bottom:              1px solid rgba(17, 47, 65, .8);
-    background:                 linear-gradient(rgba(240, 240, 240, .35), rgba(240, 240, 240, .1), rgba(240, 240, 240, .05));
-    box-shadow:                 0 .15em .15em rgba(17, 47, 65, .1);
-	font-family:				'Comfortaa';
-}
-.dialogHeadingClass h2 {
-	font-size:					.8em;
-	margin: 					.5em 0 .5em .5em;
-}
-
-.dialogMessageClass {
-    font-size:                  .5em;
-    text-align:                 left;
-    border-left:                .25em solid rgba(17, 47, 65, .25);
-    padding:                    .25em 0 .25em .5em;
-}
-.dialogContentClass button:active, .wholeassDialog a:active {
-	color: 						rgba(240, 240, 240, .6);
-	background-color:			rgba(17, 47, 65, 1);
-}
-.dialogContentClass button:disabled, .wholeassDialog a:disabled {
-	font-weight: 				normal;
-	background-color: 			rgba(17, 47, 65, .05);
-	border:						2px solid rgba(17, 47, 65, .2);
-	color:						rgba(17, 47, 65, .5);
-}
-
-.dialogContentClass button, .wholeassDialog a {
-	margin:						.25em;
-	font-size:					1.25em;
-	font-weight: 				bold;
-	background-color: 			rgba(17, 47, 65, .2);
-	border:						2px solid rgba(17, 47, 65, .6);
-	color:						rgba(17, 47, 65, 1);
-	padding:					.25em .5em .25em .5em;
-	border-radius:				.5em;
-}
-.batchHandle .noicePieChart .chartBknd {
-	fill:						rgb(30, 32, 33);
-	stroke: rgb(98, 109, 112);
-}
-.noicePieChart .chartBknd {
-	fill:						rgba(17, 47, 65, 0);
-	stroke:						rgba(17, 47, 65, 0);
-}
-.chartBknd {
-	fill:						rgba(17, 47, 65, .2);
-	stroke:						rgba(17, 47, 65, .6);
-	stroke-width:				1px;
-}
-.startupDialog li .statusDetail {
+.startupDialogUI li .statusDetail {
 	margin-bottom:				.5em;
 }
-.startupDialog .statusDetail {
+.startupDialogUI .statusDetail {
 	font-style: 				italic;
 	font-size: 					.75em;
 	margin-bottom:				1.5em;
 	display: 					inline-block;
 }
-.startupDialog .msg {
+.startupDialogUI .msg {
 	margin:						.25em 0 .25em 0;
+}
+.startupDialogUI .startupWelcome .welcomeTitle {
+	margin: .25em 0 .25em 0;
+}
+.startupDialogUI .startupWelcome .welcomeMessage {
+	margin: 0;
+	max-width: 20em;
+}
+.startupDialogUI .btnContainer {
+	margin: 2em 0 0 0;
 }
 
 
+
+
+/*
+	authStartupDialog
+*/
+.authStartupDialog .loginUI {
+	font-size: 1.25em;
+	margin-top: 1.5em;
+	padding: .5em;
+	display: grid;
+}
+.authStartupDialog .loginUI .ncuFormElement {
+	margin: .25em 0 .25em 0;
+}
+.authStartupDialog .loginUI .ncufeLabel {
+  margin: .25em .25em .25em 0;
+}
+.authStartupDialog .loginUI .ncuFormElementField:focus {
+	background: none;
+}
+.authStartupDialog .loginUI .ncuFormElementField {
+	font-size: 1em;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	border-radius: .66em;
+	border-bottom: 1px solid rgba(240,240,240, .33);
+	border-right: 1px solid rgba(240,240,240, .33);
+	box-shadow: 2px 2px 2px rgba(20, 22, 23, .3) inset;
+	background: radial-gradient(ellipse at top left, rgba(150, 167, 173, .1), rgba(150, 167, 173, .2));
+}
+.authStartupDialog button.btnUpdate {
+	background: url('./gfx/checkUpdates_icon_dark.svg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: right;
+	padding-right: 2em;
+	border-color: transparent;
+	margin-right: 1.5em;
+}
+.authStartupDialog .btnContainer {
+	display: flex;
+	flex-direction: row-reverse;
+}
+.authStartupDialog .authErrorMsg {
+	width: max-content;
+	justify-self: end;
+	background: url('./gfx/fuscia_warning.svg');
+	background-repeat: no-repeat;
+	background-size:contain;
+	background-position:  left;
+	padding: .25em 0 .25em 2em;
+	margin: .5em;
+	font-style: italic;
+}
 
 
 /*
@@ -172,46 +181,88 @@
   dialogs in general
 */
 @media screen and (orientation:portrait) {
-	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+	.dialogContentClass:not(.startupDialogUI .dialogContentClass) {
 		width: 66vw;
 	}
 }
 @media screen and (orientation:landscape) {
-	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+	.dialogContentClass:not(.startupDialogUI .dialogContentClass) {
 		width: 66vh;
 	}
 }
-.dialogContentClass:not(.startupDialog .dialogContentClass) {
+.dialogHeadingClass {
+    text-align:                 left;
+    margin:                     0;
+    width:                      100%;
+    padding:                    .25em 0 .25em .5em;
+    border-bottom:              1px solid rgba(17, 47, 65, .8);
+    background:                 linear-gradient(rgba(240, 240, 240, .35), rgba(240, 240, 240, .1), rgba(240, 240, 240, .05));
+    box-shadow:                 0 .15em .15em rgba(17, 47, 65, .1);
+	font-family:				'Comfortaa';
+}
+.dialogHeadingClass h2 {
+	font-size:					.8em;
+	margin: 					.5em 0 .5em .5em;
+}
+
+.dialogMessageClass {
+    font-size:                  .5em;
+    text-align:                 left;
+    border-left:                .25em solid rgba(17, 47, 65, .25);
+    padding:                    .25em 0 .25em .5em;
+}
+.dialogContentClass button:active, .wholeassDialog a:active {
+	color: 						rgba(240, 240, 240, .6);
+	background-color:			rgba(17, 47, 65, 1);
+}
+.dialogContentClass button:disabled, .wholeassDialog a:disabled {
+	font-weight: 				normal;
+	background-color: 			rgba(17, 47, 65, .05);
+	border:						2px solid rgba(17, 47, 65, .2);
+	color:						rgba(17, 47, 65, .5);
+}
+
+.dialogContentClass button, .wholeassDialog a {
+	margin:						.25em;
+	font-size:					1.25em;
+	font-weight: 				bold;
+	background-color: 			rgba(17, 47, 65, .2);
+	border:						2px solid rgba(17, 47, 65, .6);
+	color:						rgba(17, 47, 65, 1);
+	padding:					.25em .5em .25em .5em;
+	border-radius:				.5em;
+}
+.dialogContentClass:not(.startupDialogUI .dialogContentClass) {
   background-color: rgb(242, 177, 52);
 	font-size: .5em;
 	overflow: hidden;
 	border-radius: 1em;
 }
-.dialogMessageClass:not(.startupDialog .dialogMessageClass) {
+.dialogMessageClass:not(.startupDialogUI .dialogMessageClass) {
 	font-size: 1em;
 	margin-left: 39.195%;
 	padding-right:.5em;
 }
-.noiceCoreUIYNDialog[data-export="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+.noiceCoreUIYNDialog[data-export="true"] .dialogMessageContainerClass:not(.startupDialogUI .dialogMessageClass){
 	background:			 url('./gfx/export_icon_dark.svg');
 	background-repeat:   no-repeat;
 	background-size: 	 contain;
 	background-position: 10%;
 	padding: 2em .5em 1em .5em;
 }
-.noiceCoreUIYNDialog[data-import="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+.noiceCoreUIYNDialog[data-import="true"] .dialogMessageContainerClass:not(.startupDialogUI .dialogMessageClass){
 	background:			 url('./gfx/import_icon_dark.svg');
 	background-repeat:   no-repeat;
 	background-size: 	 contain;
 	background-position: 10%;
 }
-.noiceCoreUIYNDialog[data-update="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+.noiceCoreUIYNDialog[data-update="true"] .dialogMessageContainerClass:not(.startupDialogUI .dialogMessageClass){
 	background:			 url('./gfx/checkUpdates_icon_dark.svg');
 	background-repeat:   no-repeat;
 	background-size: 	 contain;
 	background-position: 10%;
 }
-.dialogMessageContainerClass:not(.startupDialog .dialogMessageClass) {
+.dialogMessageContainerClass:not(.startupDialogUI .dialogMessageClass) {
 	background:			 url('./gfx/warning_dark.svg');
 	background-repeat:   no-repeat;
 	background-size: 	 contain;
@@ -219,6 +270,18 @@
 }
 
 
+/*
+	pieCharts
+*/
+.noicePieChart .chartBknd {
+	fill:						rgba(17, 47, 65, 0);
+	stroke:						rgba(17, 47, 65, 0);
+}
+.chartBknd {
+	fill:						rgba(17, 47, 65, .2);
+	stroke:						rgba(17, 47, 65, .6);
+	stroke-width:				1px;
+}
 
 
 /*
@@ -469,7 +532,7 @@
 	padding: .5em;
 	color:  rgb(191, 191, 24);
 }
-.formView .ncuFormElement {
+.ncuFormElement {
 	align-items: center;
 }
 .formView .ncuFormElement label {

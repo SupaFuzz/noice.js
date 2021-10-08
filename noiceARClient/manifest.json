@@ -1,0 +1,23 @@
+{
+        "name":             "Noice,js AR Client",
+        "version":          1,
+        "short_name":       "noiceARClient",
+        "description":      "PWA AR Client built on noice.js",
+        "start_url":        "index.html",
+        "display":          "standalone",
+        "background_color": "rgb(2, 6, 9)",
+        "theme_color":      "rgb(237, 85, 59)",
+        "orientation":      "portrait-primary",
+        "icons":            [
+            {
+                "src":      "./gfx/touch_icon.png",
+                "type":     "image/png",
+                "sizes":    "180x180"
+            },
+            {
+                "src":      "./gfx/splash_screen.png",
+                "type":     "image/png",
+                "sizes":    "5184x6912"
+            }
+        ]
+}

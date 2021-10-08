@@ -1,0 +1,926 @@
+/*
+	startupDialog
+*/
+.startupDialog{
+	background:                 radial-gradient(#F2B134, #AD7B1D);
+    width:                      max-content;
+    border-radius:              .45em;
+    border:                     3px solid rgba(17, 47, 65, .8);
+    color:                      rgba(17, 47, 65, .8);
+    overflow:                   hidden;
+	user-select: 				none;
+    -webkit-user-select:        none;
+    font-size:                  .66em;
+}
+.dialogHeadingClass {
+    text-align:                 left;
+    margin:                     0;
+    width:                      100%;
+    padding:                    .25em 0 .25em .5em;
+    border-bottom:              1px solid rgba(17, 47, 65, .8);
+    background:                 linear-gradient(rgba(240, 240, 240, .35), rgba(240, 240, 240, .1), rgba(240, 240, 240, .05));
+    box-shadow:                 0 .15em .15em rgba(17, 47, 65, .1);
+	font-family:				'Comfortaa';
+}
+.dialogHeadingClass h2 {
+	font-size:					.8em;
+	margin: 					.5em 0 .5em .5em;
+}
+
+.dialogMessageClass {
+    font-size:                  .5em;
+    text-align:                 left;
+    border-left:                .25em solid rgba(17, 47, 65, .25);
+    padding:                    .25em 0 .25em .5em;
+}
+.dialogContentClass button:active, .wholeassDialog a:active {
+	color: 						rgba(240, 240, 240, .6);
+	background-color:			rgba(17, 47, 65, 1);
+}
+.dialogContentClass button:disabled, .wholeassDialog a:disabled {
+	font-weight: 				normal;
+	background-color: 			rgba(17, 47, 65, .05);
+	border:						2px solid rgba(17, 47, 65, .2);
+	color:						rgba(17, 47, 65, .5);
+}
+
+.dialogContentClass button, .wholeassDialog a {
+	margin:						.25em;
+	font-size:					1.25em;
+	font-weight: 				bold;
+	background-color: 			rgba(17, 47, 65, .2);
+	border:						2px solid rgba(17, 47, 65, .6);
+	color:						rgba(17, 47, 65, 1);
+	padding:					.25em .5em .25em .5em;
+	border-radius:				.5em;
+}
+.batchHandle .noicePieChart .chartBknd {
+	fill:						rgb(30, 32, 33);
+	stroke: rgb(98, 109, 112);
+}
+.noicePieChart .chartBknd {
+	fill:						rgba(17, 47, 65, 0);
+	stroke:						rgba(17, 47, 65, 0);
+}
+.chartBknd {
+	fill:						rgba(17, 47, 65, .2);
+	stroke:						rgba(17, 47, 65, .6);
+	stroke-width:				1px;
+}
+.startupDialog li .statusDetail {
+	margin-bottom:				.5em;
+}
+.startupDialog .statusDetail {
+	font-style: 				italic;
+	font-size: 					.75em;
+	margin-bottom:				1.5em;
+	display: 					inline-block;
+}
+.startupDialog .msg {
+	margin:						.25em 0 .25em 0;
+}
+
+
+
+
+/*
+	installHelpDialog -- (the install banner)
+*/
+.installHelpDialog {
+	max-height: 				5em;
+	user-select: 				none;
+	margin: 0;
+	padding: 0 0 .5em 0;
+    -webkit-user-select:        none;
+}
+
+.installHelpDialog .msg {
+	font-size: 					2em;
+	text-align: 				right;
+	padding: 					.25em 1em .25em 0;
+}
+.installHelpDialog a {
+	text-decoration: none;
+	color:		     rgb(2, 6, 9);
+	border:          3px solid rgb(2, 6, 9);
+	border-radius:  .45em;
+	padding: 		.25em;
+	background-color: rgba(2, 6, 9, .1);
+}
+.ihHeadingMessageClass {
+	display: block;
+	font-size: .3em;
+}
+.ihDialog {
+	position: absolute;
+	background: url('./gfx/hicox_flower.svg');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-color: #F2B134;
+	border-radius: .45em;
+	width: max-content;
+	padding-left: 4.5em;
+	right: .4em;
+	top: 0;
+	border: 3px solid rgba(17, 47, 65, .8);
+    color: rgba(17, 47, 65, .8);
+	margin-top:	.96em;
+}
+.ihDialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	right: 						12.5%;
+	width: 						0;
+	height: 					0;
+	border: 					0.906em solid transparent;
+	border-bottom-color: 		#F2B134;
+	border-top: 				0;
+	margin-left:		 		-0.906em;
+	margin-top: 				-0.906em;
+}
+
+
+
+
+/*
+  	hdrPanel
+*/
+.hdrPanel {
+	display: grid;
+	grid-template-columns:auto auto 2.5em;
+	height: max-content;
+	align-items:  center;
+}
+.hdrPanel .hdrTitle {
+	font-size: .3em;
+	text-align: left;
+	align-self:  normal;
+	margin-left: .52em;
+	color: rgb(255,255,255);
+}
+.hdrPanel .hdrMsg {
+	text-align: right;
+	font-size: .45em;
+	font-style: italic;
+}
+
+
+
+
+/*
+  dialogs in general
+*/
+@media screen and (orientation:portrait) {
+	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+		width: 66vw;
+	}
+}
+@media screen and (orientation:landscape) {
+	.dialogContentClass:not(.startupDialog .dialogContentClass) {
+		width: 66vh;
+	}
+}
+.dialogContentClass:not(.startupDialog .dialogContentClass) {
+  background-color: rgb(242, 177, 52);
+	font-size: .5em;
+	overflow: hidden;
+	border-radius: 1em;
+}
+.dialogMessageClass:not(.startupDialog .dialogMessageClass) {
+	font-size: 1em;
+	margin-left: 39.195%;
+	padding-right:.5em;
+}
+.noiceCoreUIYNDialog[data-export="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+	background:			 url('./gfx/export_icon_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+	padding: 2em .5em 1em .5em;
+}
+.noiceCoreUIYNDialog[data-import="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+	background:			 url('./gfx/import_icon_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+}
+.noiceCoreUIYNDialog[data-update="true"] .dialogMessageContainerClass:not(.startupDialog .dialogMessageClass){
+	background:			 url('./gfx/checkUpdates_icon_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+}
+.dialogMessageContainerClass:not(.startupDialog .dialogMessageClass) {
+	background:			 url('./gfx/warning_dark.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: 10%;
+}
+
+
+
+
+/*
+	recordEditorUILayout
+*/
+.recordEditorUILayout .leftCol {
+	color: rgb(240, 240, 240);
+	background-color: rgb(5, 15, 20);
+	background: radial-gradient(ellipse at bottom right, rgba(53, 57, 59, .4), rgba(53, 57, 59, .3), rgba(53, 57, 59, .2),rgba(53, 57, 59, .1), rgba(53, 57, 59, 0));
+	border-right: 1px solid rgba(240, 240, 240, .25);
+	overflow-x: hidden;
+}
+.recordEditorUILayout .leftCol .header {
+	background: radial-gradient(ellipse at bottom right, rgba(53, 57, 59, 0), rgba(53, 57, 59, .1), rgba(53, 57, 59, .3),rgba(53, 57, 59, .1), rgba(53, 57, 59, .4));
+	background-color:	rgb(5, 15, 20);
+  padding: 0 0 .5em .25em;
+	border-bottom: 1px solid rgba(240, 240, 240, .25);
+	width: 100%;
+}
+.recordEditorUILayout .leftCol .navigationMenu button {
+	margin: .5em;
+	width: max-content;
+	font-size: .45em;
+}
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu {
+	padding-right: .5em;
+}
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu button {
+	padding: 0 .5em 0 .5em;
+}
+.recordEditorUILayout .leftCol .navigationMenu .buttonMenu button:disabled {
+	opacity: .33;
+}
+.recordEditorUILayout .leftCol .title {
+	font-size: .66em;
+	width: max-content;
+	text-align: left;
+  	margin: 0 0 0 1em;
+}
+.recordEditorUILayout .leftCol .handleList, .recordEditorUILayout .rightCol {
+	font-size: 3vw;
+}
+.recordEditorUILayout .leftCol .header .navigationMenu .btnBack {
+	align-self: center;
+}
+
+
+
+
+/*
+	rowHandles
+*/
+.rowHandle {
+	text-align: 				left;
+	user-select: 				none;
+	cursor: 					default;
+	padding-left: 				.45em;
+	border-top-left-radius: 	.66em;
+	border-bottom-left-radius: 	.66em;
+	border-left-width: 			.25em;
+	border-left-style: 			solid;
+	display: 					grid;
+	grid-template-columns: 		.5em auto;
+	margin: .128em 0 0 0;
+}
+.rowHandle[data-dirty='false']:before {
+	content: '';
+	font-size: .66em;
+}
+.rowHandle[data-dirty='true']:before {
+	content: '\203B';
+	font-size: .66em;
+	padding-top: .5em;
+}
+.rowHandle[data-selected='true'] {
+	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .3) inset;
+	background: 				radial-gradient(ellipse at top left, rgb(150, 167, 173), rgba(150, 167, 173, .5));
+	color:						rgb(24, 35, 38);
+}
+
+.rowHandle .handle {
+	display: grid;
+	grid-template-columns: 1fr;
+	font-size: .8em;
+	padding: .25em;
+}
+.rowHandle .handle h3 {
+	margin: .128em;
+}
+.rowHandle .handle .handleDataRow {
+	font-size: .66em;
+	margin: .128em 0 .128em 0;
+}
+.rowHandle .handle .handleDataRow:last-child {
+	font-family: monospace;
+	margin: .5em;
+}
+.rowHandle .handle .handleDataRow:last-child span:first-child {
+	font-weight: bolder;
+}
+.rowHandle[data-selected='true'] .handle .handleDataRow span:last-child {
+	border-color: rgba(24, 35, 38, .33);
+}
+.rowHandle[data-selected='false'] .handle .handleDataRow span:last-child {
+	border-color: rgba(240, 240, 240, .33);
+}
+.rowHandle .handle .handleDataRow span:last-child {
+	border-left: 4px solid;
+	padding-left: .5em;
+	margin-left: .25em;
+}
+.rowHandle .handle .handleDataRow span[data-templatename='category']{
+	font-weight: bold;
+}
+.rowHandle .handle .handleDataRow span[data-templatename='rowStatus']{
+  border-width: 2px;
+	border-style: solid;
+	border-radius: .5em;
+	padding: .128em .25em .128em .25em;
+	margin-right: .5em;
+}
+
+.rowHandle[data-status='new'], .rowHandle[data-status='new'] span[data-templatename='rowStatus'] {
+	border-color: rgb(240, 240, 240);
+}
+.rowHandle[data-status='new'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgb(24, 35, 38);
+	background-color: rgb(240, 240, 240);
+}
+.rowHandle[data-status='new'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: rgb(240, 240, 240);
+}
+
+
+.rowHandle[data-status='inventory'], .rowHandle[data-status='inventory'] span[data-templatename='rowStatus'] {
+	border-color: #0065b3;
+}
+.rowHandle[data-status='inventory'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgb(240, 240, 240);
+	background-color: #0065b3;
+}
+.rowHandle[data-status='inventory'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: #0065b3;
+}
+
+
+.rowHandle[data-status='unassigned'], .rowHandle[data-status='unassigned'] span[data-templatename='rowStatus'] {
+	border-color: #E600A1;
+}
+.rowHandle[data-status='unassigned'][data-selected='true'] span[data-templatename='rowStatus'] {
+	background-color: rgb(240, 240, 240);
+	color: #E600A1;
+}
+.rowHandle[data-status='unassigned'][data-selected='false'] span[data-templatename='rowStatus'] {
+	background-color: #E600A1;
+}
+
+
+.rowHandle[data-status='transmitted'], .rowHandle[data-status='transmitted'] span[data-templatename='rowStatus'] {
+	border-color: #009900;
+}
+.rowHandle[data-status='transmitted'][data-selected='true'] span[data-templatename='rowStatus'] {
+  background-color: rgb(240, 240, 240);
+	color: #009900;
+}
+.rowHandle[data-status='transmitted'][data-selected='false'] span[data-templatename='rowStatus'] {
+	background-color: #009900;
+}
+
+
+.rowHandle[data-status='error'], .rowHandle[data-status='error'] span[data-templatename='rowStatus'] {
+	border-color: #b30000;
+}
+.rowHandle[data-status='error'][data-selected='false'] span[data-templatename='rowStatus'] {
+	color: rgb(179, 0, 0);
+	background-color: rgba(240, 240, 240, 1);
+}
+.rowHandle[data-status='error'][data-selected='true'] span[data-templatename='rowStatus'] {
+	color: rgba(240, 240, 240, 1);
+	background-color:  rgb(179, 0, 0);
+}
+
+
+.rowHandle[data-status='queued'], .rowHandle[data-status='queued'] span[data-templatename='rowStatus'] {
+	border-color: rgb(230, 138, 0);
+}
+.rowHandle[data-status='queued'][data-selected='true'] span[data-templatename='rowStatus'] {
+  background-color: rgb(230, 138, 0);
+	color: rgb(240, 240, 240);
+
+}
+.rowHandle[data-status='queued'][data-selected='false'] span[data-templatename='rowStatus'] {
+  color: rgb(230, 138, 0);
+}
+
+
+/*
+	formView
+*/
+.formView {
+	color: rgb(240, 240 ,240);
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	padding: 0 .25em 0 .25em;
+}
+.formView .formHeader {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	align-items:  center;
+}
+.formView .formHeader h1.rowTitle {
+	font-size: .75em;
+	margin: 0;
+	text-align: left;
+	padding: .25em .25em .25em 1em;
+}
+.formView[data-dirty="true"] .formHeader h1.rowTitle:before {
+	content: '\203B';
+	font-size: .75em;
+	position: relative;
+	top: -.6em;
+	right: .65em;
+}
+.formView .formHeader .btnContainer {
+	display: flex;
+  flex-direction: row-reverse;
+	padding: .25em;
+}
+.formView .formHeader .btnCancel {
+	padding: 2em;
+	margin: .25em;
+}
+.formView .formHeader .btnSave {
+	padding:  .128em .5em .128em .5em;
+	margin:    .25em;
+	font-size: 1em;
+}
+.formView fieldset {
+	border-bottom: none;
+	border-left: none;
+	border-right: none;
+	border-top: 2px solid rgba(191, 191, 24, .5);
+}
+.formView fieldset legend {
+	font-family: Comfortaa;
+	font-size: .75em;
+	padding: .5em;
+	color:  rgb(191, 191, 24);
+}
+.formView .ncuFormElement {
+	align-items: center;
+}
+.formView .ncuFormElement label {
+	font-size: .66em;
+}
+.formView .ncuFormElementValidationError .ncufeLabel {
+	color: 						rgb(230, 0, 161);
+}
+.formView .ncuFormElementValidationError .ncuFormElementField {
+	border:						2px solid rgb(230, 0, 161);
+	font-style:					italic;
+	color:						rgba(230, 0, 161, .7);
+}
+.formView .ncuFormElementValidationError .ncfueValidationErrorSection {
+	text-align: left;
+	display: grid;
+	grid-template-columns: 1em auto;
+	color:		rgb(230, 0, 161);
+}
+.formView .ncuFormElementValidationError .ncfueValidationErrorSection .errorID {
+	display: none;
+}
+.formView  .ncuFormElementValidationError .ncfueValidationErrorSection p {
+	font-size: .66em;
+	margin-left: .5em;
+}
+.formView .ncfueValidationErrorSection_spacer {
+	background: url('./gfx/fuscia_warning.svg');
+	background-repeat:no-repeat;
+	background-position: right;
+	background-size: contain;
+	opacity: .8;
+	height: 2em;
+}
+.formView .ncufeLabel {
+	color:						rgba(240, 240, 240, .66);
+	margin:						.25em .25em .25em 0;
+}
+.formView .ncufeRequiredField .ncufeLabel, .searchMenu .ncufeRequiredField .ncufeLabel  {
+	font-weight: bolder;
+	color: rgb(242, 177, 52);
+}
+.formView .formFields input {
+	width: 85%;
+}
+.formView .ncuFormElementField:disabled,  .searchMenu .ncuFormElementField:disabled {
+	background:					radial-gradient(ellipse at top left, rgba(0,0,0,0), rgba(0,0,0,1));
+	color: rgba(217, 217, 217, .4);
+	border:						2px solid rgba(98, 109, 112, .4);
+	opacity:					1;
+}
+.formView .ncuFormElementField:focus, .searchMenu .ncuFormElementField:focus {
+	background: none;
+}
+.formView .ncuFormElementField, .searchMenu .ncuFormElementField {
+  font-size:         .66em;
+	margin-bottom: .25em;
+	box-shadow: 				2px 2px 2px rgba(20, 22, 23, .8) inset;
+	background:					radial-gradient(ellipse at top left, rgba(98, 109, 112, .25), rgba(98, 109, 112, .1), rgba(0, 0, 0, .25));
+	color:						rgb(204, 204, 204);
+	border:						2px solid rgba(204, 204, 204, .4);
+}
+
+
+
+
+/*
+  cloneView
+*/
+.cloneDialog.noiceBalloonDialog .dialog .dialogContent {
+	padding: 0;
+
+}
+.cloneDialog.noiceBalloonDialog .dialog .dialogContent .formView {
+	padding :0;
+}
+.formView .cloneView {
+	display: grid;
+	grid-template-rows: auto 1fr;
+}
+.formView .cloneView .formFields {
+	font-size: .8em;
+	padding: .25em;
+	overflow-y: auto;
+	max-height: 66vh;
+}
+.formView .cloneView .formFields button.btnRemove {
+	background-size: 75%;
+}
+.formView .cloneView .btnContainer {
+	display: grid;
+	grid-template-columns: 4fr 1fr;
+	font-size: .66em;
+  background-color: rgb(191, 191, 24);
+	padding: .25em;
+}
+.formView .cloneView .btnContainer .ncuFormElement label, .formView .cloneView .btnContainer .ncuFormElement select {
+	color: rgb(36, 36, 36);
+}
+.formView .cloneView .btnContainer .ncuFormElement select {
+	border: 1px solid rgb(36, 36, 36);
+}
+.formView .cloneView .btnContainer button.btnClone:disabled {
+	background: rgba(240, 240, 240, .3);
+	border: 1px solid rgba(240, 240, 240, .7);
+}
+.formView .cloneView .btnContainer button.btnClone {
+	border: 1px solid rgb(36, 36, 36);
+	background: rgb(240, 240, 240);
+    width: max-content;
+	height: max-content;
+	padding: .25em .5em .25em .5em;
+	align-self: last baseline;
+}
+.formView .cloneView .btnContainer button.btnAdd {
+	background: url('./gfx/add-icon-dark.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 75%;
+	border: none;
+}
+
+
+
+
+/*
+	field button stuff
+*/
+.ncuFormElement .ncufeFieldSection {
+	text-align: left;
+	padding-left: .128em;
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+}
+.ncuFormElement .fieldBtnContainer {
+	display: flex;
+	flex-direction: row-reverse;
+	align-self: stretch;
+}
+.ncuFormElement .fieldBtnContainer button {
+	background-repeat: no-repeat;
+	background-position: center;
+	border: none;
+	height: 2.25em;
+	width: 2.25em;
+	margin-left: .25em;
+	align-self: center;
+}
+.ncuFormElement .fieldBtnContainer button:disabled{
+	opacity: .33;
+}
+
+
+/*
+	global buttons
+*/
+button.btnUndo {
+	background: url('./gfx/undo-icon.svg');
+	background-size: contain;
+}
+button.btnRemove {
+	background: url('./gfx/remove-icon.svg');
+	background-size: contain;
+}
+button.textButton {
+	color: rgba(191, 191, 24, .7);
+	border: transparent;
+	background-color: transparent;
+}
+button.btnBack {
+  height: min-content;
+	padding-left: 1em;
+	background: url('./gfx/back-arrow.svg');
+	background-repeat: no-repeat;
+  background-position:	left;
+	background-size: 		15%;
+}
+button.btnSave:disabled {
+	background-color: 			rgba(242, 177, 52, .15);
+	color:						rgba(240, 240, 240, .5);
+	border:						2px solid rgba(242, 177, 52, .5);
+}
+button.btnSave {
+	background-color:   rgb(242, 177, 52);
+	color:						  rgb(57,57,57);
+	border:						  2px solid rgba(98, 109, 112, .66);
+}
+button.btnCancel {
+	background:			 url('./gfx/cancel-icon.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: right;
+	border: none;
+}
+button.btnUpdate {
+	background:			 url('./gfx/checkUpdates_icon.svg');
+	background-repeat:   no-repeat;
+	background-size: 	 contain;
+	background-position: right;
+	padding-right:		 2em;
+}
+button.btnReset {
+	background:			url('./gfx/reset_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+button.btnExport {
+	background:			url('./gfx/export_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+button.btnImport {
+	background:			url('./gfx/import_icon.svg');
+	background-repeat:  no-repeat;
+	background-size: 	contain;
+	background-position: right;
+	padding-right:		2em;
+}
+button.btnSearch {
+	background: url('./gfx/search-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+button.btnAdd {
+	background: url('./gfx/add-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+button.btnClone {
+	background: url('./gfx/clone-icon.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+button.btnBurger {
+	width: 2em;
+	height: 2em;
+	background:				url('./gfx/burger.svg');
+	background-repeat:		no-repeat;
+	background-position:	right;
+	background-size: 		contain;
+	opacity: 				.8;
+	border:none;
+	justify-self: center;
+}
+
+
+
+
+/*
+ 	ballooonDialog
+*/
+.noiceBalloonDialog > * {
+	cursor:						default;
+	user-select: 				none;
+}
+.noiceBalloonDialog .dialog .body {
+	border: 2px solid rgb(191, 191, 24);
+	border-radius: .25em;
+	overflow:hidden;
+}
+.noiceBalloonDialog .dialog .dialogHeader {
+	background-color: rgb(191, 191, 24);
+	padding: .25em;
+	margin: 0;
+}
+.noiceBalloonDialog .dialog .dialogHeader .dialogHeaderTitle {
+	font-size: .55em;
+	font-family: Comfortaa;
+}
+.noiceBalloonDialog .dialog .dialogContent {
+	padding: .25em;
+	background-color: rgb(20, 22, 23);
+}
+.noiceBalloonDialog[data-arrow='bottom'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	bottom: 					0;
+	right: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-top-color: 		    rgb(191, 191, 24);
+	border-bottom: 				0;
+	margin-left:		 		-10px;
+	margin-bottom: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='bottomLeft'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	bottom: 					0;
+	left: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-top-color: 			rgb(191, 191, 24);
+	border-bottom: 				0;
+	margin-left:		 		-10px;
+	margin-bottom: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='top'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	left: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		-10px;
+	margin-top: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='topMid'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	left: 						50%;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		0px;
+	margin-top: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='topRight'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	right: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		-10px;
+	margin-top: 				-10px;
+}
+.noiceBalloonDialog[data-arrow='topLeft'] .dialog:after {
+	content: 					'';
+	position: 					absolute;
+	top: 						0;
+	left: 						21px;
+	width: 						0;
+	height: 					0;
+	border: 					10px solid transparent;
+	border-bottom-color: 		rgb(191, 191, 24);
+	border-top: 				0;
+	margin-left:		 		-10px;
+	margin-top: 				-10px;
+}
+.noiceBalloonDialog .dialogContent button {
+	width: 100%;
+	font-size: .66em;
+	padding: .25em 2em .25em .25em;
+	text-align: right;
+}
+
+
+/*
+  searchMenu
+*/
+.searchMenu .btnContainer {
+	display: grid;
+	grid-template-columns: 2fr 1fr;
+	align-items:  center;
+}
+.searchMenu .btnContainer .ftrMsg {
+	color: rgba(238, 238, 30, .75);
+	font-size: .5em;
+	font-style: italic;
+	text-align: left;
+	padding-left: .66em;
+}
+.searchMenu button.btnSearch:disabled {
+	opacity: .5;
+}
+.searchMenu button.btnSearch {
+	color: rgba(238, 238, 30, .75);
+	margin: 0;
+	padding: 0 1.5em 0 0;
+	background-position: right;
+
+
+}
+
+/*
+    global defaults
+*/
+
+
+#importFile {
+	font-size: .8em;
+	margin-top: 1.5em;
+	padding: .5em;
+	border-top-left-radius: .75em;
+	border-bottom-left-radius: .75em;
+	border-bottom: 1px solid rgba(240,240,240, .33);
+	box-shadow: 2px 2px 2px rgba(20, 22, 23, .3) inset;
+	background: radial-gradient(ellipse at top left, rgba(150, 167, 173, .1), rgba(150, 167, 173, .2));
+}
+#importFile::file-selector-button {
+	margin: .25em;
+	font-weight: bold;
+	font-size: .8em;
+	background-color: rgba(17, 47, 65, .2);
+	border: 2px solid rgba(17, 47, 65, .6);
+	color: rgba(17, 47, 65, 1);
+	padding: .25em .5em .25em .5em;
+	border-radius: .5em;
+	font-family: Comfortaa;
+}
+
+/* this disables scrolling on the body */
+html, body {
+  position:                     fixed;
+  overflow:                     hidden;
+  height:                       100%;
+  width:                        100%;
+}
+body {
+	font-size:					2.5em;
+	font-family:				-apple-system, Helvetica, Arial, sans-serif;
+	margin:						0;
+	padding:					0;
+	text-align:					center;
+    background-color:           rgb(0, 0, 0);
+}
+button, input {
+	font-family: Comfortaa;
+}
+input, textarea, select {
+	border-radius: 	.35em;
+	padding:				.25em .5em .25em .5em;
+	width: 100%;
+}
+button {
+	border-radius: .35em;
+}
+@font-face {
+    font-family:                'Comfortaa';
+    src:                        url('./gfx/fonts/Comfortaa.woff2') format("woff2");
+}

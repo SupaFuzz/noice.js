@@ -219,11 +219,13 @@ fields: {
 ### `config` (attribute)
 the `this.config` attribute setter parses the given string as JSON, instantiating `formElement` objects for each field defined in the config (see above).
 
+```javascript
 /*
     LOH - 10/4/21 @ 2301
     need to go ahead and write up everything about filters below, but we also
-    need to finish running down the methods above. We don't even have `save()` yet. 
+    need to finish running down the methods above. We don't even have `save()` yet.
 */
+```
 
 
 

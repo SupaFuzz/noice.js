@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--
+            noice.js PWA AR Client
+            serve from a server with a valid SSL cert
+
+                - ❤️ Amy Hicox <amy@hicox.com> 10/07/21
+        -->
+
+        <!-- make it look like an app -->
+        <meta charset="utf-8" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-title" content="Noice PWA AR Client">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <!-- app-ish assets -->
+        <link rel="apple-touch-icon" href="./gfx/touch_icon.png">
+        <link rel="apple-touch-startup-image" href="./gfx/splash_screen.png">
+        <link rel="icon" type="image/png" href="./gfx/favicon.png">
+        <link rel="manifest" href="./manifest.json">
+
+        <!-- noice library includes -->
+        <script src="./lib/noice/noiceCore.js"></script>
+        <script src="./lib/noice/noiceCoreUI.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormElement.js"></script>
+        <script src="./lib/noice/noiceCoreUITemplate.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormView.js"></script>
+        <script src="./lib/noice/noiceCoreUIFormCloneView.js"></script>
+        <script src="./lib/noice/noiceIndexedDB.js"></script>
+        <script src="./lib/noice/UI/noiceRadialPolygonPath.js"></script>
+        <script src="./lib/noice/UI/noicePieChart.js"></script>
+        <script src="./lib/noice/UI/installHelpDialog.js"></script>
+        <script src="./lib/noice/UI/startupDialog.js"></script>
+        <script src="./lib/noice/UI/noiceBalloonDialog.js"></script>
+        <script src="./lib/noice/UI/recordEditorUI.js"></script>
+        <script src="./lib/noice/formView.js"></script>
+
+        <script src="./lib/noiceExamplePWA.js"></script>
+
+        <!-- custom UI Screen Module includes -->
+        <script src="./lib/UI/mainUI.js"></script>
+        <script src="./lib/UI/rowEditorUI.js"></script>
+        <script src="./lib/UI/authStartupDialog.js"></script>
+
+        <!-- formViews -->
+        <script src="./lib/UI/noiceARFormView.js"></script>
+
+        <!-- the config -->
+        <script src="./config/appConfig.js"></script>
+
+        <!-- the app -->
+        <script src="./lib/noiceARClient.js"></script>
+
+        <!-- don't make Tim Gunn "question your taste level" mmmm'kay? -->
+        <link rel="stylesheet" type="text/css" href="./noiceExamplePWA.css">
+
+        <!-- set up the app, then start it -->
+        <script type="text/javascript">
+
+            // this should catch chrome users who installed the app and need past the install me banner
+            window.addEventListener('appinstalled', function(){
+                setTimeout(function(){ window.location.reload(); }, 100);
+            });
+
+            // when the document is loaded, create the application object, which starts the app
+            document.addEventListener("DOMContentLoaded", function(evt){
+                window.app = new noiceExamplePWA({
+                    appName:                    'Noice PWA AR Client',
+                    version:                    1,
+                    threads: {
+                        serviceWorker:          './serviceWorker.js',
+                        syncWorker:             './lib/threads/syncWorker.js'
+                    },
+                    config:                     window._applicationConfig,
+
+                    // if true, refuses to start app unless we're in iosAppMode or chrome standalone mode
+                    enforceAppMode:             true,
+
+                    // for development purposes, it is sometimes handy to turn off the serviceWorker
+                    enableServiceworker:        true,
+                });
+            });
+
+        </script>

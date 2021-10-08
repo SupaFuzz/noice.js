@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="undo-icon.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 13.640093 13.640094"
+   height="13.640094mm"
+   width="13.640093mm">
+  <defs
+     id="defs2">
+    <inkscape:path-effect
+       effect="powerclip"
+       id="path-effect1669"
+       is_visible="true"
+       lpeversion="1"
+       inverse="true"
+       flatten="false"
+       hide_clip="false"
+       message="Use fill-rule evenodd on &lt;b&gt;fill and stroke&lt;/b&gt; dialog if no flatten result after convert clip to paths." />
+  </defs>
+  <sodipodi:namedview
+     fit-margin-left="0.5"
+     fit-margin-bottom="0.5"
+     fit-margin-right="0.5"
+     fit-margin-top="0.5"
+     inkscape:lockguides="true"
+     inkscape:window-maximized="1"
+     inkscape:window-y="-8"
+     inkscape:window-x="-8"
+     inkscape:window-height="1137"
+     inkscape:window-width="1920"
+     showgrid="true"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="28.386451"
+     inkscape:cx="17.485799"
+     inkscape:zoom="15.682672"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <inkscape:grid
+       originy="-114.88835"
+       originx="-169.12782"
+       id="grid837"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-169.12783,-114.88835)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <circle
+       style="fill:#bfbf17;fill-opacity:0.66;stroke-width:0.264583"
+       id="path1599"
+       clip-path="none"
+       mask="none"
+       r="6.0854168"
+       cy="121.70834"
+       cx="175.94794" />
+    <g
+       id="g3533"
+       transform="rotate(-45,176.39962,121.89543)"
+       mask="none">
+      <path
+         d="m 179.34479,117.06009 v 1.27127 l -3.80227,-1e-5 c -0.95056,0 -1.90113,1.27127 -1.90113,2.54252 l 1.90113,1e-5 h 3.80227 v 1.27126 l 1.90114,-2.54252 z"
+         id="path1658"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.310923" />
+      <path
+         d="m 173.08025,125.82741 1e-5,-1.27126 h 3.80226 c 0.95057,0 1.90114,-1.27126 1.90114,-2.54252 h -1.90113 -3.80228 l 1e-5,-1.27126 -1.90114,2.54252 z"
+         id="path1660"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.310923" />
+    </g>
+  </g>
+</svg>

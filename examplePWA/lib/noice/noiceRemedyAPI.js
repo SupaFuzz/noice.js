@@ -1229,4 +1229,65 @@ async getFormFields(p){
 
 
 
+
+/*
+    getFormOptions({
+        schema: <schemaName>
+    })
+    https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html
+    well ... ok ... I'm not sure how this is useful?
+    but it's in the docs, so why not ...
+*/
+async getFormOptions(p){
+    let self = this;
+    if (typeof p === 'undefined'){ p = {}; }
+
+    // bounce if we're not authenticated
+    if (! this.isAuthenticated){
+        throw(new noiceRemedyAPIException ({
+            messageType:            'non-ars',
+            message:                `api handle is not authenticated`,
+            thrownByFunction:       'getFormFields',
+            thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+        }));
+    }
+
+    // flatten/check the args
+    ['protocol', 'server', 'port', 'schema'].forEach(function(f){
+        if (!(p.hasOwnProperty(f) && self.isNotNull(p[f]))){
+            if (self.hasAttribute(f)){
+                p[f] = self[f];
+            }else{
+                throw(new noiceRemedyAPIException ({
+                    messageType:            'non-ars',
+                    message:                `required argument missing: ${f}`,
+                    thrownByFunction:       'getFormFields',
+                    thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+                }));
+            }
+        }
+    });
+
+    let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1.0/entry/${encodeURIComponent(p.schema)}`;
+    if (self.debug){ console.log(`[deleteTicket (endpoint)]: ${url}`); }
+
+    let resp = await self.fetch({
+        endpoint:           url,
+        method:             'OPTIONS',
+        expectHtmlStatus:   200,
+        timeout:            self.timeout,
+        headers:  {
+            "Authorization":    `AR-JWT ${self.token}`,
+            "Content-Type":     "application/json",
+            "Cache-Control":    "no-cache"
+        }
+    }).catch(function(e){
+        e.thrownByFunction = 'getFormFields';
+        e.thrownByFunctionArgs =   (typeof(p) !== 'undefined')?p:{}
+        throw(new noiceRemedyAPIException (e));
+    });
+    return(resp.responseText);
+}
+
+
 } // end noiceRemedyAPI class

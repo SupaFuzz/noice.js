@@ -1197,7 +1197,7 @@ async getFormFields(p){
     });
 
     let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1.0/fields/${encodeURIComponent(p.schema)}`;
-    if (self.debug){ console.log(`[deleteTicket (endpoint)]: ${url}`); }
+    if (self.debug){ console.log(`[getFormFields (endpoint)]: ${url}`); }
 
     let resp = await self.fetch({
         endpoint:           url,
@@ -1261,7 +1261,7 @@ async getFormOptions(p){
                 throw(new noiceRemedyAPIException ({
                     messageType:            'non-ars',
                     message:                `required argument missing: ${f}`,
-                    thrownByFunction:       'getFormFields',
+                    thrownByFunction:       'getFormOptions',
                     thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
                 }));
             }
@@ -1269,7 +1269,7 @@ async getFormOptions(p){
     });
 
     let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1.0/entry/${encodeURIComponent(p.schema)}`;
-    if (self.debug){ console.log(`[deleteTicket (endpoint)]: ${url}`); }
+    if (self.debug){ console.log(`[getFormOptions (endpoint)]: ${url}`); }
 
     let resp = await self.fetch({
         endpoint:           url,
@@ -1282,12 +1282,244 @@ async getFormOptions(p){
             "Cache-Control":    "no-cache"
         }
     }).catch(function(e){
-        e.thrownByFunction = 'getFormFields';
+        e.thrownByFunction = 'getFormOptions';
         e.thrownByFunctionArgs =   (typeof(p) !== 'undefined')?p:{}
         throw(new noiceRemedyAPIException (e));
     });
     return(resp.responseText);
 }
+
+
+
+
+/*
+    getMenu({name: <menuName>})
+    returns meta-data about the specified menu
+    use getMenuValues() to get the actual menu content
+
+    see this (strangely detailed for BMC) documentation:
+    https://docs.bmc.com/docs/ars2002/example-of-using-the-rest-api-to-retrieve-menu-details-909638136.html
+
+    some notes about return data struct: {
+        menu_type:      <Query|...>
+        refresh_code:   <?>
+        menu_information: {
+            qualification_current_fields: [ fieldId, ... ],
+            qualification_keywords: [ keyWord ... ]
+        }
+    }
+
+    menu_information.qualification_current_fields contains an array of the field_id's you can replace in the qualification
+    this array will be null if you have a menu with no qualification replacement inputs
+
+    <root>.qualification_string contains the verbatim QBE in the menu definition so I guess you could parse it if ya want
+
+    menu_information.qualification_keywords seems to be the same thing for keywords, which I've never fully understood anyhow
+
+    menu_type will be one of these:
+        Sql     (yes, really initcapped)
+        Search
+        File
+        DataDictionary
+        List   (aka "Character Manu")
+
+    refresh_codes:
+        1:  On Connect
+        2:  On Open
+        3:  On 15 Minute Interval
+
+
+*/
+async getMenu(p){
+    let self = this;
+    if (typeof p === 'undefined'){ p = {}; }
+
+    // bounce if we're not authenticated
+    if (! this.isAuthenticated){
+        throw(new noiceRemedyAPIException ({
+            messageType:            'non-ars',
+            message:                `api handle is not authenticated`,
+            thrownByFunction:       'getMenu',
+            thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+        }));
+    }
+
+    // flatten/check the args
+    ['protocol', 'server', 'port', 'name'].forEach(function(f){
+        if (!(p.hasOwnProperty(f) && self.isNotNull(p[f]))){
+            if (self.hasAttribute(f)){
+                p[f] = self[f];
+            }else{
+                throw(new noiceRemedyAPIException ({
+                    messageType:            'non-ars',
+                    message:                `required argument missing: ${f}`,
+                    thrownByFunction:       'getMenu',
+                    thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+                }));
+            }
+        }
+    });
+
+    let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1.0/menu/${encodeURIComponent(p.name)}`;
+    if (self.debug){ console.log(`[getMenu (endpoint)]: ${url}`); }
+
+    let resp = await self.fetch({
+        endpoint:           url,
+        method:             'GET',
+        expectHtmlStatus:   200,
+        timeout:            self.timeout,
+        headers:  {
+            "Authorization":    `AR-JWT ${self.token}`,
+            "Content-Type":     "application/json",
+            "Cache-Control":    "no-cache"
+        }
+    }).catch(function(e){
+        e.thrownByFunction = 'getMenu';
+        e.thrownByFunctionArgs =   (typeof(p) !== 'undefined')?p:{}
+        throw(new noiceRemedyAPIException (e));
+    });
+    return(resp.responseText);
+}
+
+
+
+
+/*
+    getMenuValues({
+        name:   <menuName>,
+        qualification_substitute_info: { <object> }
+    })
+
+    there's not a lot of detail about qualification_substitute_info
+    in the documentation but this is the example given there, so one
+    presumes at least form_name:<str>, field_values:{}, and keyword_values:{}
+    keys are supported.
+
+        qualification_substitute_info: {
+            form_name: "TestForm_dfb88",
+            field_values: {
+              "536870915": 100
+            },
+            keyword_values: {
+              "USER": "Demo"
+            }
+        }
+
+    TRIAL & ERROR ANECTODE:
+    form_name needs to be the form owning the field values that you wish to replace in the qualification.
+    For instance if you've got a menu with a qualification like this from the recipe demo:
+
+        [primary ui form]           noice:demo:recipe
+        [supporting table form]     noice:demo:recipe:ingredient
+
+    now say on your primary form you have a field: 536870919
+    and on a menu you have a qualification like this: 'recipe Entry ID' = $536870919$
+    where 'recipe Entry ID' is the foreign key on your supporting table that links the rows to the parent
+
+    NOW ... say you want to retrieve the ingredient list for the noice:demo:recipe row where '1' = "000000000000003"
+
+    this will work:
+    qualification_substitute_info: {
+        form_name: 'noice:demo:recipe',
+       	field_values: {
+          '536870919': "000000000000003"
+        }
+      }
+
+    NOTE: some things:
+
+        1) you can't use the system field '1' [Entry ID] in the menu qualification
+           it'll work inside ARS, but the API will return an empty string. that's why
+           I created a BS field: 536870919. System fields need not apply, but I suspect
+           the bug is more sinister ... any field-id replicated between your supposed "calling"
+           form (even though the menu would have no concept of that), and your data target form
+           gets total confusion server side. I'll guarantee it like the men's warehouse.
+
+        2) the menu points at noice:demo:recipe:ingredient, but you have to specify
+           the form from which you might call the menu, which is the form with the BS
+           field on it: 536870919, that is noice:demo:recipe. Which makes NO DAMN SENSE
+           but ok, BMC ...
+
+    some more things. hooo boy, the return data structure is fun AF!
+    here's one with two 'Label Fields' specified.
+    {
+        items: [
+            {
+                type:   <SubMenu|?>
+                label:  <string menu entry value>,
+                content: [
+                    {
+                        type:   <Value|?>
+                        label:  <string menu entry value>,
+                        value:  <associated value>
+                    }
+                ]
+            },
+            ...
+        ]
+    }
+    basically type gets "SubMenu" or "Value". If there's just one field in the 'Label Fields' section
+    it looks like this:
+    {
+        items: [
+            {
+                type: 'Value',
+                label:  <string>
+                value: <string>
+            }
+        ]
+    }
+*/
+async getMenuValues(p){
+    let self = this;
+    if (typeof p === 'undefined'){ p = {}; }
+
+    // bounce if we're not authenticated
+    if (! this.isAuthenticated){
+        throw(new noiceRemedyAPIException ({
+            messageType:            'non-ars',
+            message:                `api handle is not authenticated`,
+            thrownByFunction:       'getMenuValues',
+            thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+        }));
+    }
+
+    // check the args
+    ['name'].forEach(function(f){
+        if (!(p.hasOwnProperty(f))){
+            throw(new noiceRemedyAPIException ({
+                messageType:            'non-ars',
+                message:                `required argument missing: ${f}`,
+                thrownByFunction:       'getMenuValues',
+                thrownByFunctionArgs:   (typeof(p) !== 'undefined')?p:{}
+            }));
+        }
+    });
+
+    let url = `${self.protocol}://${self.server}:${self.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1.0/menu/expand`;
+    if (self.debug){ console.log(`[getMenuValues (endpoint)]: ${url}`); }
+
+    let resp = await self.fetch({
+        endpoint:           url,
+        method:             'POST',
+        expectHtmlStatus:   200,
+        timeout:            self.timeout,
+        encodeContent:      true,
+        content:            p,
+        headers:  {
+            "Authorization":    `AR-JWT ${self.token}`,
+            "Content-Type":     "application/json",
+            "Cache-Control":    "no-cache"
+        },
+    }).catch(function(e){
+        e.thrownByFunction = 'getMenuValues';
+        e.thrownByFunctionArgs =   (typeof(p) !== 'undefined')?p:{}
+        throw(new noiceRemedyAPIException (e));
+    });
+    return(resp.responseText);
+}
+
+
 
 
 } // end noiceRemedyAPI class

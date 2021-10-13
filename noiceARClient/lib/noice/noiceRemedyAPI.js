@@ -1522,4 +1522,26 @@ async getMenuValues(p){
 
 
 
+/*
+    getFormDefinitions({
+        schemaList: [],
+        progressCallback: <function(currentSchema, message, percentComplete)>
+    })
+
+    schemaList array is a list of <schemaName> values
+
+    progressCallback (if specified) is periodically called with these args:
+        currentSchema:   the value in <schemaList> currently processing
+        message:         arbitrary string
+        percentComplete: a nuber you can use to drive a progress display
+
+    this will execute getFormFields() against each one but will
+    also descend each form and retrieve any referenced menus
+    or other schemas referenced by Table fields
+
+    LOH 10/13/21 @ 1603
+*/
+
+
+
 } // end noiceRemedyAPI class

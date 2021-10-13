@@ -81,7 +81,7 @@ setup(){
             evt.target.disabled = true;
             that.authErrorMsg.style.display = "none";
             let authAbort = false;
-            that.authCallback({ user: that.userInput.value, pass: that.userPass.value }).catch(function(error){
+            that.authCallback({ user: that.userInput.value, password: that.userPass.value }).catch(function(error){
                 authAbort = true;
                 that._app.log(`${that._className} | authCallback threw: ${error}, startup aborted`);
                 that.authErrorMsg.textContent = error;

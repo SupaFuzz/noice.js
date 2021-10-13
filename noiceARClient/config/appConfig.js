@@ -419,6 +419,13 @@ indexedDBDefinition: {
 },
 
 
+
+// static parameters for connecting to ARS REST API
+apiConnect: {
+    proxyPath:  '/REST'
+},
+
+
 /*
     additional things you might want to add in here:
         * a regex army

@@ -20,7 +20,8 @@ constructor(args, defaults, callback){
         _version:                       1,
         _className:                     'noiceARClient',
         localStorageKey:                'noiceARClient_App',
-        _formDefs:                      {}
+        _defs:                          {},
+        _menu
     }, defaults), callback);
 
 
@@ -187,23 +188,27 @@ startApp(){
                 that.startupDialog.showPieChart = true;
                 that.startupDialog.updatePieChart('network', 0);
 
-                // fetch dem forms guuuurl!
-                that._formDefs = {};
+                // snatch dem forms guuuurl!
+                that._defs =  { forms: {}, menus: {} };
                 let pk = [];
                 result.entries.forEach(function(row){
-                    if (! (that._formDefs.hasOwnProperty(row.values.formName))){
+                    if (! (that._defs.hasOwnProperty(row.values.formName))){
                         pk.push(new Promise(function(t,b){
                             let defAbort = false;
-                            that.api.getFormFields({ schema: row.values.formName }).catch(function(error){
+                            that.api.getRelatedFormsAndMenus({ schema: row.values.formName }).catch(function(error){
                                 defAbort = true;
-                                that.log(`${that._className} | startApp() | failed fetching def for schema: ${row.values.formName} | ${error}`);
+                                that.log(`${that._className} | startApp() | getRelatedFormsAndMenus(${row.values.formName}) | ${error}`);
                                 b(error);
                             }).then(function(def){
-                                that._formDefs[row.values.formName] = {
-                                    configuration: row.values.configuration,
-                                    fields:        def
-                                };
-                                // note we can drive the progress pie in here by checking the extent of _formDefs
+
+                                // merge result with that._defs
+                                ['menus', 'forms'].forEach(function(kind){
+                                    if (def[kind] instanceof Object){
+                                        Object.keys(def[kind]).forEach(function(thing){
+                                            that._defs[kind][thing] = def[kind][thing];
+                                        })
+                                    }
+                                });
                                 t(true);
                             });
                         }));
@@ -215,24 +220,57 @@ startApp(){
                     boot(`failed fetching schema definitions: ${error}`);
                 }).then(function(){
                     if (! defAbort){
+
+                        /*
+                            LOH 10/15/21 @ 2014
+                            we should have all of the big cascade of forms in that._defs
+
+                            next spider the field list for indexes and build an indexedDB definition
+                            on the other hand, it may be beneficial to treat this as a server-client only
+                            (no offline mode) then to come back and handle that once we've got the UI side
+                            nailed down.
+
+                            so actually, the next thing might be to think about how to model a dynamic formView
+                            actually, yes I think so.
+
+                            So ... next up:
+
+                                1) dynamic formView, which is a default formView with an overridden
+                                   set config(), basically where we've got some ARS parser that spits out
+                                   config that formView already knows then calls the super setter or something
+
+                                2) think about the class model we want to stick in front of the indexedDB.
+                                   we're going to need to feel around the issue of adding new dataStores for new
+                                   forms as they're added. There could be concurrency issues regarding the indexedDB
+                                   versioning etc.
+
+                                   Additionally, we're going to want to think about formalizing the 'journal' concept
+                                   offhand ...
+
+                                        new noiceARForm({ config: <...> })
+
+                                            -> getFormView({data: <...>})
+                                               returns an ARFormView (formView descendant) object populated with the given data
+                                               saveCallback, cloneableCallback are piped through internally to handle insertion
+                                               into customized indexedDB journal stuff etc, with external callbacks registered
+                                               on the noiceARForm object.
+
+                                            -> query({...})
+                                               well I'll tell ya what. If this could learn to parse QBE and drive clever indexedDB
+                                               queryies on the journal, etc, that'd be the killer thing. Either way, this also
+                                               pipes through a laminateJournal thing ... so
+
+                                   gotta think on this
+                        */
+
                         console.log('success');
-                        console.log(that._formDefs);
+                        console.log(that._defs);
+
+                        // if you wanna close the dialog and let it go
+                        //toot(true);
+
                     }
                 })
-
-
-                /*
-                    LOH 10/13/21 @ 1608
-                    fixing up getFormDefinitions() cascade in noiceRemedAPI.js
-                    after that, then we'll need to build the indexedDB, etc.
-                */
-
-
-                /* remove
-                console.log(`I made it this far with API key: ${that.api.token}`);
-                console.log(result);
-                toot(true);
-                */
             }
         });
     }))

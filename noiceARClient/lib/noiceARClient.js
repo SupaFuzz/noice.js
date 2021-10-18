@@ -20,8 +20,7 @@ constructor(args, defaults, callback){
         _version:                       1,
         _className:                     'noiceARClient',
         localStorageKey:                'noiceARClient_App',
-        _defs:                          {},
-        _menu
+        _defs:                          {}
     }, defaults), callback);
 
 

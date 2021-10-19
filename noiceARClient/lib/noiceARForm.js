@@ -286,11 +286,25 @@ getFormViewConfig(viewName){
                 out.fields[fieldID].displayOrder = shawty.display_properties.TAB_ORDER;
             }
 
+            // displaySection from custom css style
+            if (
+                shawty.display_properties[viewName].hasOwnProperty('FIELD_CUSTOMSTYLE') &&
+                that.isNotNull(shawty.display_properties[viewName].FIELD_CUSTOMSTYLE) &&
+                (/^noiceFieldSection_/.test(shawty.display_properties[viewName].FIELD_CUSTOMSTYLE))
+            ){
+                out.fields[fieldID].displaySection = shawty.display_properties[viewName].FIELD_CUSTOMSTYLE.replace('noiceFieldSection_','');
+            }
+
+            // if you didn't put in that, then the FIELD_OPTION shall be thine displaySection. verily.
+            if ((! (out.fields[fieldID].hasOwnProperty('displaySection')))){
+                out.fields[fieldID].displaySection = shawty.field_option;
+            }
+
+
             /*
-                LOH 10/18/21 @ 1716
-                gotta get presentable for voice gropu therapy zoom
-                basically next up is figure some way to interpolate displaySection
-                if we can get the special CSS class in the def that might work it.
+                LOH 10/18/21 @ 2022
+                ok hooked up the displaySection.
+                recon there are lotsa syntax errors. give it a try and see what it spits out next.
             */
 
             /*

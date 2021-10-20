@@ -98,7 +98,7 @@ set ARSConfig(v){
     }else{
         throwError = 'specified ARSConfig object is not valid';
     }
-    if (that.isNotNull(throwError)){
+    if (this.isNotNull(throwError)){
         throw(new noiceException({
             message:        `${this._className}/ARSConfig setter: ${throwError}`,
             messageNumber:   1,
@@ -159,7 +159,7 @@ getFormViewConfig(viewName){
         });
 
         // bounce if we don't have that one
-        if ((that.isNotNull(viewName) && (Object.keys(views).indexOf(viewName) < 0)){
+        if (that.isNotNull(viewName) && (Object.keys(views).indexOf(viewName) < 0)){
             throw(new noiceException({
                 message:        `${this._className}/getFormViewConfig ${formName} requested ${viewName} is not in config`,
                 messageNumber:   4,
@@ -204,7 +204,11 @@ getFormViewConfig(viewName){
                         clone:  { fieldMenu, inhertValue, nullable}
                     }
             */
-            let shawty = that.ARSConfig.forms[that.formName].idIndex[fieldID]
+
+            // skip the status history (id #15)
+            if (fieldID == 15){ return(true); }
+
+            let shawty = that.ARSConfig.forms[that.formName].idIndex[fieldID];
             out.fields[fieldID] = {
                 id: fieldID,
                 type: shawty.datatype.toLowerCase(),
@@ -239,7 +243,10 @@ getFormViewConfig(viewName){
             }
 
             // put in maxLength if we've got one
-            if (shawty.limit.hasOwnProperty('max_length')){ out.fields[fieldID].maxLength = shawty.limit.max_length; }
+            if (
+                (shawty.limit instanceof Object) &&
+                shawty.limit.hasOwnProperty('max_length')
+            ){ out.fields[fieldID].maxLength = shawty.limit.max_length; }
 
             // fix integer type
             if (out.fields[fieldID].type == 'integer'){ out.fields[fieldID].type = 'int'; }
@@ -272,7 +279,10 @@ getFormViewConfig(viewName){
             }
 
             // insert menu if we've got one
-            if (shawty.limit.hasOwnProperty('char_menu')){
+            if (
+                (shawty.limit instanceof Object) &&
+                shawty.limit.hasOwnProperty('char_menu')
+            ){
                 out.fields[fieldID].menu = shawty.limit.char_menu;
             }
 
@@ -377,6 +387,7 @@ getFormViewConfig(viewName){
 
             */
         });
+        return(out);
     }
 }
 

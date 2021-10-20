@@ -17,10 +17,13 @@ cache: {
         './noiceExamplePWA.css',
         './manifest.json',
         './noiceExamplePWA.css',
+        './noiceARClient.css',
 
         './config/appConfig.js',
 
         './lib/noiceExamplePWA.js',
+        './lib/noiceARClient.js',
+        './lib/noiceARForm.js',
         './lib/UI/mainUI.js',
         './lib/UI/recipeEditorUI.js',
         './lib/UI/recipeFormView.js',

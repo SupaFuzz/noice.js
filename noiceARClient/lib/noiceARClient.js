@@ -100,10 +100,20 @@ initUI(){
                 that.startApp().catch(function(error){
                     startAbort = true;
                     this.log(`${this._className} | initUI() | startButtonCallback | startApp() threw unexpectedly: ${error}`, true);
-                }).then(function(){
+                }).then(function(uiHolder){
                     if (! startAbort){
                         evt.target.disabled = false;
-                        self.remove();
+                        if (uiHolder instanceof noiceCoreUIScreenHolder){
+                            uiHolder.append(document.body);
+                            let abrt = false;
+                            uiHolder.switchUI('main').catch(function(error){
+                                abrt = true;
+                                that.log(`${that._className} | startButtonCallback() | cannot give main UI focus?: ${error}`);
+                            }).then(function(){
+                                if (! abrt){ self.remove(); }
+                            })
+                        }
+
                     }
                 });
             },
@@ -166,153 +176,241 @@ startApp(){
     let that = this;
 
     return(new Promise(function(toot, boot){
-        that.startupDialog.welcomeTitle = `Starting ${that.appName}`;
-        that.startupDialog.welcomeMessage = "get form list from server ...";
 
-        // get form list!
-        let formListAbort = false;
-        that.api.query({
-            schema: 'noiceARClientForms',
-            fields: ['formName', 'configuration'],
-            QBE:    `'Status' = "available"`
-        }).catch(function(error){
-            formListAbort = true;
+        // fetch the form definitions from the server
+        let defAbort = false;
+        that.fetchFormDefs(that.api).catch(function(error){
+            defAbort = true;
+            that.log(`${that._className} | startApp() | fetchFormDefs() failed: ${error}`);
             boot(error);
-        }).then(function(result){
-            if (! formListAbort){
+        }).then(function(defs){
+            if (! defAbort){
+                that._defs = defs;
 
-                that.startupDialog.welcomeMode = false;
-                that.startupDialog.message = `Fetching config for ${result.entries.length} forms`;
-                that.startupDialog.dbStatusDetail = 'idle';
-                that.startupDialog.showPieChart = true;
-                that.startupDialog.updatePieChart('network', 0);
+                /*
+                    form definitions from server are in {that.defs}
+                    for now, blindly create ARForm instances for everything in the list
+                    when completed, the ARForm class will setup a separate, private indexedDB
+                    for each object instance. To query, we will literally query the ARForm
+                    object, and for saving we'll have some callbacks and stuff
 
-                // snatch dem forms guuuurl!
-                that._defs =  { forms: {}, menus: {} };
-                let pk = [];
-                result.entries.forEach(function(row){
-                    if (! (that._defs.hasOwnProperty(row.values.formName))){
-                        pk.push(new Promise(function(t,b){
-                            let defAbort = false;
-                            that.api.getRelatedFormsAndMenus({ schema: row.values.formName }).catch(function(error){
-                                defAbort = true;
-                                that.log(`${that._className} | startApp() | getRelatedFormsAndMenus(${row.values.formName}) | ${error}`);
-                                b(error);
-                            }).then(function(def){
+                    for now, let's just drive a UI
+                */
 
-                                // merge result with that._defs
-                                ['menus', 'forms'].forEach(function(kind){
-                                    if (def[kind] instanceof Object){
-                                        Object.keys(def[kind]).forEach(function(thing){
-                                            that._defs[kind][thing] = def[kind][thing];
-                                        })
-                                    }
-                                });
-                                t(true);
-                            });
-                        }));
-                    }
+                // we got the form definitions from the server, now what?
+                console.log('success');
+                console.log(defs);
+
+                // setup the UIHolder and UIs
+                that.UIs = {
+                    main:   new noiceARClientMainUI({
+                        _app:       that,
+                        hdrTitle:   `${that.appName} ${that.version}`,
+                        hdrMsg:     'ready',
+                        mainContent: that.getFormSelector()
+                    }),
+
+                    // LOOSE END: add recordEditorUI instances for each form
+                    // but of course we'd need a new recordEditorUI subclass
+                    // something like ARRecordEditor or something I dunno ...
+                    // we'll come back to that.
+                    // For now, a main UI with a form selector
+                };
+
+                // make the the screen holder and display defaultUI
+                that.screenHolder = new noiceCoreUIScreenHolder({
+                    UIList:         that.UIs,
+                    defaultUI:      'main',
+                    showDefaultUI:  true
                 });
-                let defAbort = false;
-                Promise.all(pk).catch(function(error){
-                    defAbort = true;
-                    boot(`failed fetching schema definitions: ${error}`);
-                }).then(function(){
-                    if (! defAbort){
 
-                        /*
-                            LOH 10/15/21 @ 2014
-                            we should have all of the big cascade of forms in that._defs
+                // close the dialog and let the caller give the main UI focus
+                toot(that.screenHolder);
 
-                            next spider the field list for indexes and build an indexedDB definition
-                            on the other hand, it may be beneficial to treat this as a server-client only
-                            (no offline mode) then to come back and handle that once we've got the UI side
-                            nailed down.
-
-                            so actually, the next thing might be to think about how to model a dynamic formView
-                            actually, yes I think so.
-
-                            So ... next up:
-
-                                1) dynamic formView, which is a default formView with an overridden
-                                   set config(), basically where we've got some ARS parser that spits out
-                                   config that formView already knows then calls the super setter or something
-
-                                2) think about the class model we want to stick in front of the indexedDB.
-                                   we're going to need to feel around the issue of adding new dataStores for new
-                                   forms as they're added. There could be concurrency issues regarding the indexedDB
-                                   versioning etc.
-
-                                   Additionally, we're going to want to think about formalizing the 'journal' concept
-                                   offhand ...
-
-                                        new noiceARForm({ config: <...> })
-
-                                            -> getFormView({data: <...>})
-                                               returns an ARFormView (formView descendant) object populated with the given data
-                                               saveCallback, cloneableCallback are piped through internally to handle insertion
-                                               into customized indexedDB journal stuff etc, with external callbacks registered
-                                               on the noiceARForm object.
-
-                                            -> query({...})
-                                               well I'll tell ya what. If this could learn to parse QBE and drive clever indexedDB
-                                               queryies on the journal, etc, that'd be the killer thing. Either way, this also
-                                               pipes through a laminateJournal thing ... so
-
-                                   gotta think on this
-                        */
-
-                        console.log('success');
-                        console.log(that._defs);
-
-                        // if you wanna close the dialog and let it go
-                        //toot(true);
-
-                    }
-                })
             }
-        });
-    }))
+        })
+
+    }));
+
+
+} // end startApp()
+
+
+
 
 /*
-    get back to this stuff later, we will eventually have a syncWorker and all
-    of that, but gotta work out building the indexedDB def from the remedy defs first ...
-
-    // init the syncWorker thread then startup the UI
-    let callError = false;
-    that.threadResponse({
-        threadName:         'syncWorker',
-        postMessage:        { type: 'init' },
-        awaitResponseType:  'initComplete'
-    }).catch(function(error){
-        callError = true;
-        that.log(`[main thread] syncWorker/init call failed?: ${error}`, true);
-    }).then(function(responseData){
-        if (! callError){
-
-            self.welcomeMessage = 'mounting indexedDB';
-            let mountError = false;
-            new noiceIndexedDB({
-                dbName:           that.config.indexedDBDefinition.dbName,
-                dbVersion:        that.config.indexedDBDefinition.dbVersion,
-                storeDefinitions: that.config.indexedDBDefinition.storeDefinitions
-            }).open({
-                destructiveSetup: false
-            }).catch(function(error){
-                mountError = true;
-                boot(`cannot mount indexedDB: ${error} `);
-            }).then(function(dbHandle){
-
-                // show the install banner or the startupDialog, depending
-                that.indexedDB = dbHandle;
-                that.startup();
-
-            });
-
-        }
-    });
+    fetchFormDefs(api)
+    get all of the forms from noiceARClientForms on the server
+    send a logged-in api handle as the argument as we might call this
+    in a few different scenarios
 */
-} // end startApp()
+fetchFormDefs(api){
+    let that = this;
+
+    return(new Promise(function(toot, boot){
+
+        // bounce for no api key
+        if (! (api instanceof noiceRemedyAPI)){
+            boot(`${that._className} | fetchFormDefs | api handle not provided`);
+        }else{
+
+            // update the dialog if it's open
+            if (that.startupDialog.onScreen){
+                that.startupDialog.welcomeTitle = `Starting ${that.appName}`;
+                that.startupDialog.welcomeMessage = "get form list from server ...";
+            }
+
+            // get form list!
+            let formListAbort = false;
+            api.query({
+                schema: 'noiceARClientForms',
+                fields: ['formName', 'configuration'],
+                QBE:    `'Status' = "available"`
+            }).catch(function(error){
+                formListAbort = true;
+                boot(error);
+            }).then(function(result){
+                if (! formListAbort){
+
+                    if (that.startupDialog.onScreen){
+                        that.startupDialog.welcomeMode = false;
+                        that.startupDialog.message = `Fetching config for ${result.entries.length} forms`;
+                        that.startupDialog.dbStatusDetail = 'idle';
+                        that.startupDialog.showPieChart = true;
+                        that.startupDialog.updatePieChart('network', 0);
+                    }
+
+                    // snatch dem forms guuuurl!
+                    let _defs =  { forms: {}, menus: {} };
+                    let pk = [];
+                    result.entries.forEach(function(row){
+                        if (! (_defs.hasOwnProperty(row.values.formName))){
+                            pk.push(new Promise(function(t,b){
+                                let defAbort = false;
+                                that.api.getRelatedFormsAndMenus({ schema: row.values.formName }).catch(function(error){
+                                    defAbort = true;
+                                    that.log(`${that._className} | startApp() | getRelatedFormsAndMenus(${row.values.formName}) | ${error}`);
+                                    b(error);
+                                }).then(function(def){
+
+                                    // merge result with _defs
+                                    ['menus', 'forms'].forEach(function(kind){
+                                        if (def[kind] instanceof Object){
+                                            Object.keys(def[kind]).forEach(function(thing){
+                                                _defs[kind][thing] = def[kind][thing];
+                                            });
+                                        }
+                                    });
+                                    t(true);
+                                });
+                            }));
+                        }
+                    });
+                    let defAbort = false;
+                    Promise.all(pk).catch(function(error){
+                        defAbort = true;
+                        boot(`failed fetching schema definitions: ${error}`);
+                    }).then(function(){
+                        if (! defAbort){
+                            toot(_defs);
+                        }
+                    })
+                }
+            });
+        }
+
+    }))
+}
+
+
+
+
+/*
+    getFormSelector()
+    get a form selector
+*/
+getFormSelector(){
+    let that = this;
+    let formSelectorUI = document.createElement('div');
+    formSelectorUI.className = 'formSelectorUI';
+    Object.keys(that._defs.forms).forEach(function(formName){
+        let item = document.createElement('div');
+        item.className = 'formSelectorChoice';
+        item.dataset.selected = 'false';
+        item.dataset.guid = that.getGUID();
+
+        let h2 = document.createElement('h2');
+        h2.className = 'formName';
+        h2.textContent = formName;
+        item.appendChild(h2);
+
+        let btnBar = document.createElement('div');
+        btnBar.className = 'btnContainer';
+
+        let btnOpen = document.createElement('button');
+        btnOpen.className = 'btnOpen';
+        btnOpen.textContent = 'open';
+        btnOpen.addEventListener('click', function(evt){ evt.stopPropagation(); that.handleFormOpen(formName); })
+        btnBar.appendChild(btnOpen);
+
+        let btnQueue = document.createElement('button');
+        btnQueue.className = 'btnQueue';
+        btnQueue.textContent = 'queue';
+        btnQueue.addEventListener('click', function(evt){ evt.stopPropagation(); that.handleFormQueue(formName); })
+        btnBar.appendChild(btnQueue);
+
+        let btnExport = document.createElement('button');
+        btnExport.className = 'btnExport';
+        btnExport.textContent = 'export';
+        btnExport.addEventListener('click', function(evt){ evt.stopPropagation(); that.handleFormExport(formName); })
+        btnBar.appendChild(btnExport);
+
+        item.appendChild(btnBar);
+
+        item.addEventListener("click", function(evt){
+            formSelectorUI.querySelectorAll(`.formSelectorChoice[data-selected="true"]:not(.formSelectorChoice[data-guid="${item.dataset.guid}"])`).forEach(function(el){
+                el.dataset.selected = false;
+            });
+            item.dataset.selected = (item.dataset.selected == 'true')?'false':'true';
+            //that.handleFormSelect(formName);
+        });
+        formSelectorUI.appendChild(item);
+    });
+    return(formSelectorUI);
+}
+
+
+
+
+/*
+    handleFormOpen(formName)
+*/
+handleFormOpen(formName){
+    console.log(`handleFormOpen(${formName})`);
+    /*
+        LOH 10/20/21 @ 1711
+        this should really just be a switchUI call
+        but we'll need to get to to making recordEditorUI instances for each form
+        and realy probably an ARRecordEditor subclass all wired up neatly.
+    */
+}
+
+
+/*
+    handleFormQueue(formName)
+*/
+handleFormQueue(formName){
+    console.log(`handleFormQueue(${formName})`)
+}
+
+
+/*
+    handleFormExport(formName)
+*/
+handleFormExport(formName){
+    console.log(`handleFormExport(${formName})`)
+}
+
 
 
 

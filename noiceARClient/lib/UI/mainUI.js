@@ -1,4 +1,4 @@
-class noiceExamplePWAMainUI extends noiceCoreUIScreen {
+class noiceARClientMainUI extends noiceCoreUIScreen {
 
 
 
@@ -11,7 +11,7 @@ constructor(args, defaults, callback){
         args,
         noiceObjectCore.mergeClassDefaults({
             _version:       1,
-            _className:     'noiceExamplePWAMainUI',
+            _className:     'noiceARClientMainUI',
             _burgerMenu:    null,
             debug:          false,
         }, defaults),
@@ -41,8 +41,10 @@ get html(){ return(
         <button class="btnBurger" data-templatename="btnBurger" style="margin:.25em;">&nbsp;</button>
     </div>
     <div class="content">
-        <div class="searchInputContainer" data-templatename="searchInputContainer" ></div>
-        <div class="searchResultContainer" data-templatename="searchResultContainer"></div>
+        <div class="contentHeaderNote">
+            select a form:
+        </div>
+        <div data-templatename="mainContent" data-templateattribute="true">${this.mainContent}</div>
     </div>
     <div class="ftrPanel" style="
         display:grid;
@@ -52,46 +54,14 @@ get html(){ return(
             <img src="./gfx/reset-icon.svg" style="visibility:hidden; "/>
         </div>
         <div style="align-self:center;text-align:right;width:100%">
-            <button class="btnCreate" data-templatename="btnCreate">create</button>
-            <button class="btnEdit" data-templatename="btnEdit">edit</button>
+            <button class="btnCreate" data-templatename="btnCreate" style="display:none;">create</button>
+            <button class="btnEdit" data-templatename="btnEdit" style="display:none;">edit</button>
         </div>
     </div>
 <div>`
 ); }
 
-/*
-    LOH 8/31/21 @ 1644
-    return to noiceExamplePWA.js LOH # 223 when done here
 
-    next step: fix up the layout stuff. There's better ways to do the header / burger menu thing
-    as it is, btnBurger cannot be clicked. I don't even know. I'm thinking hdrPanel already got
-    used in the existing CSS or something anyhow, move it out of that block and its clickable
-    so we need to fix that up. Then I guess, really ... lets head straight for the form view and
-    the add UI.
-
-    update 8/31/21 @ 2314
-    couldn't resist fixing up the CSS issue outlined above. it's good now.
-
-    next up is the burger menu and it probably means cleaning up the noiceBaloonDialog class
-    significantly. After that, add the search field, but it'll be a placeholder, because
-    we haven't got anything to search yet. But for aestetics, let's put it in.
-
-    after cleaning up noiceBaloonDialog the next step is clearning up noiceCoreUIFormElement
-    we've gotta nail down the setValue listeners to use proper function wrappers that can
-    be actually discarded.
-
-    then building a formView
-    then building a submit UI
-    then a file export
-    then we can have something to fetch from syncWorker, though a stroke of possible
-    genius came over me and that's to leave syncworker completely out of this demo
-
-    this demo should be simply data entry, search of what you already entered, and a file
-    export + import.
-
-    the NEXT demo would include a serviceWorker pointing to ARS
-    and the one after that pointing at the custom backend.
-*/
 
 
 /*
@@ -196,4 +166,4 @@ get burgerMenu(){
 
 
 
-} // end noiceExamplePWAMainUI class
+} // end noiceARClientMainUI class

@@ -42,6 +42,14 @@
         3   formName is not set
         4   requested view not defined in config
         5   no viewName given, cannot determine default from config
+
+
+
+    LOH 10/20/21 @ 1901
+    
+    ok ... hear me out.
+    what if this becomes a recordEditorUI subclass
+    actually I'm like ... 99% sure that's the thing that needs to happen here
 */
 class noiceARForm extends noiceCoreChildClass {
 

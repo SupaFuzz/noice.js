@@ -99,7 +99,7 @@ initUI(){
                 let startAbort = false;
                 that.startApp().catch(function(error){
                     startAbort = true;
-                    this.log(`${this._className} | initUI() | startButtonCallback | startApp() threw unexpectedly: ${error}`, true);
+                    that.log(`${that._className} | initUI() | startButtonCallback | startApp() threw unexpectedly: ${error}`, true);
                 }).then(function(uiHolder){
                     if (! startAbort){
                         evt.target.disabled = false;

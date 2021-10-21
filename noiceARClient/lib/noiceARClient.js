@@ -216,6 +216,18 @@ startApp(){
                     // we'll come back to that.
                     // For now, a main UI with a form selector
                 };
+                Object.keys(that._defs.forms).forEach(function(formName){
+                    console.log(formName);
+                    console.log(that._defs.forms[formName]);
+                    that.UIs[formName] = new noiceARForm({
+                        _app:       that,
+                        formName:   formName,
+                        ARSConfig:  that._defs,
+                        title:      formName,
+                        burgerMenu: that.getBurgerMenu()
+                    });
+                });
+
 
                 // make the the screen holder and display defaultUI
                 that.screenHolder = new noiceCoreUIScreenHolder({
@@ -387,12 +399,7 @@ getFormSelector(){
 */
 handleFormOpen(formName){
     console.log(`handleFormOpen(${formName})`);
-    /*
-        LOH 10/20/21 @ 1711
-        this should really just be a switchUI call
-        but we'll need to get to to making recordEditorUI instances for each form
-        and realy probably an ARRecordEditor subclass all wired up neatly.
-    */
+    return(this.screenHolder.switchUI(formName));
 }
 
 

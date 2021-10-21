@@ -43,15 +43,8 @@
         4   requested view not defined in config
         5   no viewName given, cannot determine default from config
 
-
-
-    LOH 10/20/21 @ 1901
-    
-    ok ... hear me out.
-    what if this becomes a recordEditorUI subclass
-    actually I'm like ... 99% sure that's the thing that needs to happen here
 */
-class noiceARForm extends noiceCoreChildClass {
+class noiceARForm extends recordEditorUI {
 
 
 
@@ -65,6 +58,8 @@ constructor(args, defaults, callback){
         // object infrastructure
         _version:           1,
         _className:         'noiceARForm',
+        handleNumber:       1,
+        debug:              true,
 
         // abstracted attributes
         _formName:              null,
@@ -78,6 +73,95 @@ constructor(args, defaults, callback){
         _cloneLabelLocation:    'top'
 
     }, defaults), callback);
+
+    // setup a custom search menu
+    let that = this;
+    that.openSearchMenuCallback = function(selfRef){ return(that.handleOpenSearchMenu(selfRef)); }
+    that.searchMenu = that.getSearchMenu();
+}
+
+
+
+
+/*
+    LOH 10/20/21 @ 2159
+    we need to wire up rowAdd(), etc plugged into the getFormView()
+    thing. need to wire up saveCallback, and cloneCallback and the rest
+    then hopefully get a glimpse of the ARSConfig translated formView.
+
+    tweak that out, then we need to get back to setting up the isolated
+    indexedDB databases with journalling and the server-first-if-available
+    logic.
+*/
+
+
+
+
+/*
+    addRow() override
+*/
+async addRow(otherView, autoSelect){
+    let that = this;
+    if (that.debug){ that._app.log(`${this._className} | addRow()`); }
+
+    // see recipeEditorUI for examples of thangs we gonna have to do in here
+
+    return(true);
+}
+
+
+
+
+/*
+    getSearchMenu()
+    just a really dumb search menu. in practice this would of course
+    be much more elaborate
+*/
+getSearchMenu(){
+    let that = this;
+
+    let container = document.createElement('div');
+    container.className = 'searchMenu';
+
+    // btnContiner
+    let btnContainer = document.createElement('div');
+    btnContainer.className = 'btnContainer';
+
+    // footer msg
+    let ftrMsg = document.createElement('span');
+    ftrMsg.className = 'ftrMsg';
+    ftrMsg.innerHTML = '&nbsp;';
+    btnContainer.appendChild(ftrMsg);
+
+    // search button
+    let btnSearch = document.createElement('button');
+    btnSearch.textContent = 'search';
+    btnSearch.className = 'btnSearch';
+    btnContainer.appendChild(btnSearch);
+
+    // "recipe google", LOL
+    that.roogleInput = new noiceCoreUIFormElementInput({
+        label:                  'search',
+        labelLocation:          'none',
+        maxLength:              0,
+        trimWhitespace:         true,
+        valueChangeCallback:    async function(newVal, oldVal, formElement){
+
+            // keeping in mind this is just a dumb demo ... :-)
+            btnSearch.disabled = that.isNull(newVal);
+            return(newVal);
+        }
+    }).append(container);
+    container.appendChild(btnContainer);
+
+    btnSearch.addEventListener('click', function(evt){
+
+        // let um know ya here!
+        if (that.debug){ that._app.log(`${that._className} | btnSearch with searchtext: ${that.roogleInput.value}`); }
+
+    });
+
+    return(container);
 }
 
 
@@ -107,8 +191,9 @@ set ARSConfig(v){
         throwError = 'specified ARSConfig object is not valid';
     }
     if (this.isNotNull(throwError)){
+        let that = this;
         throw(new noiceException({
-            message:        `${this._className}/ARSConfig setter: ${throwError}`,
+            message:        `${that._className}/ARSConfig setter: ${throwError}`,
             messageNumber:   1,
             thrownBy:       `${that._className}/ARSConfig setter`
         }));
@@ -319,11 +404,6 @@ getFormViewConfig(viewName){
             }
 
 
-            /*
-                LOH 10/18/21 @ 2022
-                ok hooked up the displaySection.
-                recon there are lotsa syntax errors. give it a try and see what it spits out next.
-            */
 
             /*
                 .datatype mappings

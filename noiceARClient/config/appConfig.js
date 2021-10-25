@@ -66,6 +66,7 @@ cache: {
         './lib/noice/UI/startupDialog.js',
         './lib/noice/UI/noiceBalloonDialog.js',
         './lib/noice/UI/recordEditorUI.js',
+        './lib/noice/noiceCoreUIFormElementTable.js',
         './lib/noice/formView.js'
     ]
 },

@@ -84,29 +84,175 @@ constructor(args, defaults, callback){
 
 
 /*
-    LOH 10/20/21 @ 2159
-    we need to wire up rowAdd(), etc plugged into the getFormView()
-    thing. need to wire up saveCallback, and cloneCallback and the rest
-    then hopefully get a glimpse of the ARSConfig translated formView.
+    addRow() override
 
-    tweak that out, then we need to get back to setting up the isolated
-    indexedDB databases with journalling and the server-first-if-available
-    logic.
 */
+async addRow(otherView, autoSelect){
+
+    let that = this;
+    this._app.log(`${this._className} | addRow()`);
+    let skipForDupe = false;
+
+    let view;
+    if (that.isNotNull(otherView) && (otherView instanceof formView)){
+        view = otherView;
+
+        // do we already have this one? if so, we gonna exit
+        skipForDupe = that.uiHolder.UIList.hasOwnProperty(view.rowID);;
+
+    }else{
+        view = await that.makeNewFormView();
+    }
+
+    if (! skipForDupe){
+        // setup the rowHandle and add it to the handleList
+        let viewHandle = view.handle.append(that._DOMElements.handlelist);
+        viewHandle.selectCallback = function(selfRef){ return(that.handleRowSelect(viewHandle._DOMElements._handleMain)); }
+
+        // add the formView to our uiHolder with the view's rowID
+        this.uiHolder.addUI(view, view.rowID);
+
+        // then select the new rowHandle (this causes real problems in a loop somehow?)
+        if (! (autoSelect == false)){ await that.handleRowSelect(viewHandle); }
+
+        // increment our untitled document count
+        that.handleNumber++;
+    }
+
+    return(true);
+}
 
 
 
 
 /*
-    addRow() override
+    makeNewFormView(formView)
+    this makes a new reecipeFormView in create mode either with default field values
+    if (formView is null), or if formView is presnet, we'll copy in formView.data
+    (allowing changeField callbacks etc)
 */
-async addRow(otherView, autoSelect){
+makeNewFormView(externalFormView){
     let that = this;
-    if (that.debug){ that._app.log(`${this._className} | addRow()`); }
+    return(new Promise(function(toot, boot){
+        let newView = new noiceARFormView({
+            formMode:           'create',
+            config:             that.getFormViewConfig(),
+            _app:               that._app,
+            rowTitle:           `Untitled #${that.handleNumber}`,
+            cancelButtonText:   '',
 
-    // see recipeEditorUI for examples of thangs we gonna have to do in here
+            // custom stuff
+            handleNumber:       that.handleNumber,
 
+            // callbacks
+            //saveCallback:       function(formViewReference){ return(that.handleFormViewSave(formViewReference)); },
+            //cloneCallback:      function(cloneViewReference){ return(that.handleFormViewClone(cloneViewReference)); },
+            cloneableCallback:  function(formViewReference, flag){ return(that.toggleCloneIcon(formViewReference, flag)); },
+            areYouSureCallback: function(formViewReference, focusArgs){ return(that.saveChangesDialog(formViewReference, focusArgs)); },
+
+            debug:              true,
+        });
+        if (that.isNotNull(externalFormView) && (externalFormView instanceof formView)){
+            newView.rowTitle = externalFormView.rowTitle;
+            newView.setData(externalFormView.data).then(function(){
+                newView.changeFlag = false;
+                newView.cloneable = true;
+                toot(newView);
+            });
+        }else if (that.isNotNull(externalFormView) && (externalFormView instanceof Object)){
+            newView.setData(externalFormView).then(function(){
+                newView.changeFlag = false;
+                newView.cloneable = true;
+                toot(newView);
+            });
+        }else{
+            toot(newView)
+        }
+    }));
+
+}
+
+
+
+
+/*
+    toggleCloneIcon(formViewReference, flag)
+    this is the cloneableCallback for our formViews
+*/
+async toggleCloneIcon(formViewReference, flag){
+    if (formViewReference.onScreen){ this._DOMElements.btnClone.disabled = (flag == false); }
     return(true);
+}
+
+
+
+
+/*
+    handleFormViewSave(formViewReference)
+    this is the formView's saveCallback
+    we'll be needing to talk to the internal indexedDB etc here.
+    for now just a placeholder
+*/
+handleFormViewSave(formViewReference){
+    let that = this;
+
+    return(new Promise(function(toot, boot){
+        let writeFields = {};
+        formViewReference.changedFields.forEach(function(field){
+            writeFields[field.fieldName] = field.newValue;
+        });
+        let writeAbort = false;
+
+        /* REFACTOR ME
+        that._app.writeRecipe(formViewReference.rowID, writeFields).catch(function(error){
+            writeAbort = true;
+            boot(error);
+        }).then(function(dbRow){
+            if (! writeAbort){
+                formViewReference.rowStatus = dbRow._rowMeta.rowStatus;
+                toot(dbRow);
+            }
+        });
+        */
+        toot(true);
+    }));
+}
+
+
+
+
+/*
+    handleFormViewClone(cloneViewReference)
+    this is the formView's cloneCallback, the cloneFormViewReference is a
+    reference to the selected formView's cloneView.
+
+    we pass the cloneViewReference to the maneNewFormView to get a copy, added
+    to the uiHolder and with the handle added, etc, then we execute it's
+    save (which'll take us back to handleFormViewSave() above)
+*/
+handleFormViewClone(cloneViewReference){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        if (that.debug){ that._app.log(`${that._className} | handleFormViewClone | called`); }
+        let abrt = false;
+        that.makeNewFormView(cloneViewReference).catch(function(error){
+            abrt = true;
+            that._app.log(`${that._className} | handleFormViewClone | failed to instantiate new formView from cloneView: ${error}`);
+            boot(error);
+        }).then(function(newView){
+            if (! abrt){
+                that.addRow(newView);
+                let saveAbrt = false
+                newView.save().catch(function(error){
+                    saveAbrt = true;
+                    that._app.log(`${that._className} | handleFormViewClone | clone created but save() failed: ${error}`);
+                    boot(error);
+                }).then(function(){
+                    if (! saveAbrt){ toot(true); }
+                })
+            }
+        });
+    }));
 }
 
 
@@ -296,12 +442,26 @@ getFormViewConfig(viewName){
                         create: { display, edit, nullable}
                         clone:  { fieldMenu, inhertValue, nullable}
                     }
+
+
             */
+            let shawty = that.ARSConfig.forms[that.formName].idIndex[fieldID];
 
             // skip the status history (id #15)
             if (fieldID == 15){ return(true); }
 
-            let shawty = that.ARSConfig.forms[that.formName].idIndex[fieldID];
+            /*
+                LOOSE END 10/25/21 @ 1320
+                come back and figure out how to properly render button, table & column defs
+            */
+
+            // temporarily skip tables and columns
+            if ((shawty.datatype == 'TABLE') || (shawty.datatype == 'COLUMN')){ return(true); }
+
+            // temporarily skip buttons and other controls
+            if (shawty.datatype == 'CONTROL'){ return(true); }
+
+
             out.fields[fieldID] = {
                 id: fieldID,
                 type: shawty.datatype.toLowerCase(),
@@ -335,6 +495,10 @@ getFormViewConfig(viewName){
                 }
             }
 
+            // fix dateTime type shenannigans
+            if (out.fields[fieldID].type == 'time'){ out.fields[fieldID].type = 'dateTime'; }
+            if (out.fields[fieldID].type == 'time_of_day'){ out.fields[fieldID].type = 'time'; }
+
             // put in maxLength if we've got one
             if (
                 (shawty.limit instanceof Object) &&
@@ -355,6 +519,9 @@ getFormViewConfig(viewName){
                     }else if (shawty.display_properties[viewName].DATA_RADIO == 2){
                         // checkbox
                         out.fields[fieldID].type = 'checkbox';
+                    }else{
+                        // dropdown
+                        out.fields[fieldID].type = 'dropdown';
                     }
                 }else{
                     // dropdown
@@ -439,6 +606,11 @@ getFormViewConfig(viewName){
                 .display_properties[<viewName>].VISIBLE
                     0 = hide
                     1 = show
+
+                NOTE on type values for date stuffs:
+                    * Date field:       datatype: "DATE"
+                    * Time field:       datatype: "TIME_OF_DAY"
+                    * dateTime field:   datatype: "TIME" (no shit)
             */
 
 
@@ -478,6 +650,27 @@ getFormViewConfig(viewName){
         return(out);
     }
 }
+
+
+
+
+
+/*
+    LOH 10/25/21 @ 1330
+
+    addRow() has been hooked up and it renders an incomplete / broken view but it does mostly work
+    to fix noiceARFormView:
+        * setup a handle template ... get handleTemplate()
+        * figure out how to setup tables and columns
+        * properly interpolate 'text' field types from multi-row char in the getFormViewConfig()]
+        * figure out how to setup buttons (and interpolate workflow? this seems a stretch)
+        * interpolate default value variables like $USER$
+
+
+    tweak that out, then we need to get back to setting up the isolated
+    indexedDB databases with journalling and the server-first-if-available
+    logic.
+*/
 
 
 

@@ -61,12 +61,12 @@ get handleTemplate(){
                 <h3 data-templatename="rowTitle" data-templateattribute="true">&nbsp;</h3>
                 <div class="handleDataRow">
                     <span data-templatename="rowStatus" data-templateattribute="true">&nbsp;</span>
-                    <span data-templatename="category" data-templateattribute="true">&nbsp;</span>
-                    <span data-templatename="status" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="8" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="7" data-templateattribute="true">&nbsp;</span>
                 </div>
                 <div class="handleDataRow">
-                    <span data-templatename="author" data-templateattribute="true">&nbsp;</span>
-                    <span data-templatename="modifiedDate" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="2" data-templateattribute="true">&nbsp;</span>
+                    <span data-templatename="6" data-templateattribute="true">&nbsp;</span>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@ fieldValueChangeCallback(fieldName, newValue, oldValue, formElement){
         /*
             copy title value to the rowTitle
         */
-        if (fieldName == 'title'){
+        if (fieldName == '8'){
             that.rowTitle = (that.isNotNull(newValue))?newValue:that._originalRowTitle;
         }
 

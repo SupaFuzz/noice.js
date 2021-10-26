@@ -472,19 +472,19 @@ getFormViewConfig(viewName){
                 modes: {
                     create: {
                         display: (shawty.display_properties[viewName].VISIBLE == 1),
-                        edit: (shawty.display_properties[viewName].ENABLE == 2),
+                        edit: ( (! (shawty.display_properties[viewName].hasOwnProperty('ENABLE'))) || (shawty.display_properties[viewName].ENABLE == 2)),
                         nullable: (! (shawty.field_option == 'REQUIRED')),
                         defaultValue: shawty.default_value
                     },
                     modify: {
                         display: (shawty.display_properties[viewName].VISIBLE == 1),
-                        edit: (shawty.display_properties[viewName].ENABLE == 2),
+                        edit: ( (! (shawty.display_properties[viewName].hasOwnProperty('ENABLE'))) || (shawty.display_properties[viewName].ENABLE == 2)),
                         nullable: (! (shawty.field_option == 'REQUIRED')),
                         defaultValue: shawty.default_value
                     },
                     clone:  {
                         fieldMenu: ((shawty.display_properties[viewName].ENABLE == 2) && (! (shawty.field_option == 'DISPLAY'))),
-                        edit: (shawty.display_properties[viewName].ENABLE == 2),
+                        edit: ( (! (shawty.display_properties[viewName].hasOwnProperty('ENABLE'))) || (shawty.display_properties[viewName].ENABLE == 2)),
                         nullable: (! (shawty.field_option == 'REQUIRED')),
                         labelLocation: that.cloneLabelLocation,
 
@@ -549,6 +549,9 @@ getFormViewConfig(viewName){
             // insert ROWS if we've got that
             if (shawty.display_properties[viewName].hasOwnProperty('DATA_ROWS')){
                 out.fields[fieldID].rows = shawty.display_properties[viewName].DATA_ROWS;
+                if ((out.fields[fieldID].type == 'char') && (out.fields[fieldID].rows > 1)){
+                    out.fields[fieldID].type = 'text';
+                }
             }
 
             // interpolate displayOrder from tab_order if we've got it
@@ -647,6 +650,8 @@ getFormViewConfig(viewName){
 
             */
         });
+        console.log(`[${that.formName} (${viewName})]`);
+        console.log(out);
         return(out);
     }
 }
@@ -660,12 +665,12 @@ getFormViewConfig(viewName){
 
     addRow() has been hooked up and it renders an incomplete / broken view but it does mostly work
     to fix noiceARFormView:
-        * setup a handle template ... get handleTemplate()
+        * [done 10/25 @2204] setup a handle template ... get handleTemplate()
         * figure out how to setup tables and columns
-        * properly interpolate 'text' field types from multi-row char in the getFormViewConfig()]
+        * [done 10/25 @ 2122] properly interpolate 'text' field types from multi-row char in the getFormViewConfig()]
         * figure out how to setup buttons (and interpolate workflow? this seems a stretch)
-        * interpolate default value variables like $USER$
-
+        * interpolate default value variables like $USER$ -- use filters
+        * implement time and time_of_day
 
     tweak that out, then we need to get back to setting up the isolated
     indexedDB databases with journalling and the server-first-if-available

@@ -661,20 +661,28 @@ getFormViewConfig(viewName){
 
 
 /*
-    LOH 10/25/21 @ 1330
+    LOH 10/25/21 @ 2208
 
     addRow() has been hooked up and it renders an incomplete / broken view but it does mostly work
     to fix noiceARFormView:
-        * [done 10/25 @2204] setup a handle template ... get handleTemplate()
         * figure out how to setup tables and columns
+        * implement time and time_of_day
+        * [done 10/25 @ 2204] setup a handle template ... get handleTemplate()
         * [done 10/25 @ 2122] properly interpolate 'text' field types from multi-row char in the getFormViewConfig()]
         * figure out how to setup buttons (and interpolate workflow? this seems a stretch)
-        * interpolate default value variables like $USER$ -- use filters
-        * implement time and time_of_day
+        * interpolate default value variables like $USER$ -- use filters?
 
     tweak that out, then we need to get back to setting up the isolated
     indexedDB databases with journalling and the server-first-if-available
     logic.
+
+    UPDATE 10/26/21 @ 1050
+    I'm thinking we need to head back to noiceRemedyAPI and look at Associations. I think
+    this might be real useful background for how to handle tables. Tables are a bit of a bitch
+    because they don't really hold a *value* and in that way, these aren't actually formElements
+    except in that they are an element of a form UI in a way, and in the traditional Remedy
+    model. Doing tables is both completely necessary and big problem, and I need to think of
+    better ways to do this than trying to make it emulate a value-bearing field. 
 */
 
 

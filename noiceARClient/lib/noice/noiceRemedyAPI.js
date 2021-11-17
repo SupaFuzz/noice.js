@@ -493,6 +493,35 @@ async query(p){
 
     // construct endpoints
     let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1/entry/${encodeURIComponent(p.schema)}/?q=${encodeURIComponent(p.QBE)}&fields=values(${p.fields.join(",")})`;
+
+
+    /*
+        associations:
+            * getAssociations <bool> || array
+              if null or boolean false: do nothing
+              if boolean true: get a list of all associations   url += `,assoc`
+              if array: get associationNames listed             url += `,assoc(getAssociations.join(','))`
+
+            * expandAssociations <bool>
+              if true and getAssociations is an array, expand (get fieldValues for) the associations listed in getAssociations
+              url += `&expand=assoc(getAssociations.join(','))`
+    */
+    if (p.hasOwnProperty('getAssociations')){
+        if (p.getAssociations === true){
+            url += `,assoc`;
+        }else if (p.getAssociations instanceof Array){
+            let as = [];
+            //p.getAssociations.forEach(function(v){ as.push(`'${v}'`); });
+            as = p.getAssociations;
+            if (p.hasOwnProperty('expandAssociations') && (p.expandAssociations === true)){
+                url += `&expand=assoc(${as.join(',')})`;
+            }else{
+                url += `,assoc(${as.join(',')})`;
+            }
+        }
+    }
+
+    // paging stuffs
     ['offset', 'limit', 'sort'].forEach(function(a){
         if ((p.hasOwnProperty(a)) && (self.isNotNull(p[a]))){
             url += `&${a}=${encodeURIComponent(p[a])}`;
@@ -576,6 +605,15 @@ async query(p){
         fields:             [array, of, fieldnames, to, get, values, for] -- note add something for assoc stuff later
         fetchAttachments:   true | false (default false). if true, fetch the binary data for attachments and include in .data
         progressCallback:   function(evt){ ... xhr progress event handler ... }
+
+        associations:
+            * getAssociations <bool> || array
+              if null or boolean false: do nothing
+              if boolean true: get a list of all associations
+              if array: get associationNames listed
+
+            * expandAssociations <bool>
+              if true and getAssociations is an array, expand (get fieldValues for) the associations listed in getAssociations
     })
 */
 async getTicket(p){
@@ -621,7 +659,42 @@ async getTicket(p){
     // default false value of fetchAttachments
     p.fetchAttachments = (p.hasOwnProperty('fetchAttachments') && p.fetchAttachments === true);
 
+    /* associations hooks -- this works but we can do better
+    let getAssoc = (p.hasOwnProperty('getAssociations') && (p.getAssociations === true));
+    let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1/entry/${encodeURIComponent(p.schema)}/${p.ticket}/?fields=values(${p.fields.join(",")})${(getAssoc)?',assoc':''}`;
+    */
+
+    // base url
     let url = `${p.protocol}://${p.server}:${p.port}${(self.hasAttribute('proxyPath'))?self.proxyPath:''}/api/arsys/v1/entry/${encodeURIComponent(p.schema)}/${p.ticket}/?fields=values(${p.fields.join(",")})`;
+
+    /*
+        associations:
+            * getAssociations <bool> || array
+              if null or boolean false: do nothing
+              if boolean true: get a list of all associations   url += `,assoc`
+              if array: get associationNames listed             url += `,assoc(getAssociations.join(','))`
+
+            * expandAssociations <bool>
+              if true and getAssociations is an array, expand (get fieldValues for) the associations listed in getAssociations
+              url += `&expand=assoc(getAssociations.join(','))`
+    */
+    if (p.hasOwnProperty('getAssociations')){
+        if (p.getAssociations === true){
+            url += `,assoc`;
+        }else if (p.getAssociations instanceof Array){
+            let as = [];
+            //p.getAssociations.forEach(function(v){ as.push(`'${v}'`); });
+            as = p.getAssociations;
+            if (p.hasOwnProperty('expandAssociations') && (p.expandAssociations === true)){
+                url += `&expand=assoc(${as.join(',')})`;
+            }else{
+                url += `,assoc(${as.join(',')})`;
+            }
+        }
+    }
+
+
+    // log the url for debug
     if (self.debug){ console.log(`[getTicket (endpoint)]: ${url}`); }
 
     let resp = await self.fetch({

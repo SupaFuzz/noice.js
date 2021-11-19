@@ -54,6 +54,7 @@ cache: {
         './gfx/fonts/Comfortaa.woff2',
 
         './lib/noice/noiceCore.js',
+        './lib/noice/noiceApplicationCore.js',
         './lib/noice/noiceCoreUI.js',
         './lib/noice/noiceCoreUIFormElement.js',
         './lib/noice/noiceCoreUITemplate.js',

@@ -25,10 +25,9 @@ let Remedy = new noiceRemedyAPI({
     in the real world, the browser would disallow any
     connection not on the same hostname and port, which
     means you'll likely need a reverse proxy from the
-    webserver that serves this to the jetty server on
-    your arserver. You will need to give said reverse
-    proxy a path. This is what the `proxyPath` argument
-    is for.
+    webserver that serves code referencing this library,  
+    to the jetty server on your arserver. You will need
+    to give said reverse proxy a path. This is what the `proxyPath` argument is for.
 
     so really it'll be like this
 */

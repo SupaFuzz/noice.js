@@ -5,8 +5,6 @@
     I just typically don't need to do that, and it looks like a huge headache
     to work out. Also associations.
 
-    TO-DO: get attachments working
-    https://communities.bmc.com/docs/DOC-60907
 
 */
 

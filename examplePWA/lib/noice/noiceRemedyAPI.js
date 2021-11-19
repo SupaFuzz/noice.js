@@ -35,7 +35,7 @@ constructor(args){
 
     // set it up
     super(args, {
-        _version:       2,
+        _version:       2.5,
         _className:     'noiceRemedyAPIException',
         _lastResort:    [],
         _message:       '',

@@ -1,11 +1,14 @@
 # noiceRemedyAPI.js
-a client for the BMC Remedy ARS REST service as described here
-https://docs.bmc.com/docs/ars2008/overview-of-the-rest-api-929631053.html
+A browser client for the BMC Remedy ARS REST service as described here: [BMC Documentation](https://docs.bmc.com/docs/ars2008/overview-of-the-rest-api-929631053.html)
 
-## requires
+## Author / Version
+* **Amy Hicox** | `amy@hicox.com` | `amy.hicox@nasa.gov`
+* **Version 2.5** | 11/19/2021
+
+## Requires
 * noiceCore.js (`noiceException`, `noiceCoreNetworkUtility`)
 
-## synopsis
+## Synopsis
 ```javascript
 // create object
 let Remedy = new noiceRemedyAPI({
@@ -441,7 +444,7 @@ console.log(`merged data onto ${ticketId.entryId}`);
 
 
 ### `async getFormOptions({args})`
-*I do not understand what this is, but it [appears in the API](https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html)*
+*I do not understand what this is, but it [appears in the API](https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html) so I made a wrapper for it in the library*
 
 ```javascript
 let result = await Remedy.getFormOptions({
@@ -453,23 +456,214 @@ let result = await Remedy.getFormOptions({
 
 
 ### `async getMenu({args})`
-returns meta-data about the ARS Menu object identified by `menuName`. To get the actual menu content,
+returns meta-data about the ARS Menu object identified by `name`. To get the actual menu content,
 see `getMenuValues()`. See also strangely complete and helpful [BMC Documentation](https://docs.bmc.com/docs/ars2002/example-of-using-the-rest-api-to-retrieve-menu-details-909638136.html)
 
-```javascript
-let menu =
+#### args
+* **name** `string` -  the name of the ARS menu object for which you'd like to retrieve meta-data from the server
 
-/*
-    LOH 11/18/21 @ 2319
-*/
+#### output
+the function returns a promise resolving to a data structure of this form:
+```javascript
+{
+    menu_type: 'Search',
+    refresh_code: 1,
+    qualification_string: `'Status' = "published"`,
+    menu_information: {
+        qualification_current_fields: [ fieldID, ...],
+        qualification_keywords: [keyWord, ...]
+    }
+}
+```
+##### `qualification_string`
+contains the verbatim QBE in the menu definition so I guess you could parse it if ya wanted I guess
+
+##### `qualification_current_fields`
+contains an array of the field_id's you can replace in the qualification this array will be null if you have a menu with no qualification replacement inputs
+
+##### `qualification_keywords`
+seems to be the same thing for keywords
+
+##### `menu_information.menu_type` values
+a string corresponding to the menu type in Dev Studio
+* **Sql**
+* **Search**
+* **File**
+* **DataDictionary**
+* **List** - (this is a 'Character Menu' in Dev Studio)
+
+##### `menu_unformation.refresh_code` values
+an integer corresponding to these values from Dev Studio
+1. On Connect
+2. On Open
+3. On 15 Minute Intervales
+
+#### example
+```javascript
+let menu = await Remedy.getMenu({
+    name: 'noice:demo:ingredient:Name'
+}).catch(function(error){
+    throw(`getMenu failed: ${error}`);
+})
 
 ```
 
+
 ### `async getMenuValues({args})`
+retrieve values for the ARS Menu object item identified by `name`
+
+#### args
+* **name** `string` - the name of the ARS menu object for which you'd like to retrieve values from the server
+
+* **qualification_substitute_info** `object` -
+this object specifies value substitutions for the QBE driving the specified menu. However, there's not a whole lot of detail in the [BMC Documentation](https://docs.bmc.com/docs/ars2002/example-of-using-the-rest-api-to-retrieve-menu-details-909638136.html?focusedCommentId=1041165129#comment-1041165129). This is the example object form given in the documentation:
+```javascript
+qualification_substitute_info: {
+    form_name: "TestForm_dfb88",
+    field_values: {
+      "536870915": 100
+    },
+    keyword_values: {
+      "USER": "Demo"
+    }
+}
+```
+`form_name` needs to be the form owning the field values that you wish to replace in the qualification. For instance if you've got a menu with a qualification like this from the recipe demo:
+
+    * **[primary ui form]**           noice:demo:recipe
+    * **[supporting table form]**     noice:demo:recipe:ingredient
+
+    now say on your primary form you have a field: `536870919`, and on a menu you have a qualification like this: `'recipe Entry ID' = $536870919$` where 'recipe Entry ID' is the foreign key on your supporting table that links the rows to the parent
+
+    NOW ... say you want to retrieve the ingredient list for the noice:demo:recipe row where `'1' = "000000000000003"`
+
+    this will work:
+    ```javascript
+    qualification_substitute_info: {
+        form_name: 'noice:demo:recipe',
+        field_values: {
+          '536870919': "000000000000003"
+        }
+      }
+    ```
+
+#### some caveats
+1. **you can't use the system field '1' [Entry ID] in the menu qualification**
+
+   it'll work inside ARS, but the API will return an empty string. that's why
+   I created a BS field: 536870919. System fields need not apply, but I suspect
+   the bug is more sinister ... any field-id replicated between your supposed "calling"
+   form (even though the menu would have no concept of that), and your data target form
+   gets total confusion server side. I'll guarantee it like the men's warehouse.
+
+2. in the example above, the menu points at `noice:demo:recipe:ingredient`, but you have to specify **the form from which you might call the menu**, which is the form with the field `536870919`, on it that is `noice:demo:recipe`.
+
+#### output
+the function returns a promise resolving to an object that has varied forms
+```javascript
+/*
+    here one with two 'Label Fields' specified
+*/
+{
+    items: [
+        {
+            type:   <SubMenu|?>
+            label:  <string menu entry value>,
+            content: [
+                {
+                    type:   <Value|?>
+                    label:  <string menu entry value>,
+                    value:  <associated value>
+                }
+            ]
+        },
+        ...
+    ]
+}
+
+
+/*
+    basically type gets "SubMenu" or "Value". If there's just one field in the 'Label Fields' section
+    it looks like this:
+*/
+{
+    items: [
+        {
+            type: 'Value',
+            label:  <string>
+            value: <string>
+        }
+    ]
+}
+
+```
+
+#### example
+```javascript
+let menuData = await Remedy.getMenuValues({
+    name: 'noice:demo:ingredient:Name'
+}).catch(function(error){
+    throw(`getMenuValues failed: ${error}`);
+})
+```
+
+
 ### `async getFormFields({args})`
+get field definitions for the form identified by `schema`. See [BMC Documentation](https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html)
+
+#### args
+* **schema** `string` -  name of the form you wish to retrieve field definitions for
+
+* **fetchMenus** `bool` - if set true fetch any menus related to fields on the form
+
+#### output
+this function returns a promise resolving to an object of this form:
+```javascript
+{
+    idIndex:    { fieldID:{field_definition} },
+    nameIndex:  { fieldName:{field_definition} },
+    menus:      { menuName:{menu_definition} }
+}
+```
+
+* **idIndex** `object` - indexes fields by field ID
+* **nameIndex** `object` - indexes fields by fieldName
+* **menus** `object` - indexes referenced menus by menuName
+
+```javascript
+let formFields = await Remedy.getFormFields({
+    schema: 'noice:demo:recipe',
+    fetchMenus: true
+}).catch(function(error){
+    throw(`getFormFields failed: ${error}`);
+});
+```
+
+
 ### `async getRelatedFormsAndMenus({args})`
+this retrieves formFields for the form identified by `schema`, and also recurses to find forms related to tables, and menus related to fields
 
+#### args
+* **schema** `string` - recursively get fields, forms and menus starting with this form
 
+#### output
+the function returns a promise resolving to an object of this form:
+
+```javascript
+{
+    forms:  {
+        schemaName: {
+            idIndex:    { fieldID:{field_definition} },
+            nameIndex:  { fieldName:{field_definition} },
+
+        }, ...
+    },
+    menus:  {
+        menuName: {arsMenuDef},
+        ...
+    }
+}
+```
 
 
 
@@ -477,5 +671,6 @@ let menu =
 ## Attribute reference
 details on all of the object attributes
 
-### `isAuthenticated [bool] `
-### `token [str]`
+* **isAuthenticated** `bool` - true, if the object is currently authenticated to the server
+
+* **token** `string` - the API token (if `isAuthenticated` == true)

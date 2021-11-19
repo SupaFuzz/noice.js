@@ -1,0 +1,481 @@
+# noiceRemedyAPI.js
+a client for the BMC Remedy ARS REST service as described here
+https://docs.bmc.com/docs/ars2008/overview-of-the-rest-api-929631053.html
+
+## requires
+* noiceCore.js (`noiceException`, `noiceCoreNetworkUtility`)
+
+## synopsis
+```javascript
+// create object
+let Remedy = new noiceRemedyAPI({
+    protocol:   'https',
+    server:     'remedy.hicox.com',
+    port:       8443,
+    user:       'someUser',
+    password:   'd4fs3krT'
+});
+
+/*
+    ok but seriously, let's talk about reverse proxies
+
+    in the real world, the browser would disallow any
+    connection not on the same hostname and port, which
+    means you'll likely need a reverse proxy from the
+    webserver that serves this to the jetty server on
+    your arserver. You will need to give said reverse
+    proxy a path. This is what the `proxyPath` argument
+    is for.
+
+    so really it'll be like this
+*/
+
+// create object (legit)
+let Remedy = new noiceRemedyAPI({
+    protocol:   window.location.protocol.replace(':', ''),
+    server:     window.location.hostname,
+    proxyPath:  '/REST',
+    user:       'someUser',
+    password:   'd4fs3krT'
+});
+
+/*
+    async authenticate()
+    establishes a session to an arserver as the specified user
+    returns a promise resolving to self, so that it can be
+    chained thusly
+*/
+let Remedy = await new noiceRemedyAPI({
+    protocol:   window.location.protocol.replace(':', ''),
+    server:     window.location.hostname,
+    proxyPath:  '/REST',
+    user:       'someUser',
+    password:   'd4fs3krT'
+}).authenticate();
+
+
+// query for some tickets
+let tickets = await Remedy.query({
+    schema:             'noice:demo:recipe',
+    fields:             ['Entry ID', 'Name', 'Procedure', 'picPreview'],
+    QBE:               `'Name' LIKE "%Cashew%"`,
+    getAssociations:    ['noice:demo:recipe to ingredient'],
+    expandAssociations: true,
+    fetchAttachments:   true
+}).catch(function(error){
+    console.log(`query failed: ${error}`);
+});
+
+// create a ticket
+let newTicketEntryID = await Remedy.createTicket({
+    schema: 'noice:demo:recipe:ingredient',
+    fields: {
+        'Name':               'Healthy Boy Brand Mushroom Soy Sauce',
+        'Measurement':        '1.5 TBSP',
+        'recipe Entry ID':    '000000000000001'
+    }
+}).catch(function(error){
+    console.log(`create failed: ${error}`);
+});
+
+// modify a ticket
+await Remedy.modifyTicket({
+    schema: 'noice:demo:recipe:ingredient',
+    ticket: newTicketEntryID,
+    fields: {
+        'Measurement':        '.5 TBSP',
+        'Notes':              'less is more'
+    }
+}).catch(function(error){
+    console.log(`modify failed: ${error}`);
+});
+
+// delete a ticket
+await Remedy.deleteTicket({
+    schema: 'noice:demo:recipe:ingredient',
+    ticket: newTicketEntryID
+}).catch(function(error){
+    console.log(`delete failed: ${error}`);
+});
+```
+
+## Function reference
+above was an overview, here's the details of how it all works.
+
+### `constructor`
+Creates a new object. Data on the input object is copied into the object as attribute default values:
+```javascript
+let Remedy = new noiceRemedyAPI({<arbitrary>})
+```
+
+
+### `async authenticate({args})`
+Establishes a new API session to the specified server as the specified user. Returns a promise resolving to the object reference, such that it can be chained with the constructor. `{args}` can be specified alternately on the object constructor, or on the call to the `authenticate()` function
+
+#### args
+* **protocol** `enum('http', 'https')` - protocol to use connecting to REST service
+
+* **server** `string` - hostname to use connecting to REST service
+
+* **port** `integer` - port number to use connecting to REST service (`protocol` determines default ports 80 & 443, only need to specify if non-standard port is used)
+
+* **user** `string` - Remedy 'Login ID' to use connecting to REST service
+
+* **password** `string` - password for Remedy 'Login ID' identified by `user`
+
+* **proxyPath** `string` - perepend this string to the URL prior to the `/api` path string. This allows you to place the ARS REST service behind a reverse proxy on the webserver serving code containing this api library see:
+[Apache Documentation](https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html)
+
+```javascript
+// from already created object (where 'Remedy' is the previously created object)
+let abort = false;
+Remedy.authenticate({
+    protocol:   window.location.protocol.replace(':', ''),
+    server:     window.location.hostname,
+    proxyPath:  '/REST',
+    user:       'someUser',
+    password:   'd4fs3krT'
+}).catch(function(e){
+    abort = true;
+    console.log(`authenticate failed: ${error}`);
+}).then(function(api){
+    if (! abort){
+        // call functions against 'api' here
+    }
+});
+
+// inline with constructor in async function
+let Remedy = await new noiceRemedyAPI({
+    protocol:   window.location.protocol.replace(':', ''),
+    server:     window.location.hostname,
+    proxyPath:  '/REST',
+    user:       'someUser',
+    password:   'd4fs3krT'
+}).catch(function(e){
+    console.log(`authenticate failed: ${error}`);
+});
+
+// call functions against 'Remedy' here
+```
+
+### `async logout()`
+Destroy existing API session on ARServer for specified user (takes no args)
+
+```javascript
+await Remedy.logout().catch(function(error){
+    console.log(`logout failed: ${error}`)
+})
+```
+
+
+### `async getAttachment({args})`
+retrieves attachment from the specified Attachment field on the specified form and record (data is returned as a raw binary array buffer)
+
+#### args
+* **schema** `string` - the name of the Form on the server containing the record with the attachment field you want to retrieve
+
+* **ticket** `string` - the `'Entry ID' (field #1)` value identifying the record on the form identified by `schema` with the attachment field you wish to retrieve
+
+* **fieldName** `string` - the **label** of the attachment field in the **default view** form identified by `schema` (this is unforunately how the ARS REST interface identifies fields -- what happens when two fields have the same label? ask BMC. `Field ID` *should* be supported to end around this ambiguity but isn't, again -- this is BMC's design, not mine :unamused:
+
+```javascript
+let data = await Remedy.getAttachment({
+    schema:     'noice:demo:recipe',
+    ticket:     '000000000000003',
+    fieldName:  'picPreview'
+}).catch(function(error){
+    console.log(`getAttachment failed: ${error}`);
+});
+
+```
+
+
+### `async query({args})`
+Executes specified query against the specified form, returning values for the specified fields against matching rows.
+
+#### args
+* **schema** `string` - name of form on ARServer to query
+
+* **fields** `array` - array of strings representing the **label** of each field in the Default View of the form identified by `schema`, that you wish to retrieve values for across rows matching the specified query
+
+* **QBE** `string` - this is a `QBE String` (more or less an SQL 'where' clause with alternate syntax where field names are wrapped in 'single ticks' and field values are wrapped in "double quotes"). [see bmc documentation](https://docs.bmc.com/docs/ars2008/using-the-query-by-example-method-929628289.html)
+
+* **offset** `integer` - return rows beginning with the integer *after* this number. For instance `offset: 10` would return rows `11-to-?` where `?` is defined as the last matching row or `limit`
+
+* **limit** `integer` - the maximum number of rows to return
+
+* **sort** `string` - this is a string specifying sort order. In general it'll be `fieldName.asc` or `fieldName.desc`, and you can specify multiple fields like `fieldName1.asc,fieldName2.desc`. Documentation is hilariously sparse as usual but here ya go [BMC Sort Order Documentation](https://docs.bmc.com/docs/ars2008/sort-order-for-rest-api-responses-931128587.html)
+
+* **fetchAttachments** `bool` - if true, fetch attachment content for Attachment fields specified in the `fields` array
+
+* **getAssociations** `bool | array` - if set to `boolean true`, this will return a list of all associations defined on the form for the specific record. alternately you can specify an array of strings matching the `name` of associations you want data for (so 'return just these name associations', or 'return all')
+
+* **expandAssociations** `bool` - if `getAssociations` is boolean true, AND this flag is set true, then field data for associated records (for the listed associations in `getAssociaitons` array) are included in results.
+
+* **progressCallback** `function` - if specified, this callback function is called by the `XHR` object dispatching the REST request on the `progress` event [see documentation here](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/progress_event). The callback is invoked asynchronously and is non-blocking. This allows you to (for instance) draw a progress indicator for retrieving large requests such as records with large attachments, etc.
+
+```javascript
+let result = await Remedy.query({
+    schema:             'noice:demo:recipe',
+    QBE:                `'Name' LIKE "%Cashew%"`,
+    fields:             ['Entry ID', 'Name', 'Procedure', 'picPreview'],
+    sort:               'Name.asc',
+    fetchAttachments:   true,
+    getAssociations:    ['noice:demo:recipe to ingredient'],
+    expandAssociations: true
+}).catch(function(error){
+    console.log(`query failed: ${error}`)
+});
+```
+
+
+### `async getTicket({args})`
+get field values (and optionally Attachments and Associations) for a single row on a single form identified by the `Entry ID (field #1)`. This is essentially `query()` but without sort, paging options and with a hardcoded QBE of `'1' = "${ticket}"`
+
+#### args
+* **schema** `string` - the name of the form containing the record identified by `ticket`
+
+* **ticket** `string` - the value of `field #1` (often named `Request ID`, `Entry ID`, or `Ticket Number`) uniquely identifing the row on the form identified by `schema` you wish to retrieve
+
+* **fields** `array` - same as query, an array of strings matching field labels in the default view of the form identified by `schema`
+
+* **fetchAttachments** `bool` - same as query, if true and if an attachment field is specified in the `fields` array, fetch the content of that attachment and return with results
+
+* **getAssociations** `bool | array` - same as query, get all or get only the named associations
+
+* **expandAssociations** `bool` - same as query, if true get field values for specified associations
+
+* **progressCallback** `function` - same as query, if specified, call this function asynchronously on the `progress` event on the XHR dispatching the REST request
+
+```javascript
+let result = await Remedy.getTicket({
+    schema:             'noice:demo:recipe',
+    ticket:             '000000000000003',
+    fields:             ['Entry ID', 'Name', 'Procedure', 'picPreview'],
+    fetchAttachments:   true,
+    getAssociations:    ['noice:demo:recipe to ingredient'],
+    expandAssociations: true
+})
+```
+
+### `async createTicket({args})`
+create a new record on the specified form with the specified field values. the function returns a string indicating the `Entry ID (field #1)` value from the newly create record (that is, it gives you the ticket number back after creating it)
+
+#### args
+* **schema** `string` - the name of the form you wish to create a new record on
+
+* **fields** `object` - an object of the form `{ fieldName: value, ... }`
+
+* **attachments** `object` - an object of the form `{name: fieldName, content: fileContent}` where the `fieldName` corresponds to an Attachment field on the form identified by `schema`. This field must ALSO be present in the `fields` object (where the corresponding value will be the fileName). The `content` should be the file content. If you're sending ASCII (for instance a CSV file), you don't need to set `encoding`. However if you're sending binary data you will need to Base64 encode the data and set it on the `content`, and you will need to set `encoding: 'BASE64'`
+
+NOTE: on Binary Attachments. If you're reading from a file, you'll need to use the `FileReader` API [read about it here](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL). Specifically you're going to need to lop some BS off the front of the output of `FileReader.readAsDataURL()`. Here's a handy snippet:
+
+```javascript
+let fileBase64Content = reader.result.replace(/(.+)base64,/,'');
+```
+
+NOTE ALSO: presently this library can only send one attachment per-REST request. In principle, there's no reason this shouldn't work for setting an arbitrary number of attachment fields in one go, however the ARS REST service throws an error when attempting to that. This is an open issue. A work around is to use `createTicket()` then to use `modifyTicket()` to add additional attachments to the record.
+
+#### output
+the function returns a datastructure containing the entryId (`field #1`) of the newly created record and the REST resource URL for accessing it
+```javascript
+{
+    url:     <resource url>,
+    entryId: <field #1 value>
+}
+```
+
+#### example
+```javascript
+let newTicket = await Remedy.createTicket({
+    schema: 'noice:demo:recipe',
+    fields: {
+        Status:     'Published',
+        Title:      'Peanutbutter Sandwich',
+        picPreview: 'pb_and_j.png',
+        Procedure: `
+            combine two parts Bread
+            and one part Peanutbutter,
+            spread thinly upon the bread
+            surface. Consume.
+        `
+    },
+    attachments: {
+        picPreview: {
+            name:     'pb_and_j.png',
+            content:  fileBase64Content,
+            encoding: 'BASE64'
+        }
+    }
+
+}).catch(function(error){
+    throw(`createTicket failed: ${error}`);
+
+});
+console.log(`created: ${newTicket.entryId}`)
+```
+
+
+### `async modifyTicket({args})`
+sets given values on specified fields of a specified record on a form.
+
+#### args
+* **schema** `string` - the name of the form you wish to create a new record on
+
+* **ticket** `string` - the value of `field #1` (often named `Request ID`, `Entry ID`, or `Ticket Number`) uniquely identifing the row on the form identified by `schema` you wish to modify
+
+* **fields** `object` - an object of the form `{ fieldName: value, ... }`
+
+* **attachments** `object` - an object of the form `{name: fieldName, content: fileContent}` where the `fieldName` corresponds to an Attachment field on the form identified by `schema`. See notes on `createTicket()`
+
+```javascript
+await Remedy.modifyTicket({
+    schema: 'noice:demo:recipe',
+    ticket: '000000000000003',
+    fields: {
+        Title: `PB and J`
+    }
+}).catch(function(error){
+    throw(`modifyTicket failed: ${error}`);
+})
+```
+
+
+### `async deleteTicket({args})`
+deletes the row identified by `'1' = "${ticket}"` on the form identified by `schema`
+
+```javascript
+await Remedy.deleteTicket({
+    schema: 'noice:demo:recipe',
+    ticket: '000000000000003'
+}).catch(function(error){
+    throw(`deleteTicket failed: ${error}`);
+});
+```
+
+
+### `async mergeData({args})`
+
+## mergeData()
+```javascript
+let ticketIdentifier = await api.mergeData({
+    fields:                 {fieldOne:valueOne, fieldTwo:valueTwo ...},
+    QBE:                    qualification,          // (optional)
+    handleDuplicateEntryId: enum,                   // error | create | overwrite | merge | alwaysCreate (default error)
+    ignorePatterns:         bool,                   // (default false)
+    ignoreRequired:         bool,                   // (default false)
+    workflowEnabled:        bool,                   // (default true)
+    associationsEnabled:    bool,                   // (default true)
+    multimatchOption:       enum                    // error | useFirstMatching (default error)
+}).catch(function(e){
+    throw(`merge failed! ${e}`);
+});
+console.log(`I merged data into: ${ticketIdentifier.entryId}`);
+```
+
+OK, what does mergeData() do? Are you familiar with the BMC Data Import tool? This API call is basically the back-end to that. This function allows you to take a set of field values and a form and say "go update it or make it".
+
+As usual, the [BMC Documentation](https://docs.bmc.com/docs/ars1805/mergeentry-formname-804716415.html) is ... *lacking* ... so most of what I've got going on here, I had to reverse engineer by trial and error.
+
+Let's start with` "how does it know whether to make a new one or update an existing one?"`.
+As far as I can tell, it knows this by one of two methods:
+
+1. if you included the fieldName for the field with fieldId #1 (i.e. the "ticket number", "request id", "entry id"), in the **fields** argument, and the *value for that field* matches an existing record, then it will try to update that record (depending on **handleDuplicateEntryId** more on that in a minute).
+
+2. if you specified a **QBE** qualification that matched one or more rows (depending on **multimatchOption**). If that's the case, AND you've got **handleDuplicateEntryId** set to something other than error THEN it will ignore 'entryId' in **fields** (if you have one there) and it will update the single record identified by **QBE**. If the record identified by **QBE** has a different 'entryId', it's just gonna silently dump it from **fields**
+
+ok so that's how it figures out the existing record to update, and if all that fails, it just makes a new one with a couple exceptions:
+
+* if **handleDuplicateEntryId** is set to "error", it's just gonna throw an error
+* if **handleDuplicateEntryId** is set to "alwaysCreate", it's just gonna always create one
+
+#### args
+
+* **fields** `object` - an object containing field names and values `see createTicket()`
+
+* **QBE** `string` - Remedy Qualification String `see query()`. Find records matching this QBE qualification and update one of them or error.
+
+* **multimatchOption** `enum(error, useFirstMatching)` - if not specified, defaults to "error". In the case where `QBE` is specified, this indicates how to handle things if more than one record is matched. Obviously a value of `"error"` will throw, and a value of `"useFirstMatching"` means just treat the first result like it was the only result.
+
+* **handleDuplicateEntryId** `enum(error, create, overwrite, merge, alwaysCreate)`
+
+  * `error`
+    throw an error if `QBE` or an 'entryId' on `fields` matches an existing record
+
+  * `create`
+    if `QBE` is specified and either matches an existing record or no records, OR if `fields` contains an 'entryId' value that DOES match an existing record create a new record with the given field values. If 'entryId' IS specified BUT does not match any existing value, create a new record on the specified schema with the given field values AND use that value for 'entryId'
+
+  * `overwrite`
+    if `QBE` is specified and either matches an existing record OR if `fields` contains an 'entryId' value that DOES match an existing record, delete the existing record from the database and replace it wholesale with the given field values. This one is insidious, in that it is quite easy to blow away create date / modify date, etc unintentionally. *Be careful with this one mmmm'kay?*
+
+  * `merge`
+    if `QBE` is specified and either matches an existing record OR if `fields` contains an 'entryId' value that DOES match an existing record, update the existing record with the given field values, leaving all other fields in place. **EXCEPT NOT FOR REQUIRED FIELDS**. You must supply a value for ALL required fields on this. If you leave 'em null, you're gonna get the "can't reset required field to null" error. For non-required fields it works pretty much like `modifyTicket()`.
+
+  * `alwaysCreate`
+    just forget everything and make a new entryId for it. Yes, even if you have `QBE` set and it matches something, or if you have an 'entryId' in `fields`.
+
+#### output
+the function returns a promise resolving to an object of this form:
+```javascript
+{
+    url:     <resource url>,
+    entryId: <field #1 value>
+}
+```
+see notes on `createTicket()`
+
+#### example
+```javascript
+let ticketId = await Remedy.mergeData({
+   schema:                 'noice:demo:recipe',
+   handleDuplicateEntryId: "error",
+   fields: {
+       'Entry ID':  'BOGUS-000000001',
+       'Title':     'cowabunga dudes!'
+   }    
+}).catch(function(error){
+   throw(`mergeData failed: ${error}`);
+});
+console.log(`merged data onto ${ticketId.entryId}`);
+```
+
+
+### `async getFormOptions({args})`
+*I do not understand what this is, but it [appears in the API](https://docs.bmc.com/docs/ars2002/endpoints-in-ar-rest-api-909638176.html)*
+
+```javascript
+let result = await Remedy.getFormOptions({
+    schema: 'noice:demo:recipe'
+}).catch(function(error){
+    throw(`getFormOptions failed: ${error}`);
+});
+```
+
+
+### `async getMenu({args})`
+returns meta-data about the ARS Menu object identified by `menuName`. To get the actual menu content,
+see `getMenuValues()`. See also strangely complete and helpful [BMC Documentation](https://docs.bmc.com/docs/ars2002/example-of-using-the-rest-api-to-retrieve-menu-details-909638136.html)
+
+```javascript
+let menu =
+
+/*
+    LOH 11/18/21 @ 2319
+*/
+
+```
+
+### `async getMenuValues({args})`
+### `async getFormFields({args})`
+### `async getRelatedFormsAndMenus({args})`
+
+
+
+
+
+
+## Attribute reference
+details on all of the object attributes
+
+### `isAuthenticated [bool] `
+### `token [str]`

@@ -532,7 +532,18 @@ getKey (args){
 
         let trans = self.db.transaction(args.storeName, "readonly");
         trans.onerror    = function(e){ boot(e); }
-        let req = trans.objectStore(args.storeName).getKey(args.key).onerror = function(e){ boot(e); };
+
+        // query the index if we got one, or the datastore if we don't
+        let req;
+        if (args.hasOwnProperty('indexName')){
+            if (! (trans.objectStore(args.storeName).indexNames.contains(args.indexName))){
+                boot('indexName does not exist on specified storeName');
+            }
+            req = trans.objectStore(args.storeName).index(args.indexName).getKey(args.key);
+        }else{
+            req = trans.objectStore(args.storeName).getKey(args.key);
+        }
+        req.onerror = function(e){ boot(e); }
         req.onsuccess = function(e){ toot(e.target.result); }
     }));
 }

@@ -717,15 +717,31 @@ count (args){
         if (! (args.hasOwnProperty('storeName') && (self.isNotNull(args.storeName)))){ boot(`a value for storeName is required`); }
 
         let trans = self.db.transaction(args.storeName, "readonly");
-        trans.onerror    = function(e){ boot(e); }
+        trans.onerror = function(e){ boot(e); }
+
+
+        // setup the request
         let req;
-        if (args.hasOwnProperty('query')){
-            req = trans.objectStore(args.storeName).count(args.query);
+        if (args.hasOwnProperty('indexName')){
+            if (! (trans.objectStore(args.storeName).indexNames.contains(args.indexName))){
+                boot('indexName does not exist on specified storeName');
+            }else{
+                if (args.hasOwnProperty('query')){
+                    req = trans.objectStore(args.storeName).index(args.indexName).count(args.query);
+                }else{
+                    req = trans.objectStore(args.storeName).index(args.indexName).count();
+                }
+            }
         }else{
-            req = trans.objectStore(args.storeName).count();
+            if (args.hasOwnProperty('query')){
+                req = trans.objectStore(args.storeName).count(args.query);
+            }else{
+                req = trans.objectStore(args.storeName).count();
+            }
         }
-        req.onsuccess = function(evt){ toot(evt.target.result); }
-        req.onerror= function(e){ boot(e); }
+        req.onerror = function(e){ boot(e); }
+        req.onabort = function(e){ boot(e); }
+        req.onsuccess = function(e){ toot(e.target.result); }
     } ));
 }
 
@@ -773,38 +789,6 @@ count (args){
     this function returns when transaction completes, which is analagous
     to all of the callbacks returning
 */
-openCursorOld(args){
-    let self = this;
-
-    return(new Promise(function(toot, boot){
-
-        // input validation
-        if (! (args instanceof Object)){ boot(`args is not an Object`); }
-        if (! (args.hasOwnProperty('storeName') && (self.isNotNull(args.storeName)))){
-            boot(`a value for storeName is required`);
-        }
-        if (! (args.hasOwnProperty('callback') && (args.callback instanceof Function))){
-            boot(`a function is required on 'callback'`);
-        }
-        let trans = self.db.transaction(args.storeName, "readwrite");
-        trans.onerror = function(e){ boot(e); }
-        trans.oncomplete = function(e){ toot(e); }
-        trans.onabort = function(e){ boot(e); }
-
-        let req;
-        if (args.hasOwnProperty('query')){
-            if (args.hasOwnProperty('direction')){
-                req = trans.objectStore(args.storeName).openCursor(args.query,args.direction);
-            }else{
-                req = trans.objectStore(args.storeName).openCursor(args.query);
-            }
-        }else{
-            req = trans.objectStore(args.storeName).openCursor();
-        }
-        req.onerror = function(e){ boot(e); }
-        req.onsuccess = function(e){ args.callback(e.target.result); }
-    }));
-}
 openCursor(args){
     let self = this;
 

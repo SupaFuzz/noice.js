@@ -789,38 +789,6 @@ count (args){
     this function returns when transaction completes, which is analagous
     to all of the callbacks returning
 */
-openCursorOld(args){
-    let self = this;
-
-    return(new Promise(function(toot, boot){
-
-        // input validation
-        if (! (args instanceof Object)){ boot(`args is not an Object`); }
-        if (! (args.hasOwnProperty('storeName') && (self.isNotNull(args.storeName)))){
-            boot(`a value for storeName is required`);
-        }
-        if (! (args.hasOwnProperty('callback') && (args.callback instanceof Function))){
-            boot(`a function is required on 'callback'`);
-        }
-        let trans = self.db.transaction(args.storeName, "readwrite");
-        trans.onerror = function(e){ boot(e); }
-        trans.oncomplete = function(e){ toot(e); }
-        trans.onabort = function(e){ boot(e); }
-
-        let req;
-        if (args.hasOwnProperty('query')){
-            if (args.hasOwnProperty('direction')){
-                req = trans.objectStore(args.storeName).openCursor(args.query,args.direction);
-            }else{
-                req = trans.objectStore(args.storeName).openCursor(args.query);
-            }
-        }else{
-            req = trans.objectStore(args.storeName).openCursor();
-        }
-        req.onerror = function(e){ boot(e); }
-        req.onsuccess = function(e){ args.callback(e.target.result); }
-    }));
-}
 openCursor(args){
     let self = this;
 

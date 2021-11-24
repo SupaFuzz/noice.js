@@ -717,15 +717,31 @@ count (args){
         if (! (args.hasOwnProperty('storeName') && (self.isNotNull(args.storeName)))){ boot(`a value for storeName is required`); }
 
         let trans = self.db.transaction(args.storeName, "readonly");
-        trans.onerror    = function(e){ boot(e); }
+        trans.onerror = function(e){ boot(e); }
+
+
+        // setup the request
         let req;
-        if (args.hasOwnProperty('query')){
-            req = trans.objectStore(args.storeName).count(args.query);
+        if (args.hasOwnProperty('indexName')){
+            if (! (trans.objectStore(args.storeName).indexNames.contains(args.indexName))){
+                boot('indexName does not exist on specified storeName');
+            }else{
+                if (args.hasOwnProperty('query')){
+                    req = trans.objectStore(args.storeName).index(args.indexName).count(args.query);
+                }else{
+                    req = trans.objectStore(args.storeName).index(args.indexName).count();
+                }
+            }
         }else{
-            req = trans.objectStore(args.storeName).count();
+            if (args.hasOwnProperty('query')){
+                req = trans.objectStore(args.storeName).count(args.query);
+            }else{
+                req = trans.objectStore(args.storeName).count();
+            }
         }
-        req.onsuccess = function(evt){ toot(evt.target.result); }
-        req.onerror= function(e){ boot(e); }
+        req.onerror = function(e){ boot(e); }
+        req.onabort = function(e){ boot(e); }
+        req.onsuccess = function(e){ toot(e.target.result); }
     } ));
 }
 

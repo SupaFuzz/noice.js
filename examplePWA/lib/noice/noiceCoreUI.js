@@ -582,9 +582,10 @@ set message(str){
     show(targetElement)
 */
 show(targetElement){
+    let that = thisl;
     if (this.hasAttribute('showCallback') && (this.showCallback instanceof Function)){
         try {
-            this.showCallback()
+            this.showCallback(that);
         }catch(e){
             throw(new noiceException({
                 message:        `showCallback() threw an error preventing show(): ${e.toString()}`,

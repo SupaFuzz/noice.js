@@ -1302,7 +1302,10 @@ constructor(args, defaults, callback){
     if (! this.hasAttribute('name')){ this.name = this._className; }
 
     // call setupCallback if we've got one
-    if (this.setupCallback instanceof Function){ this.setupCallback(); }
+    if (this.setupCallback instanceof Function){
+        let that = this; 
+        this.setupCallback(that);
+    }
 }
 
 

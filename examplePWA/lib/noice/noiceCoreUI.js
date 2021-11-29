@@ -1303,7 +1303,7 @@ constructor(args, defaults, callback){
 
     // call setupCallback if we've got one
     if (this.setupCallback instanceof Function){
-        let that = this; 
+        let that = this;
         this.setupCallback(that);
     }
 }
@@ -1398,7 +1398,8 @@ append(DOMElement){
     super.append(DOMElement);
     if (this.onScreenCallback instanceof Function){
         try {
-            this.onScreenCallback();
+            let that = this;
+            this.onScreenCallback(that);
         }catch(e){
             this._app.log(`${this._className} | append | onScrenCallback threw unexpectedly: ${e}`)
         }
@@ -1671,10 +1672,10 @@ constructor (args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
         _version:           1,
         _className:         'noiceCoreUIFloatingDialog',
-        _width:             (window.innerWidth/10),
-        _height:            (window.innerHeight/5),
-        _x:                 (window.innerWidth/10),
-        _y:                 (window.innerHeight/5),
+        _width:             `${(window.innerWidth/10)}px`,
+        _height:            `${(window.innerHeight/5)}px`,
+        _x:                 `${(window.innerWidth/10)}px`,
+        _y:                 `${(window.innerHeight/5)}px`,
         _z:                 1000,
         _bodyHTML:          '<p>[dialog content goes here]</p>',
         classList:          ['ncufDialog'],

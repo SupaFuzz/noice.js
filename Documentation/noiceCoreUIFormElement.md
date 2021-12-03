@@ -211,6 +211,304 @@ let myInput = new noiceCoreUIFormElementInput({
 
 
 ---
-# `noiceCoreUIFormElementDateTime`
 
-## LOH 11/30/21 @ 1821
+
+
+# `noiceCoreUIFormElementDateTime`
+This class is incomplete and needs work. At present, it is effectively read-only (meaning it can  display data but cannot take user input). The `value` attribute can accept epoch (integer) or ISO-8601 format dateTime strings only. The format displayed to the user is determined by the user's locale settings (see `noiceCore.fromEpoch()`)
+
+## Example
+```javascript
+let myDateTime = new noiceCoreUIFormElementDateTime({
+    name: 'pickupTime',
+    label: 'pickup time',
+    valueChangeCallback: async function(newValue, oldValue, selfReference){
+      console.log(`${selfReference.name} -> value changed from: ${oldValue} to ${newValue}`);
+      return(newValue)
+    }
+}).append(document.body);
+
+// set value to current time
+myDateTime.value = myDateTime.epochTimestamp();
+
+```
+
+
+
+---
+
+
+
+# `noiceCoreUIFormElementPassword`
+this is a char field, with `type="password"` and with masked out chars. You know ... like you'd use for a password. :smile:
+
+It has no attributes and functions beyond those inherited from `noiceCoreUIFormElementInput`
+
+## Example
+```javascript
+let myPassword = new noiceCoreUIFormElementPassword({
+    name: 'pass',
+    label: 'password',
+    valueChangeCallback: async function(newValue, oldValue, selfReference){
+      console.log(`${selfReference.name} -> I gochyo password sucka!: ${newValue}`);
+      return(newValue)
+    }
+}).append(document.body);
+```
+
+
+
+---
+
+
+
+# `noiceCoreUISelect`
+your basic drop-down menu. supports `labelLocation = 'embed'`
+
+## Attributes
+
+* **values** `<array>` - list of values for the dropdown menu.
+
+    ```javascript
+    // as a flat list of strings
+    noiceCoreUISelect.values = [ 'option 1', 'option 2', 'option 3'];
+
+    // as an array of objects with labels (a cascading menu)
+    noiceCoreUISelect.values = [
+        { label: 'cats', values: ['meowry', 'bootsie', 'lilly', 'chonkerton', 'mo', 'jazzy'] },
+        { label: 'dogs', values: ['scotty', 'missy', 'grizzly', 'molly']}
+    ];
+
+    // as an array of objects (value aliases)
+    noiceCoreUISelect.values = [
+        { 0: 'New' },
+        { 1: 'Assigned' },
+        { 2: 'Error' },
+        { 3: 'Work in Progress' },
+        { 4: 'Resolved' },
+        { 5: 'Complete' },
+        { 6: 'Archive' }
+    ];
+```
+
+* **includeNull** `<bool>, default: true` - include a null option (i.e. "no choice"). If false, do not allow null selection.
+
+* **selectedOption** `<integer>` - the `index` of the currently selected value. Setting this value changes the selected value as well.
+
+* **selectedOptionElement** `<Element>` - the `Option` element within the `select` element that is currently selected
+
+* **selectedOptionLabel** `<string>` - the 'label' (if specified) of the selected option, else the selected option's `textContent`
+
+* **selectedOptionGroup** `<string>` - the 'label' of the optionGroup parent of the currently selected option (if within a cascading menu -- see above) -- that is -- what sub-menu the selected option is inside of
+
+## Example
+```javascript
+let mySelect = new noiceCoreUIFormElementSelect({
+    name: 'petName',
+    label: 'pet name',
+    labelLocation: 'top',
+    values:[
+    	{ label: 'cats', values: ['meowry', 'bootsie', 'lilly', 'chonkerton', 'mo', 'jazzy'] },
+    	{ label: 'dogs', values: ['scotty', 'missy', 'grizzly', 'molly']}
+    ],
+    valueChangeCallback: async function(newValue, oldValue, selfReference){
+        console.log(`${selfReference.name} -> value changed from: ${oldValue} to ${newValue}`);
+        return(newValue)
+    }
+}).append(document.body)
+```
+
+
+
+---
+
+
+
+# `noiceCoreUIFormElementText`
+This is very similar to `noiceCoreUIFormElementInput` with the exception that the `formElement` is rendered as a [`<textarea>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea), so (if specified) the element can have multiple rows.
+
+## Attributes
+
+* **autocapitalize** `enum(none, sentences, words, characters), default: none` - as you might expect, if set to an option other than 'none', init-cap's sentences, words or chars
+
+* **cols** `integer, default: 20` - allow this many characters on a single row
+
+* **rows** `integer, default: 1` - allow this many rows
+
+* **wrap** `enum(off, hard, soft), default: off` - if set, wrap lines with the specified method (see textarea MDN docs link above)
+
+## Example
+```javascript
+let myText = new noiceCoreUIFormElementText({
+    name: 'instr',
+    label: 'special instructions',
+    labelLocation: 'top',
+    cols: 40,
+    rows: 10
+}).append(document.body);
+```
+
+
+
+---
+
+
+
+# `noiceCoreUIFormElementNumber`
+This is a number input with  stepper UI buttons and a specifiable step increment. [See Number Input Docs on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number)
+
+*NOTE:* hiding and otherwise CSS styling the "spinner" (value stepper) buttons is a *complete hassle* but is possible though CSS styling but is seemingly inaccessible from javascript [see docs](https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-inner-spin-button)
+
+## Attributes
+
+* **min** `number` - minimum numeric value
+
+* **max** `number` - maximum numeric value
+
+* **step** `number` - increment for the stepper ("spinner") UI buttons (see docs link above)
+
+## Example
+```javascript
+let myNumber = new noiceCoreUIFormElementNumber({
+    name: 'count',
+    label: 'count',
+    labelLocation: 'top',
+    min: 0,
+    max: 10,
+    step: 1
+}).append(document.body);
+```
+
+
+---
+
+
+
+# `noiceCoreUIFormElementDate`
+This is a date input with a browser-native (decidedly lo-fi) date picker. This is an extension of `noiceCoreUIFormElementNumber` as this class also uses the `min`, `max` and `step` attributes. This is an `<input>` element with `type="date"` [see docs on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date)
+
+NOTE: browser implementations of the date element vary wildly. Generally this seems ok on Firefox & Safari,(mobile & desktop) however these platforms don't render value increment (spinner) buttons, but instead a calendar based date-picker (which is actually quite nice) and respects `min` & `max`.
+
+Overall this is pretty good, and it beats the hell out of homegrown date-picker things. That being said, check it out on your target platform before you trust it.
+
+## Attributes
+
+* **min** `date string (yyyy-mm-dd)` - the minimum allowed date value
+
+* **max** `date string (yyyy-mm-dd)` - the maximum allowed date value
+
+* **step** `integer` - number of days for one increment of the value stepper "spinner" buttons
+
+## Example
+```javascript
+let myDate = new noiceCoreUIFormElementDate({
+    name: 'bDay',
+    label: 'birthday',
+    labelLocation: 'top',
+    min: `1974-10-03`,
+    max: `2021-12-03`,
+    step: 1
+}).append(document.body);
+```
+
+
+
+---
+
+
+
+
+# `noiceCoreUIFormElementCheckbox`
+this is an input with `type="checkbox"` see [documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox).
+
+## Attributes
+
+* **value** `bool` - unlike the HTML checkbox primitive it is based on, the `value` attribute is a boolean value where `true` has the checkbox selected and `false` if not (this value is settable as well)
+
+## Example
+```javascript
+let myCheck = new noiceCoreUIFormElementCheckbox({
+    name: 'doIeet',
+    label: 'do it?',
+    labelLocation: 'left',
+    valueChangeCallback: async function(newValue, oldValue, selfReference){
+        console.log(`${selfReference.name} -> value changed from: ${oldValue} to ${newValue}`);
+        return(newValue)
+    }
+}).append(document.body);
+```
+
+
+
+---
+
+
+
+# `noiceCoreUIFormElementFile`
+This implements a file input. In addition to the good old file selector, these can be used to capture stills and video from cameras and audio from microphones via the [`capture` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/capture)
+
+getting access to the File objects can be tricky and requires use of the [`File API`](https://developer.mozilla.org/en-US/docs/Web/API/File), See also [this handy documentation on MDN](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
+
+## Attributes
+
+* **accept** `string (mimeType)` - passthrough to [`accept` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
+
+* **multiple** `bool, default: false` - passthrough to [`multiple` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple)
+
+## Example
+```javascript
+let myFile = new noiceCoreUIFormElementFile({
+    label:              'file',
+    labelLocation:      'top',
+    valueChangeCallback: function(newValue, oldValue, selfReference){
+        /*
+            for the file input we get fileList objects:
+            https://developer.mozilla.org/en-US/docs/Web/API/FileList
+
+            you may be interested in this as well:
+            https://developer.mozilla.org/en-US/docs/Web/API/File
+
+            oldValue is just a second copy of newValue as the FileList
+            returned by the change event is a pointer to whatever is currently
+            selected in the file widget. If that's a problem, you could
+            override the setter and actually grab the file contents, but this
+            seems like overkill and I'm not actually sure I'd want it to work that way.
+
+            here's a quickie demo. if you give it a CSV file, we'll try to read it
+            and report some stats, otherwise just file properties. not testing
+            multiple files with this one though that might be a good next step
+        */
+
+        // report new file if we've got one
+        let that = selfReference;
+        if ((this.isNotNull(newValue)) && (newValue.length > 0)){
+            console.log('new file:');
+            // spit some stats
+            ['name', 'lastModified', 'size', 'type'].forEach(function(a){
+                if (a == 'lastModified'){
+                    console.log(`\t[${a}]: ${that.fromEpoch(newValue[0][a], 'dateTime')}`);
+                }else{
+                    console.log(`\t[${a}]: ${newValue[0][a]}`);
+                }
+            });
+
+            // is it a csv?
+            if (newValue[0].type == 'text/csv'){
+                // do csv thangs ...
+                let reader = new FileReader();
+                reader.onload = function(evt){
+                    // evt.target.result has the entire csv file as a strang
+                    let rows = 0;
+                    evt.target.result.split(/\n/).forEach(function(row,rowNum){
+                        // dumb test
+                        rows++;
+                    });
+                    console.log(`\t[CSV Row Count]: ${rows}`)
+                }
+                reader.readAsText(newValue[0]);
+            }
+        }
+
+    }
+}).append(document.body);
+```

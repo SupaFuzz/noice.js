@@ -1936,8 +1936,11 @@ get multiple(){ return(this._multiple); }
 set multiple(v){
     this._multiple = (v === true);
     if (this.hasFormElement){
-        this.formElement.setAttribute('multiple', this.muktiple);
-        if (this.isNull(v)){ this.formElement.deleteAttribute('multiple'); }
+        if (this._multiple){
+            this.formElement.setAttribute('multiple', this.multiple);
+        }else{
+            this.formElement.deleteAttribute('multiple');
+        }
     }
 }
 

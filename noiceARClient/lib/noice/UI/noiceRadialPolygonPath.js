@@ -59,12 +59,13 @@ generateVertices(){
     let max      = (Math.PI * 2);
     let inc      = (max/this.edges);
     let v        = [];
+    let p        = this.phaseReverse?(this.phase * -1):this.phase;
     for (let i=0; i < this.edges; i++){
         let t = 0;
 
         v.push([
-            (Math.sin((i*inc)+this.phase) * (this.radius + t)),
-            (Math.cos((-i*inc)-this.phase) * (this.radius + t))
+            (Math.sin((i*inc)+p) * (this.radius + t)),
+            (Math.cos((-i*inc)-p) * (this.radius + t))
         ]);
     }
 

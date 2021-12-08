@@ -10,7 +10,9 @@ this file contains classes for constructing user interfaces (that is, interactin
         * noiceCoreUIScreenHolder
         * noiceCoreUIFloatingDialog
 
+## requires
 
+* **noiceCore.js** (`noiceCoreUtility`)
 
 ---    
 

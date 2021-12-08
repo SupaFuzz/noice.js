@@ -27,6 +27,11 @@ This is somewhat abstract, it may help to look at the included `examplePWA` app,
 for `burgerMenu` and you're good to go
 
 
+## requires
+
+* **noiceCore.js** (`noiceCoreUtility`)
+* **noiceCoreUI.js** (`noiceCoreUIScreen`)
+
 ## Attributes
 
 * **burgerMenu** `noiceBalloonDialog` - attach this `noiceBalloonDialog` object to the `(=)` Element in the diagram above. Open this externally provided burger menu when the user click/touch's the burger menu icon.  

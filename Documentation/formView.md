@@ -4,7 +4,10 @@
 
 insert overview here
 
+## requires
 
+* **noiceCore.js** (`noiceCoreUtility`)
+* **noiceCoreUI.js** (`noiceCoreUIScreen`)
 
 
 ## error message numbers

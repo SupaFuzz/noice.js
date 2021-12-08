@@ -12,6 +12,10 @@ Imagine a Table in an SQL database, except that every row can have wildly differ
 
 That's the short story. There are *lots* of details when it comes to defining indexes, implementing complex search algorithms, etc. All of which you've got to do explicitly in your own code, which is very much the pain point compared to SQL. It's not so bad when you get a handle on it, and other than caches (which are fickle and can be dumped at any time by the user or the system), this is pretty much the only good way to stash a few hundred MB of data on disk for your PWA.
 
+## requires
+
+* **noiceCore.js** (`noiceCoreUtility`)
+
 ---
 
 ## Defining an indexedDB schema
@@ -598,7 +602,7 @@ await AmyDatabase.deleteObject({
 
 
 ## `async mergeObjects({args})`
-This is a convenience function (not in the API), allowing you to send one or more objects to a datastore, and define behavior on key collisions. For instance you could send a batch of rows and on key collisions only write changed attributes to the row (or define a custom callback to handle the key collision). 
+This is a convenience function (not in the API), allowing you to send one or more objects to a datastore, and define behavior on key collisions. For instance you could send a batch of rows and on key collisions only write changed attributes to the row (or define a custom callback to handle the key collision).
 
 ### args
 * **storeName** `string` - the name of the dataStore to write the row(s) to

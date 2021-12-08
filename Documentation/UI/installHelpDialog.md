@@ -11,6 +11,11 @@ This implements a modal PWA install prompt banner looking something like this:
 the `/\` in the diagram above is configured via external CSS (see `External CSS` section below) and is meant to (more or less) line up to the 'install' prompt in browsers that support PWA install.
 
 
+## Requires
+
+* **noiceCore.js** (`noiceCoreUtility`)
+* **noiceCoreUI.js** (`noiceCoreUIElement`, `noiceCoreUIOverlay`)
+
 ## Attributes
 
 * **message** `string | Element` - this is the message to display to the user. By default it reads "Install this webapp on your device: tap `<iosShareIcon>` then Add to Homescreen `<iosAddToHomescreenIcon>`"

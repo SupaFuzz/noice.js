@@ -6,6 +6,10 @@ Classes for creating Progressive Web Apps (PWAs). This file contains the followi
 * **noiceLog**
 * **noiceApplicationCore**
 
+## requires
+
+* **noiceCore.js** (`noiceCoreChildClass`, `noiceCoreNetworkUtility`)
+
 ---
 
 ## noiceLogMessage

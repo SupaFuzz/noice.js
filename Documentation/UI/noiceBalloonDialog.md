@@ -15,6 +15,11 @@ This is the hard-coded CSS layout, we only set poisitioning and layout options, 
          -------------------------------
 ```
 
+## Requires
+
+* **noiceCore.js** (`noiceCoreUtility`)
+* **noiceCoreUI.js** (`noiceCoreUIElement`)
+
 ## Attributes
 
 * **title** `string | Element` - if string set `textContent` of the `<title>` element in the diagram above, if an Element, append it as the only child of same.

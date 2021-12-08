@@ -16,6 +16,11 @@ This file contains the following class tree:
         * noiceCoreUIFormElementFile
 
 
+## requires
+
+* **noiceCore.js** (`noiceCoreUtility`)
+* **noiceCoreUI.js** (`noiceCoreUIElement`)
+
 
 ---
 

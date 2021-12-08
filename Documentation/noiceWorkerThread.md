@@ -6,7 +6,12 @@ this file contains the following classes:
 
 * **noiceWorkerThread**
 
+## requires
+
+* **noiceCore.js** (`noiceCoreNetworkUtility`)
+
 ---
+
 
 ## attributes
 

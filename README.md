@@ -1,87 +1,114 @@
 # noice.js
-Handy Javascript Object Hierarchy
 
-Javascript Object Hierarchy that is handy
+This is an object oriented library for building Progressive Web Apps. This isn't a framework, but an object hierarchy that one can either use directly or extend, to get all sorts of handy functionality, causing onlookers to exclaim "[`noice!`](https://youtu.be/SAfq55aiqPc)".
 
-This is a javascript object hierarchy that one can either use directly or extend, to get all kinda handy functionality, causing one to exclaim "noice!".
-
-This is a work in progress. Documentation is largely a to-do item at this point. The best way to get an idea of how all this works and what it can do is to have a look
-in ./example (you'll need express to run the http server).
+No external dependencies, 100% bespoke vanilla javascript.
 
 
-As of today (5/4/2020), the following are implemented and tested:
+## What's Here?
+The `./Documentation` directory contains markdown-formatted documentation
 
-    * noiceCore.js
-      this file implements classes that are extended by all other noice descendant
-      classes. These are the classes implemented in this file:
+The `./examplePWA` directory contains a complete example of a PWA
 
-        * noiceObjectCore
-        * noiceCoreChildClass
-        * noiceException
-        * noiceCoreUtility
-        * noiceCoreNetworkUtility
-        * noiceLogMessage
-        * noiceLog
-        * noiceApplicationCore
+The `./noiceARClient` directory contains an example of a BMC Remedy ARS Client written as a PWA (note: this example app is only *mostly complete* -- work in progress)
+
+The `./example` directory contains an example express-based server and some demos for UI components (this is an early test harness -- ymmv, but included for completeness)
+
+The `./lib` directory contains the library files:
+
+* [`noiceCore.js`](Documentation/noiceCore.md)
+
+    core object model, everything extends a class from this file
 
 
-    * noiceCoreUI.js
-      this file implements classes for interacting with the DOM
+* [`noiceIndexedDB.js`](Documentation/noiceIndexedDB.md)
 
-        * noiceCoreUIElement
-        * noiceCoreUIOverlay
-        * noiceCoreUIDialog
-        * noiceCoreUIYNDialog
-        * noiceCoreUIHeaderMenu
-        * noiceCoreUIScreen
-        * noiceCoreUIScreenHolder
-        * noiceCoreUIFloatingDialog
+    provides object oriented interface to indexedDB using promises to handle the many asynchronous operations involved, a standard error object model, and a lightweight data definition language for defining indexedDB instances from configuration data.
 
-    * noiceCoreUIFormElement.js
-      this file has classes for modeling user input widgets for forms
 
-        * noiceCoreUIFormElement
-        * noiceCoreUIFormElementInput
-        * noiceCoreUIFormElementSelect
-        * noiceCoreUIFormElementText
-        * noiceCoreUIFormElementNumber
-        * noiceCoreUIFormElementDate
-        * noiceCoreUIFormElementCheckbox
-        * noiceCoreUIFormElementFile
+* [`noiceRemedyAPI.js`](Documentation/noiceRemedyAPI.md)
 
-    * noiceCoreUIFormElementTable.js
-      this implements fancy-ass tables and has one class
+    provides a simple, object oriented interface to the BMC Remedy Action Request System (ARS) [REST interface](https://docs.bmc.com/docs/ars2008/overview-of-the-rest-api-929631053.html)
 
-        * noiceCoreUIFormElementTables
 
-    * noiceRemedyAPI.js
-      this implements a noice promise-wrapped interface to the BMC Remedy REST API
+* [`noiceWorkerThread.js`](Documentation/noiceWorkerThread.md)
 
-    * noiceIndexedDB.js
-      this implements a noice promise-wrapped interface to the indexedDB
+    provides functionality useful within [Worker Threads](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API). This includes hooks for a messaging framework implemented in `noiceApplicationCore.js`, so while this can be used separately, it is particularly well suited for child worker threads of a PWA built from a `noiceApplicationCore` subclass
 
-TO-DO list:
 
-    * complete noiceExamplePWA (flatfile pull and stubs for push in the syncWorker)
+* [`noiceApplicationCore.js`](Documentation/noiceApplicationCore.md)
 
-    * build an actual backend that can do the CRUD
-      https://leveljs.org/
-      offhand, I'm thinking levelDB plus express. Keep it simple, this is basically
-      indexedDB on the server side, and I am wholly into that at this moment.
+    provides an object model for creating complete Progressive Web Apps (PWAs), with worker threads, a serviceWorker for offline capability, hooks for handling install-from-browser, and much more.
 
-    * noiceCoreUIForm
-      this is a descendant of noiceCoreUIScreen ... this is a kind of UI screen
-      that contains a set of data attributes, some or all of which may be represented
-      in the UI by a noiceCoreUIFormElement object.
 
-      A set of values can be loaded into the UI, and modified on screen. A change
-      flag is managed by the object. Forms have create and modify modes.
+* [`noiceCoreUI.js`](Documentation/noiceCoreUI.md)
 
-      this object does not deal with data management, only with the UI. CRUD stuff
-      is handled via external callbacks. This is just the faceplate.
+    provides a root-level object model for creating objects to be shown to the user on the screen (placed into the DOM tree), as well as several extension classes implementing frequently-needed UI object primitives (dialogs, ui switchers, menus, etc)
 
-    * noiceARSCacheManager
-      sits between noiceRemedyAPI and noiceIndexedDB, and accepts CRUD transactions
-      more than likely from noiceCoreUIForm. This should run in the service-worker
-      context and this should manage all the data stuff in the background. The model
-      is that the local indexedDB is write first with network retries until success.
+
+* [`noiceCoreUIFormElement.js`](Documentation/noiceCoreUIFormElement.md)
+
+    This file contains `noiceCoreUIElement` (noiceCoreUI.js, above) extension classes modeling [Form Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form). That is to say, more or less all of the browser-native Elements that can take user input (fields, menus, textareas etc). These can be used standalone, or within the context of a `formView`.
+
+
+* noiceCoreUIFormElementTable.js *(work in progress)*
+
+    this file contains a `noiceCoreUIFormElement` (noiceCoreUIFormElement.js, above) subclass implementing a table with sortable/draggable columns and rows. This is currently `functional but incomplete`. Documentation has not yet been written, and while basic functionallity is present, it is somewhat unreliable on mobile devices other than Apple iOS.
+
+
+* [`formView.js`](Documentation/formView.md)
+
+    this contains the `formView` class which provides a *large* amount of functionality for defining a `form` (as a collection of related `formElements`), with change flag hooks, asynchronous callbacks for saving, cloning, and much more.
+
+
+
+The `./lib/UI` directory contains classes for implementation of common UI widgets as extensions of the `noiceCoreUI` class:
+
+
+* coreUIScannerInput.js *(work in progress)*
+
+    this file contains a `noiceCoreUIFormElement` (noiceCoreUIFormElement.js, above) subclass implementing a character input with hooks for integration with [TSL-1128 RFID Scanners](https://www.tsl.com/products/1128-bluetooth-handheld-uhf-rfid-reader/). The implementation is mature and stable, the 'work in progress' status is for writing documentation.
+
+
+* [`iFrameWidget.js`](Documentation/UI/iFrameWidget.md) *(work in progress)*
+
+    this is a `noiceCoreUIScreen` extension class for loading external content in an embedded iFrame. This class is `functional but incomplete` (see documentation)
+
+
+* [`installHelpDialog.js`](Documentation/UI/installHelpDialog.md)
+
+    this implements a modal banner for prompting the user to install a PWA (with a "cheat code" implementation allowing a secret install bypass to run the app in browser context)
+
+
+* [`noiceBalloonDialog.js`](Documentation/UI/noiceBalloonDialog.md)
+
+    a floating modal dialog, with hooks for pinning location relative to other DOM Elements, especially well suited for implementing menus.
+
+
+* [`noicePieChart.js`](Documentation/UI/noicePieChart.md)
+
+    create SVG pie chart objects which can contain multiple concurrent overlaid pie charts, with animation and update hooks as well.
+
+
+* [`noiceRadialPolygonPath.js`](Documentation/UI/noiceRadialPolygonPath.md)
+
+    create and animate SVG path objects, defined as closed polygons in radial coordinates with sprite(ish) controls like rotation, location, z-index, etc.
+
+
+* [`recordEditorUI.js`](Documentation/UI/recordEditorUI.md)
+
+    a `noiceCoreUIScreen` extension class for creating, updating, querying, etc a typical "records on a form" interface.
+
+
+* [`startupDialog.js`](Documentation/UI/startupDialog.js)
+
+    a splash screen with buttons for user interaction and many hooks for showing status (for instance spinning up indexedDB instances, fetching data from network, etc)
+
+
+## Who made this?
+
+Amy Hicox <amy@hicox.com> aka "SupaFuzz" on github. I sketched out basic ideas back in 2018, but mostly this was written over the past two years of COVID lockdown. No joke I restarted work on the project like 3/2020, and well ... here we are. Who would have ever thought it'd go on long enough to write this much code?
+
+I hope you find it useful. If you've got contributions get in touch
+
+-Amy :smiley: :heart:

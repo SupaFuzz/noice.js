@@ -56,9 +56,9 @@ The [`./lib`](lib) directory contains the library files:
     this file contains a `noiceCoreUIFormElement` (noiceCoreUIFormElement.js, above) subclass implementing a table with sortable/draggable columns and rows. This is currently `functional but incomplete`. Documentation has not yet been written, and while basic functionallity is present, it is somewhat unreliable on mobile devices other than Apple iOS.
 
 
-* [`formView.js`](Documentation/formView.md)
+* [`formView.js`](Documentation/formView.md) *(documentation in progress)*
 
-    this contains the `formView` class which provides a *large* amount of functionality for defining a `form` (as a collection of related `formElements`), with change flag hooks, asynchronous callbacks for saving, cloning, and much more.
+    this contains the `formView` class which provides a *large* amount of functionality for defining a `form` (as a collection of related `formElements`), with change flag hooks, asynchronous callbacks for saving, cloning, and much more. *Implementation is fully functional, writing documentation is daunting due to the scale of this class, however, it all works.*
 
 
 

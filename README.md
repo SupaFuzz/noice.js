@@ -6,15 +6,15 @@ No external dependencies, 100% bespoke vanilla javascript.
 
 
 ## What's Here?
-The `./Documentation` directory contains markdown-formatted documentation
+The [`./Documentation`](Documentation) directory contains markdown-formatted documentation
 
-The `./examplePWA` directory contains a complete example of a PWA
+The [`./examplePWA`](examplePWA) directory contains a complete example of a PWA
 
-The `./noiceARClient` directory contains an example of a BMC Remedy ARS Client written as a PWA (note: this example app is only *mostly complete* -- work in progress)
+The [`./noiceARClient`](noiceARClient) directory contains an example of a BMC Remedy ARS Client written as a PWA (note: this example app is only *mostly complete* -- work in progress)
 
-The `./example` directory contains an example express-based server and some demos for UI components (this is an early test harness -- ymmv, but included for completeness)
+The [`./example`](example) directory contains an example express-based server and some demos for UI components (this is an early test harness -- ymmv, but included for completeness)
 
-The `./lib` directory contains the library files:
+The [`./lib`](lib) directory contains the library files:
 
 * [`noiceCore.js`](Documentation/noiceCore.md)
 

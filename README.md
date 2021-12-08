@@ -100,7 +100,7 @@ The `./lib/UI` directory contains classes for implementation of common UI widget
     a `noiceCoreUIScreen` extension class for creating, updating, querying, etc a typical "records on a form" interface.
 
 
-* [`startupDialog.js`](Documentation/UI/startupDialog.js)
+* [`startupDialog.js`](Documentation/UI/startupDialog.md)
 
     a splash screen with buttons for user interaction and many hooks for showing status (for instance spinning up indexedDB instances, fetching data from network, etc)
 

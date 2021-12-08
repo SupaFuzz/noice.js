@@ -35,6 +35,8 @@ constructor(args, defaults, callback){
         _welcomeMode:          false,
         _welcomeTitle:          'Welcome',
         _welcomeMessage:        "To begin, touch 'start'",
+        _cancelBtnText:         'reload',
+        _startBtnText:          'start',
         headingClass:           'dialogHeadingClass',
         contentClass:           'dialogContentClass',
         chartSize:              200,
@@ -78,8 +80,8 @@ get html(){
                             <p class="welcomeMessage">${this.welcomeMessage}</p>
                     </div>
                     <div class="btnContainer" style="width:100%;text-align:right;">
-                        <button id="btnInventoryStart">start</button>
-                        <button id="btnInventoryCancel" style="display:none;">reload</button>
+                        <button id="btnInventoryStart">${this.startBtnText}</button>
+                        <button id="btnInventoryCancel" style="display:none;">${this.cancelBtnText}</button>
                     </div>
                 </div>
             </div>
@@ -147,7 +149,16 @@ set welcomeTitle(v){
     this._welcomeTitle = v;
     if (this.welcomeTitleDOM instanceof Element){ this.welcomeTitleDOM.textContent = this._welcomeTitle; }
 }
-
+get cancelBtnText(){ return(this._cancelBtnText); }
+set cancelBtnText(v){
+    this._cancelBtnText = v;
+    if (this.cancelButtonDOMObject instanceof Element){ this.cancelButtonDOMObject.textContent = this.cancelBtnText; }
+}
+get startBtnText(){ return(this._startBtnText); }
+set startBtnText(v){
+    this._startBtnText = v;
+    if (this.startButtonDOMObject instanceof Element){ this.startButtonDOMObject.textContent = this.startBtnText; }
+}
 
 /*
     animation hooks
@@ -260,7 +271,8 @@ setup(){
     // init DOM values that have getter/drsetters
     [
         'netStatus','dbStatus','title', 'message', 'netReadBytes', 'showPieChart',
-        'showCancelBtn', 'welcomeMode', 'welcomeTitle', 'welcomeMessage'
+        'showCancelBtn', 'welcomeMode', 'welcomeTitle', 'welcomeMessage',
+        'cancelBtnText', 'startBtnText'
     ].forEach(function(at){ this[at] = this[at]; }, this);
 
     // setup the pieCharts

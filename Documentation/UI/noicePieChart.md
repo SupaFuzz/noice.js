@@ -27,7 +27,7 @@ this implements an SVG pie chart
 
 * **size** `string (css passthrough), default: '2em'` - this value is passed through to the `this.DOMElement.style.width` and `this.DOMElement.style.height` CSS attributes. Any value accepted under the CSS spec is accepted here. Both dimensions are set to the same value yielding a square within which we render the circular pie chart
 
-* **badgeText** `string, default: null` - if a non-null string value is specified, this text is overlaid on the pie chart. This is useful for displaying an exact percentage value to the user (though you'd have to update it yourself manually, also for chart titles, etc)
+* **badgeTxt** `string, default: null` - if a non-null string value is specified, this text is overlaid on the pie chart. This is useful for displaying an exact percentage value to the user (though you'd have to update it yourself manually, also for chart titles, etc)
 
 * **chartsize** `integer (svg passthrough), default: 200` - this value determines the radius of the pie chart. The value is given in [SVG units](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Positions)
 
@@ -57,11 +57,16 @@ this implements an SVG pie chart
 
 ## Example
 ```javascript
-let chart = new noicePieChart({
+var chart = new noicePieChart({
     showPieChart: true,
     size: '3.5em',
     pieCharts: [ { name:'inventory', fill:'rgba(191, 191, 24, 1)', stroke:'rgba(191, 191, 24, 1)', strokeWidth:'2px'} ],
-    zIndex: 1
+    zIndex: 1,
+    animationCallback: function(self){
+        let pct = (Math.abs(Math.sin((new Date())/3000)) *100);
+        self.updatePieChart(`inventory`, pct);
+        self.badgeTxt = `${Math.ceil(pct)}%`;
+    },
+    runAnimation:true,
 }).append(document.body);
-chart.updatePieChart('inventory', 75);
 ```

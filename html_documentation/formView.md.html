@@ -1,0 +1,738 @@
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>formView</title>
+            <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(197, 200, 198); background-color: rgb(29, 31, 33); overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(155, 160, 157); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(155, 160, 157); border-color: rgb(67, 72, 76); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(67, 72, 76); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(67, 72, 76); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(48, 51, 55); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(39, 41, 44); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(67, 72, 76) rgb(67, 72, 76) rgb(53, 57, 60); border-image: initial; background-color: rgb(48, 51, 55); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; overflow-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.04); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { overflow-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; overflow-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.markdown-preview pre.editor-colors { user-select: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item input[type="checkbox"] { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.markdown-preview .task-list-item { list-style-type: none; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #c5c8c6;
+  background-color: #373b41;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #1d1f21;
+  color: #c5c8c6;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #4f5256;
+}
+pre.editor-colors .indent-guide {
+  color: #4f5256;
+}
+pre.editor-colors .invisible-character {
+  color: #4f5256;
+}
+pre.editor-colors .gutter {
+  background-color: #1d1f21;
+  color: #969896;
+}
+pre.editor-colors .gutter .line-number {
+  padding: 0 0.25em 0 0.5em;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #969896;
+}
+pre.editor-colors .invisible {
+  color: #c5c8c6;
+}
+pre.editor-colors .cursor {
+  color: #ffffff;
+}
+pre.editor-colors .selection .region {
+  background-color: #373b41;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #969896;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #b5bd68;
+}
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--control {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--operator {
+  color: #c5c8c6;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #81a2be;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #de935f;
+}
+.syntax--storage {
+  color: #b294bb;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #8abeb7;
+}
+.syntax--variable {
+  color: #cc6666;
+}
+.syntax--variable.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--variable.syntax--parameter.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--invalid.syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp {
+  color: #8abeb7;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #f0c674;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #cc6666;
+}
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #81a2be;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #f0c674;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #c5c8c6;
+}
+.syntax--support.syntax--class {
+  color: #f0c674;
+}
+.syntax--support.syntax--function {
+  color: #8abeb7;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #f0c674;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #de935f;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #81a2be;
+}
+.syntax--meta.syntax--class {
+  color: #f0c674;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--link {
+  color: #de935f;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--require {
+  color: #81a2be;
+}
+.syntax--meta.syntax--selector {
+  color: #b294bb;
+}
+.syntax--meta.syntax--separator {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--tag {
+  color: #c5c8c6;
+}
+.syntax--none {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #81a2be;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--quote {
+  color: #de935f;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #8abeb7;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #8abeb7;
+}
+/*
+   This defines styling rules for syntax classes.
+
+   See the naming conventions for a list of syntax classes:
+   https://flight-manual.atom.io/hacking-atom/sections/syntax-naming-conventions
+
+   When styling rules conflict:
+   - The last rule overrides previous rules.
+   - The rule with most classes and pseudo-classes overrides the last rule.
+*/
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--storage {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--type {
+  color: #f0c674;
+}
+.syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--function {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--variable {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--support {
+  color: #cc6666;
+}
+.syntax--entity.syntax--decorator:last-child {
+  color: #81a2be;
+}
+.syntax--entity.syntax--label {
+  text-decoration: underline;
+}
+.syntax--entity.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--entity.syntax--operator {
+  color: #81a2be;
+}
+.syntax--entity.syntax--operator.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--attribute {
+  color: #de935f;
+}
+.syntax--punctuation {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--immutable {
+  color: #b5bd68;
+}
+.syntax--string.syntax--part {
+  color: #8abeb7;
+}
+.syntax--string.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--string.syntax--regexp {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp.syntax--language {
+  color: #b294bb;
+}
+.syntax--string.syntax--regexp.syntax--variable {
+  color: #81a2be;
+}
+.syntax--string.syntax--regexp.syntax--punctuation {
+  color: #a3685a;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--code {
+  color: #8abeb7;
+}
+.syntax--text {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--list.syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--alt {
+  color: #8abeb7;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--deleted .syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--changed .syntax--punctuation {
+  color: #b294bb;
+}
+.syntax--markup.syntax--commented {
+  color: #969896;
+}
+.syntax--markup.syntax--commented .syntax--punctuation {
+  color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment.syntax--caption {
+  color: #9ea09e;
+  font-weight: bold;
+}
+.syntax--comment.syntax--term {
+  color: #a8aaa8;
+}
+.syntax--comment.syntax--punctuation {
+  color: #969896;
+  font-weight: normal;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--tag {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--variable {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--keyframe {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--constant {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--media {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset.syntax--unit {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--attribute-value {
+  color: #b5bd68;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--wildcard {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--attribute {
+  color: #c5c8c6;
+}
+</style>
+        </head>
+        <body class='markdown-preview' data-use-github-style><h1 id="note-111921----this-documentation-is-incomplete">NOTE 11/19/21 -- this documentation is incomplete</h1>
+<h1 id="formviewjs">formView.js</h1>
+<p>insert overview here</p>
+<h2 id="requires">requires</h2>
+<ul>
+<li><strong>noiceCore.js</strong> (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUtility</code>)</li>
+<li><strong>noiceCoreUI.js</strong> (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIScreen</code>)</li>
+</ul>
+<h2 id="error-message-numbers">error message numbers</h2>
+<ol>
+<li>bad config object</li>
+<li>unknown field type</li>
+<li>failed to instantiate formElement</li>
+<li>no fields in config</li>
+<li>duplicate fields in config</li>
+<li>form mode change prevented</li>
+<li>value on data setter is not object</li>
+<li>setting value for field (set data) failed</li>
+<li>filter threw error preventing save</li>
+<li>filter exited preventing save (soft error)</li>
+<li>saveCallback cancelled save</li>
+<li>failed validation</li>
+</ol>
+<h2 id="configuration-format">configuration format</h2>
+<p>this is the configuration datastructure. This is passed to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.config</code> attribute setter</p>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js">config <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">fields</span><span class="syntax--keyword syntax--operator syntax--js">:</span>  <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--entity syntax--name syntax--tag">fieldName</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span>: <span class="syntax--punctuation syntax--section syntax--embedded">{</span><span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--entity syntax--name syntax--tag">fieldConfig</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span> <span class="syntax--punctuation syntax--section syntax--embedded">}</span>,</span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span>menus:   <span class="syntax--punctuation syntax--section syntax--embedded">{</span> <span class="syntax--keyword syntax--operator syntax--js">&lt;</span><span class="syntax--entity syntax--name syntax--tag">fieldName</span><span class="syntax--keyword syntax--operator syntax--js">&gt;</span>: [menuValuesObject] <span class="syntax--punctuation syntax--section syntax--embedded">}</span>,</span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span>filters: []</span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div></pre>
+<ul>
+<li><p>the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fields</code> key contains an object of the form <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{ &lt;fieldName&gt;: {&lt;fieldConfig&gt;} ...}</code>, where:</p>
+<ul>
+<li><p><strong>fieldName</strong> (string)</p>
+<p>this is a <em>unique key</em> identifying a field in the formView.</p>
+</li>
+<li><p><strong>fieldConfig</strong> (object)</p>
+<p>this is an object containing properties of the <strong>formElement</strong> identified by .
+This is an example of a fieldConfig object for a field with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fieldName: 'entryID'</code></p>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js">this<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">config</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">fields</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--variable syntax--other syntax--object syntax--property">entryID</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">type</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'char'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">maxLength</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">15</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Entry ID'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'left'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLength</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'14.754060723vw'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueLength</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'auto'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">displayOrder</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">1</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">displaySection</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'identification'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--variable syntax--other syntax--object syntax--property">modes</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">          </span><span class="syntax--variable syntax--other syntax--object syntax--property">modify</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">display</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">edit</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">nullable</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">          </span><span class="syntax--variable syntax--other syntax--object syntax--property">create</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">display</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">edit</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">nullable</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">          </span><span class="syntax--variable syntax--other syntax--object syntax--property">clone</span><span class="syntax--keyword syntax--operator syntax--js">:</span>  <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">fieldMenu</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">inheritValue</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--false">false</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">nullable</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--keyword syntax--operator syntax--spread syntax--js">...</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div></pre>
+<p>the root-level attributes are passed to the constructor of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElement</code> subclass corresponding to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type</code> attribute (as defined in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView.getFormElement()</code> static class function, see below). The 'modes' object contains a tree of attribute values to be set by the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setFormMode()</code> function when the value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.formMode</code> is changed, where the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode</code> string value corresponds to a key of this object. For instance, in the example above, we set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">display: true, edit: false, nullable:true</code> when <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.formView = 'modify'</code></p>
+</li>
+</ul>
+</li>
+<li><p>the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">menus</code> key contains an object of the form <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{ &lt;fieldName&gt;: [menuValuesObject], ...}</code> where the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fieldName</code> key corresponds to a formElement field defined in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fields</code> section of the config. The key points to an object compatible with the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">values</code> setter of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementInput</code> descendant classes (that is any formElement that can support a value list, so selects and type-ahead menus)</p>
+</li>
+<li><p>the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">filters</code> key is an object of this form:</p>
+<pre class="editor-colors lang-text.plain"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">  </span>{</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">      </span>&lt;filterName&gt;: {</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>name:       &lt;filterName&gt;,</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>enabled:    &lt;bool&gt;,</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>executeOn:  &lt;enum: save | validate | user-defined&gt;,</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>order:      &lt;int&gt;,</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>formModes:  [ array, of, formModeStrings],</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>executor:   async function(formViewReference, pipeData){</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">              </span>// do stuff here</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">              </span>return({</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">                  </span>abort: &lt;bool&gt;,</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">                  </span>pipeData: {&lt;arbitrary data&gt;}</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">              </span>})</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">          </span>}</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">      </span>},</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">      </span>...</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">  </span>}</span></div></pre>
+<p>  this object defines a set of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">filter</code> objects (think unix-style filter in a pipe chain). These filter objects are executed in sequence ordered by the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">order</code> (least &lt; greatest), within the group of filter objects matching a given value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">executeOn</code>. There's a lot to write about here, see the <strong>Filters</strong> section below</p>
+</li>
+</ul>
+<h2 id="commonly-overridden-methods">commonly overridden methods</h2>
+<h3 id="get-html"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">get html()</code></h3>
+<p>override this attribute getter to change the default html template for
+<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'create'</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'modify'</code></p>
+<h3 id="get-cloneviewhtml"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">get cloneViewHTML()</code></h3>
+<p>override this attribute getter to change the default html template for <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'clone'</code></p>
+<h3 id="handletemplate"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">handleTemplate()</code></h3>
+<p>override this attribute getter to setup the html template for a handle for the formView. Set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">data-templatename</code> attributes in the HTML template to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fieldName</code> of a field in the config to insert the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> of that formElement into the handle when it changes (so for instance use <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;span data-templatename="title"&gt;&lt;/span&gt;</code> in your HTML template to have a text element in the handle containing the current value of the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">title</code> formElement that is updated when the user changes the value of that field).</p>
+<h3 id="setupcallback"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setupCallback()</code></h3>
+<p>this callback executes <em>before</em> render, but <em>after</em> instantiation. This is useful
+for setting up custom setup logic, however NOTE: child classes that override this function must call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super.setupCallback()</code> at the top of the function before other code. It's more likely you'll want to override <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">firstFocusCallback()</code> instead</p>
+<h3 id="firstfocuscallback"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">firstFocusCallback()</code></h3>
+<p>this callback fires the first time the UI is given focus. This is handy for setting up data structures, initializing menu values, etc. Unlike <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setupCallback()</code>, there is no hard-coded class infrastructure present here, so this is safe to override without needing to make <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super.*</code> calls. NOTE: formerly known as the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setup()</code> function.</p>
+<h3 id="rendercallback"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">renderCallback()</code></h3>
+<p>this callback executes <em>after</em> the html is rendered, this is handy for setting up hooks and such. However, if you need to override this, be sure to call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super.renderCallback()</code> as there are bits of hard-coded object infrastructure here.</p>
+<h3 id="onscreencallback"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">onScreenCallback()</code></h3>
+<p>this callback is executed each time the UI is appended to an on-screen DOM element</p>
+<h3 id="async-formmodechangecallbackformmode"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async formModeChangeCallback(formMode)</code></h3>
+<p>this asynchronous callback is executed each time the value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">*.formMode</code> is changed. If this function returns a rejected promise, the formMode change will not execute, so this callback can cancel formMode changes. Values of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode</code> are, in general, completely arbitrary, but generally are 'create', 'modify', and 'clone'</p>
+<h3 id="async-fieldvaluechangecallbackfieldname-newvalue-oldvalue-formelement"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async fieldValueChangeCallback(fieldName, newValue, oldValue, formElement)</code></h3>
+<p>this callback fires for every value change on every formElement, before the changeFlag is set (or unset). This function must return a promise. If that promise rejects, the field's value will not be changed. Whatever value your promise resolves to will be set as the field's value. In this way, you can intercept and modify field value changes. However, depending on your use case, using filters defined n the config will likely be the more extensible solution for logic meant to fire on field value changes. Arguments are as follows:</p>
+<ol>
+<li><p>fieldName
+the name of the field as defined in the configuration (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.config.fields[&lt;fieldName&gt;]</code>)</p>
+</li>
+<li><p>newValue
+the value the field is <em>changing to</em></p>
+</li>
+<li><p>oldValue
+the value the field is <em>changing from</em></p>
+</li>
+<li><p>formElement
+pointer to the formElement object for the field identified by </p>
+</li>
+</ol>
+<h3 id="async-savecallbackformviewreference"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async saveCallback(formViewReference)</code></h3>
+<p>this asynchronous callback function is executed when the user clicks the saveButton in all formModes except <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'clone'</code> (in that special case, we execute <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">cloneCallback(formViewReference)</code>, see below); If this function returns a rejected promise, the save is cancelled, and the changeFlag is not reset. If this function returns a resolved promise, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">changeFlag</code> is reset to a value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code>. This function receives an input parameter of a pointer to self (the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formViewReference</code>) such that it can be defined completely externally of the child class if needed.</p>
+<h3 id="async-clonecallbackformviewreference"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async cloneCallback(formViewReference)</code></h3>
+<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.cloneView</code> (that is the duplicate of self with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'clone'</code>, see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">get cloneView()</code> below), will see this as the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">saveCallback</code>. This is executed <em>instead of the saveCallback()</em> when <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'clone'</code>. This allows you to define code to execute when the user saves a clone of the current object (for instance, not only writing indexedDB or a network resource, but also adding handles to the DOM and inserting new views into a UIHolder, etc -- see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">recordEditorUI.js</code>). As with the saveCallback(), returning a rejected promise will cancel the save, and resolving will reset the changeFlag, etc.</p>
+<h3 id="async-losefocuscallbackformviewreference"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async loseFocusCallback(formViewReference)</code></h3>
+<p>this fires when <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.close()</code> is called, before the changeFlag is checked, the uiHolder removal and handle removal. Returning a rejected promise will cancel the close, returning a resolved promise allows you to continue. This is handy for saving state, etc.</p>
+<h3 id="async-cloneablecallbackformviewreference-newboolvalue"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async cloneableCallback(formViewReference, newBoolValue)</code></h3>
+<p>this fires when the value of the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.cloneable</code> attribute is changed, this mechanism exists primarily as a means to manage the state of btnClone in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">recordEditorUILayout</code>. Like all the other callbacks, returning a resolved promise, allows the cloneable value change, and rejecting cancels it.</p>
+<h3 id="async-removefieldcallbackfieldname-formelement"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async removeFieldCallback(fieldName, formElement)</code></h3>
+<p>this fires whenever the user clicks <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">btnRemove</code> on a formElement this is primarily useful in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode: 'clone'</code>, for managing the available fields list for the dropdown menu. As with other callbackes, rejected promise cancels the operation and resolved promise allows it to continue (for instance one could check changeFlag on the field, render an 'are you sure?' dialog before removing the field, etc)</p>
+<h3 id="async-gainfocusfocusargs"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async gainFocus(focusArgs)</code></h3>
+<p>this is fired when <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">focus: true</code> is set (typically this will be within the context of a uiHolders <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">switchUI()</code> call). This is a handy place to do dynamic things when a formView gains focus (for instance sending args from another UI Screen, etc). As will the other async callbacks, return a rejected promise to abort, and a resolved promise to continue</p>
+<h3 id="rowidvalue"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">rowID(value)</code></h3>
+<p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.rowID</code> is the unique identifier of the formView <em>instance</em>, which allows your app to differentiate between many such formView instances. For instance in the case where you are rendering search results, and a background thread needs to update an already instantiated formView with data from the server, or a transmit status or what have you ... this is it's unique value. By default this is set to a dynamically-generated GUID at instantiation.</p>
+<h2 id="infrastructure-functions">infrastructure functions</h2>
+<h3 id="formmode-attribute"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode</code> (attribute)</h3>
+<p>this indicates the mode of the formView. These values can be arbitrarily defined, however, by default we have these three modes:</p>
+<ol>
+<li><p>create
+a formView mode for creating new rows</p>
+</li>
+<li><p>modify
+a formView mode for modifying existing rows</p>
+</li>
+<li><p>clone
+a formView mode for creating copies of existing rows, replacing selected values with new user input</p>
+</li>
+</ol>
+<h3 id="setformmodeformmode"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setFormMode(formMode)</code></h3>
+<p>this asynchronous function is invoked from the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formMode</code> value setter. This invokes the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formModeChangeCallback()</code> (see above) and applies properties to formElements defined in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">modes</code> object of the field's entry in the config (if defined). For example:</p>
+<pre class="editor-colors lang-text.plain"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">fields: {</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>fieldName:  {</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">        </span>type:   'char',</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">        </span>label:  'fieldName',</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">        </span>...</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">        </span>modes: {</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">            </span>modify: { display:true, edit:false, nullable:true },</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">            </span>create: { display:false, edit:false, nullable:true },</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">            </span>clone:  { fieldMenu:false, inheritValue:false, nullable:true }</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">        </span>}</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>},</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>...</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar">}</span></div></pre>
+<h3 id="config-attribute"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">config</code> (attribute)</h3>
+<p>the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.config</code> attribute setter parses the given string as JSON, instantiating <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code> objects for each field defined in the config (see above).</p>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block">/*</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">    </span>LOH - 10/4/21 @ 2301</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">    </span>need to go ahead and write up everything about filters below, but we also</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">    </span>need to finish running down the methods above. We don't even have `save()` yet.</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block">*/</span></span></div></pre>
+<h2 id="filters">Filters.</h2>
+<p>hooo-boy, I'll tell ya what.</p></body>
+      </html>

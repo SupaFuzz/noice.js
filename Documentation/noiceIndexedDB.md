@@ -22,7 +22,7 @@ That's the short story. There are *lots* of details when it comes to defining in
 
 In SQL you have `DDL` (Data Definition Language) operations that you use to define your tables and the  relational data structure. In `indexedDB`, you don't. Though you do need to define your `dataStore` objects and the indexes on them, at the API level this is not done via a language, but by explicit code implementation. For reasons that will become obvious as you dig in, this is extraordinarily unhelpful. As a result, this library implements a quick and dirty version of DDL, in the form of a `storeDefinitions` object of this form:
 
-```
+```text.plain
 <storeName>: {
     createOptions: {
         keyPath: <keyPath>,
@@ -190,7 +190,7 @@ let AmyDatabase = await new noiceIndexedDB({
 this returns a promise resolving to an object describing the specified `storeName`. If `storeName` is not given, the returned promise will resolve to an array of objects describing all `dataStore` object in the indexedDB instance. If `storeName` is given but does not exist in the indexedDB instance, the promise resolves to an error, as it will if any other errors are encountered along the way.
 
 ### output
-```
+```text.plain
 [
     {
         name:           <storeNameString>,
@@ -619,7 +619,7 @@ This is a convenience function (not in the API), allowing you to send one or mor
 
 ### output
 this returns a promise either rejecting in the case of an error or resolving to an array of objects of this form (indicating the disposition of each row in the `objects` argument):
-```
+```text.plain
 [{
     key:         <key>,
     disposition: <enum(created, updated, overwritten, skipped, error)>,

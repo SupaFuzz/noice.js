@@ -2,7 +2,7 @@
 
 this implements a full screen modal dialog that looks something like this:
 
-```     
+```text.plain
          ---------------------------------
         | <title>                         |
         |---------------------------------|

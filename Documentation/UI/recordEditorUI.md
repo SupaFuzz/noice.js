@@ -1,7 +1,7 @@
 # recordEditorUI.js
 this is a UI screen (noiceCoreUIScreen subclass) for creating and editing records. The layout is something like this
 
-```
+```text.plain
 --------------------------------------------------------------------------
 | < back (s) (+) (c) (=) |                                               |
 |                        |                                               |

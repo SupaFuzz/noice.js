@@ -77,7 +77,7 @@ config = {
 
 * the `filters` key is an object of this form:
 
-    ```
+    ```text.plain
     {
         <filterName>: {
             name:       <filterName>,
@@ -204,7 +204,7 @@ a formView mode for creating copies of existing rows, replacing selected values 
 ### `setFormMode(formMode)`
 this asynchronous function is invoked from the `formMode` value setter. This invokes the `formModeChangeCallback()` (see above) and applies properties to formElements defined in the `modes` object of the field's entry in the config (if defined). For example:
 
-```
+```text.plain
 fields: {
     fieldName:  {
         type:   'char',

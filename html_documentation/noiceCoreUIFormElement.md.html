@@ -1,0 +1,877 @@
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>noiceCoreUIFormElement</title>
+            <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(197, 200, 198); background-color: rgb(29, 31, 33); overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(155, 160, 157); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(155, 160, 157); border-color: rgb(67, 72, 76); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(67, 72, 76); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(67, 72, 76); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(48, 51, 55); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(39, 41, 44); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(67, 72, 76) rgb(67, 72, 76) rgb(53, 57, 60); border-image: initial; background-color: rgb(48, 51, 55); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; overflow-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.04); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { overflow-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; overflow-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.markdown-preview pre.editor-colors { user-select: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item input[type="checkbox"] { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.markdown-preview .task-list-item { list-style-type: none; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #c5c8c6;
+  background-color: #373b41;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #1d1f21;
+  color: #c5c8c6;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #4f5256;
+}
+pre.editor-colors .indent-guide {
+  color: #4f5256;
+}
+pre.editor-colors .invisible-character {
+  color: #4f5256;
+}
+pre.editor-colors .gutter {
+  background-color: #1d1f21;
+  color: #969896;
+}
+pre.editor-colors .gutter .line-number {
+  padding: 0 0.25em 0 0.5em;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #969896;
+}
+pre.editor-colors .invisible {
+  color: #c5c8c6;
+}
+pre.editor-colors .cursor {
+  color: #ffffff;
+}
+pre.editor-colors .selection .region {
+  background-color: #373b41;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #969896;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #b5bd68;
+}
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--control {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--operator {
+  color: #c5c8c6;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #81a2be;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #de935f;
+}
+.syntax--storage {
+  color: #b294bb;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #8abeb7;
+}
+.syntax--variable {
+  color: #cc6666;
+}
+.syntax--variable.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--variable.syntax--parameter.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--invalid.syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp {
+  color: #8abeb7;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #f0c674;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #cc6666;
+}
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #81a2be;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #f0c674;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #c5c8c6;
+}
+.syntax--support.syntax--class {
+  color: #f0c674;
+}
+.syntax--support.syntax--function {
+  color: #8abeb7;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #f0c674;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #de935f;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #81a2be;
+}
+.syntax--meta.syntax--class {
+  color: #f0c674;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--link {
+  color: #de935f;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--require {
+  color: #81a2be;
+}
+.syntax--meta.syntax--selector {
+  color: #b294bb;
+}
+.syntax--meta.syntax--separator {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--tag {
+  color: #c5c8c6;
+}
+.syntax--none {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #81a2be;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--quote {
+  color: #de935f;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #8abeb7;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #8abeb7;
+}
+/*
+   This defines styling rules for syntax classes.
+
+   See the naming conventions for a list of syntax classes:
+   https://flight-manual.atom.io/hacking-atom/sections/syntax-naming-conventions
+
+   When styling rules conflict:
+   - The last rule overrides previous rules.
+   - The rule with most classes and pseudo-classes overrides the last rule.
+*/
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--storage {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--type {
+  color: #f0c674;
+}
+.syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--function {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--variable {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--support {
+  color: #cc6666;
+}
+.syntax--entity.syntax--decorator:last-child {
+  color: #81a2be;
+}
+.syntax--entity.syntax--label {
+  text-decoration: underline;
+}
+.syntax--entity.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--entity.syntax--operator {
+  color: #81a2be;
+}
+.syntax--entity.syntax--operator.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--attribute {
+  color: #de935f;
+}
+.syntax--punctuation {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--immutable {
+  color: #b5bd68;
+}
+.syntax--string.syntax--part {
+  color: #8abeb7;
+}
+.syntax--string.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--string.syntax--regexp {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp.syntax--language {
+  color: #b294bb;
+}
+.syntax--string.syntax--regexp.syntax--variable {
+  color: #81a2be;
+}
+.syntax--string.syntax--regexp.syntax--punctuation {
+  color: #a3685a;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--code {
+  color: #8abeb7;
+}
+.syntax--text {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--list.syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--alt {
+  color: #8abeb7;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--deleted .syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--changed .syntax--punctuation {
+  color: #b294bb;
+}
+.syntax--markup.syntax--commented {
+  color: #969896;
+}
+.syntax--markup.syntax--commented .syntax--punctuation {
+  color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment.syntax--caption {
+  color: #9ea09e;
+  font-weight: bold;
+}
+.syntax--comment.syntax--term {
+  color: #a8aaa8;
+}
+.syntax--comment.syntax--punctuation {
+  color: #969896;
+  font-weight: normal;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--tag {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--variable {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--keyframe {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--constant {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--media {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset.syntax--unit {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--attribute-value {
+  color: #b5bd68;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--wildcard {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--attribute {
+  color: #c5c8c6;
+}
+</style>
+        </head>
+        <body class='markdown-preview' data-use-github-style><h1 id="noicecoreuiformelementjs">noiceCoreUIFormElement.js</h1>
+<p>This file contains <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIElement</code> extension classes modeling <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form">Form Elements</a>. These can be used standalone, or within the context of a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView</code>.</p>
+<p>This file contains the following class tree:</p>
+<ul>
+<li>noiceCoreUIFormElement<ul>
+<li>noiceCoreUIFormElementInput<ul>
+<li>noiceCoreUIFormElementDateTime</li>
+<li>noiceCoreUIFormElementPassword</li>
+<li>noiceCoreUIFormElementSelect</li>
+<li>noiceCoreUIFormElementText</li>
+<li>noiceCoreUIFormElementNumber<ul>
+<li>noiceCoreUIFormElementDate</li>
+</ul>
+</li>
+<li>noiceCoreUIFormElementCheckbox</li>
+<li>noiceCoreUIFormElementFile</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="requires">requires</h2>
+<ul>
+<li><strong>noiceCore.js</strong> (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUtility</code>)</li>
+<li><strong>noiceCoreUI.js</strong> (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIElement</code>)</li>
+</ul>
+<hr>
+<h1 id="noicecoreuiformelement"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElement</code></h1>
+<p>This is the base class from which all other formElements descend.</p>
+<h2 id="synopsis">Synopsis</h2>
+<p>This class is a base class from which all of the formElement classed derive. As such you'd never directly make an object of this class, and it has no HTML template. This base class provides infrastructure common across all of the subclasses. So rather than the usual code dump for the Synopsis, it's more useful to talk about features provided by the class.</p>
+<p>Ok so basically every derived subclass is going to render DOM content resembling this:</p>
+<pre class="editor-colors lang-text.plain"><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>this.labelLocation: left</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>_____________   ______________________   ___________</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    label    | |    field             | |  buttons  |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>-------------   ----------------------   -----------</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    validation errors                               |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>-----------------------------------------------------</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>this.labelLocation: top</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>_____________<span class="trailing-whitespace">  </span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    label    |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>-------------<span class="trailing-whitespace">   </span></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>______________________   ___________</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    field             | |  buttons  |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>----------------------   -----------</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    validation errors               |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>------------------------------------</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"></span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>this.labelLocation: none &amp; embed</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>______________________   ___________</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    field             | |  buttons  |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>----------------------   -----------</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">    </span>|    validation errors               |</span></div><div class="line"><span class="syntax--text syntax--plain syntax--null-grammar"><span class="leading-whitespace">     </span>------------------------------------<span class="trailing-whitespace">     </span></span></div></pre>
+<p>The <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validation errors</code> is only visible when the object contains validation errors. Likewise the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">buttons</code> area is hidden in most cases and is only shown when you've got buttons explicitly enabled (for instance <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.undoable</code>)</p>
+<p>The <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">field</code> in the diagram above, is an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form">HTML Form Element</a>. Typically an <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">input</code> or <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">textarea</code> but there are many. In the object, a reference to the DOM Element object for it is on the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.formElement</code> attribute.</p>
+<p>These objects have a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.value</code> attribute that corresponds to the value currently in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code>. If defined, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">valueChangeCallback()</code> is executed when <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> changes. This change in value is detected by an eventHandler (for instance <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">return</code> or <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">focusout</code> -- see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.captureValueOn</code> attribute below).</p>
+<p>When the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">undoable</code> flag is set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, the object records the previous value when a value change is captured. This also will render the undo button and show the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">buttons</code> section above</p>
+<p>But basically, the gist of these is that there's a field (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.formElement</code>), you can get or set it's value on via <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.value</code>, when the value changes (as defined by <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.captureValueOn</code>), we execute the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.valueChangeCallback()</code> function (if defined)</p>
+<p>that's the gist of it. There are an incredible number of options and details (see below)</p>
+<h2>Attributes</h2>
+<ul>
+<li><p><strong>validationErrors</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - an object of the form <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{ &lt;errorNumber&gt;: &lt;errorObject&lt;&gt;, ... }</code>. Within the context of a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView</code>, when the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView.validate()</code> function is called, any validation errors associated to this field will be inserted into this object where the key is the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorNumber&gt;</code> and the value is a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;validationError&gt;</code> object.</p>
+</li>
+<li><p><strong>hasErrors</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - this attribute is <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> when the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validationErrors</code> attribute contains at least one <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorNumber&gt;</code> key,</p>
+</li>
+<li><p><strong>showValidationErrors</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if set to a value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validationErrorSection</code> Element is inserted into <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.DOMElement</code>, and any <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;validationError&gt;</code> objects present on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrors</code> are rendered into it, showing the errors adjacent to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code>. If set to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code> removes the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validationErrorsSection</code> from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.DOMElement</code>;</p>
+</li>
+<li><p><strong>dir</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(ltr, rtl, auto)</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">dir attribute</code></a></p>
+</li>
+<li><p><strong>labelLength</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string (css passthrough), default '1em'</code> - length of label</p>
+</li>
+<li><p><strong>valueLength</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string (css passthrough), default: '1fr'</code> - length of value</p>
+</li>
+<li><p><strong>display</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: true</code> - if true show the element (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">display: grid;</code>) else don't (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">display: none;</code>)</p>
+</li>
+<li><p><strong>edit</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: true</code> - if true, allow the user to set/change value on the field. Otherwise lock it</p>
+</li>
+<li><p><strong>enable</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: true</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">disabled</code> attribute</a>. If true, field is enabled, if false, disabled</p>
+</li>
+<li><p><strong>nullable</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: true</code> - if true, the field is allowed to carry a null value, otherwise a validation error is thrown if the field is null on a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validate()</code> call. Setting this field true also adds <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.requiredFieldClass</code> to the classList, and setting false removes it.</p>
+</li>
+<li><p><strong>label</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - use this string for the label</p>
+</li>
+<li><p><strong>labelLocation</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(left, top, none, embed)</code> sets the location of the label. The <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">embed</code> option only works with subclasses that support it (for instance drop-down menus where the first option is not selectable and is the label for instance "select a value", etc)</p>
+</li>
+<li><p><strong>labelClass</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - set this string value on the CSS <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">classList</code> of the label</p>
+</li>
+<li><p><strong>fieldClass</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - set this string value on the CSS <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">classList</code> of the formElement</p>
+</li>
+<li><p><strong>name</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - (optional) 'name' of the formElement as separate and distinct from the label (this is often more handy than you'd think)</p>
+</li>
+<li><p><strong>value</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - the current value in the formElement</p>
+</li>
+<li><p><strong>oldValue</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - the value present on the formElement, before the current <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> was set. If there is no previous value, <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">null</code></p>
+</li>
+<li><p><strong>defaultValue</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - if a non-null value is given, set this as the initial value of the field when instantiating it. Callbacks are invoked when setting the defaultValue.</p>
+</li>
+<li><p><strong>hasFormElement</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - there is a phase during instantiation before <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super.render()</code> has been called in which it is possible to set values and attributes of the object but the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code> has not yet been spawned into <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.DOMElement</code>. This attribute returns <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.DOMElement</code> contains the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code>, otherwise <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code></p>
+</li>
+<li><p><strong>formElementLabel</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Element</code> - returns the DOMElement of the label object</p>
+</li>
+<li><p><strong>formElement</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Element</code> - this is DOM element of the HTML base layer form element (an 'input', 'select', 'file', etc)</p>
+</li>
+<li><p><strong>captureValueOn</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(focusout, return, focusoutOrReturn, keydown, input, change)</code> - specify the event(s) upon which we determine that the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> has been set/changed and invoke the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">valueChangeCallback()</code></p>
+</li>
+<li><p><strong>showButtons</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true, display the buttonContainer</p>
+</li>
+<li><p><strong>undoable</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true, render the undo button in the buttonContainer, allowing the user to undo the last value change</p>
+</li>
+<li><p><strong>removable</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true, render the 'remove' button in the buttonContainer. Within a dynamic <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView</code>, this allows the user to remove the field from the view. Clicking the 'remove' button executes the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">removeCallback()</code> if specified</p>
+</li>
+<li><p><strong>hasExternalButtons</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - this attribute returns true if external buttons are defined</p>
+</li>
+<li><p><strong>externalButtons</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">array</code> - if specified, this array of HTML <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Element</code> objects (presumably buttons but I mean hey anything you want I guess) is inserted into buttonContainer, and displayed adjascent to the formElement if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">showButtons</code> is true (attach your callbacks externally)</p>
+</li>
+</ul>
+<h2 id="functions">Functions</h2>
+<ul>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">hasError(&lt;errorNumber&gt;)</code></strong> - returns boolean <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrors</code> contains a key matching <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorNumber&gt;</code>, else <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">addValidationError(&lt;errorObject&gt;)</code></strong> - set the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorObject&gt;</code> as the value associated to the key <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorObject&gt;.errorNumber</code> on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrors</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">removeValidationError(&lt;errorNumber&gt;)</code></strong> - the opposite of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">addValidationError()</code>, if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrors</code> has a key matching <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;errorNumber&gt;</code>, delete it.</p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">clearValidationErrors()</code></strong> - remove all keys from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrors</code>, and call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toggleValidationErrorClass()</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toggleValidationErrorClass()</code></strong> - if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.hasErrors == true</code>, add <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrorClass</code> to the classList  of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.DOMElement</code> and set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.showValidationErrors = true</code>. Else, remove <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.validationErrorClass</code> from the classList and set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.showValidationErrors = false</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">resetOldValue()</code></strong> - if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.undoable == true</code>, reset <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.oldValue</code> to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">null</code> when this function is called.</p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async setValue(&lt;value&gt;)</code></strong> - same as directly setting the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> attribute, except that a promise that is rejected if callbacks throw, and resolves when/if the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> is set on the formElement</p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setValueDirect(&lt;value&gt;)</code></strong> - same as directly setting the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> attribute <em>except that no callbacks are invoked</em></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setFocus()</code></strong> - give focus to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toggleDefaultValueStyle()</code></strong> - if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.value == this.defaultValue</code>, add <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.defaultValueClass</code> to the formElement's classList, otherwise remove it</p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">resetCaptureHooks()</code></strong> -- NOTE THIS NEEDS REWORK -- attempts to remove the eventListeners from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">captureValueOn</code></p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">captureValue(&lt;event&gt;)</code></strong> - this function is invoked by event(s) attached to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code> (see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">captureValueOn</code> attribute above). This invokes the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">valueChangeCallback()</code> if specified</p>
+</li>
+<li><p><strong><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">setup()</code></strong> - internally called, sets up the formElement after render()</p>
+</li>
+</ul>
+<hr>
+<h1 id="noicecoreuiformelementinput"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementInput</code></h1>
+<p>This class implements your standard 'character field', and supports <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">labelLocation: embed</code>. This also supports "typeahead" menus (value suggestions really, unless you enforce it on your own)</p>
+<h2 id="attributes-1">Attributes</h2>
+<ul>
+<li><p><strong>values</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Array</code> - list of values for typeahead menu</p>
+</li>
+<li><p><strong>maxLentgh</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - maximum number of characters accepted by the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;input&gt;</code> objects</p>
+</li>
+<li><p><strong>minLength</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength">minlength input attribute</a></p>
+</li>
+<li><p><strong>readonly</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true, the field is locked in the UI and its value can only be set programmatically</p>
+</li>
+<li><p><strong>size</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/size">size input attribute</a></p>
+</li>
+<li><p><strong>spellcheck</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true enable spell check feature</p>
+</li>
+<li><p><strong>autocorrect</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if true (and the environment supports it), enable autocorrect (mobile, mostly)</p>
+</li>
+<li><p><strong>autocomplete</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(off, on ... so many, see link)</code> - passthrough to the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete">autocomplete feature</a></p>
+</li>
+<li><p><strong>required</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - in a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formView</code> context, a validation error will be thrown upon <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">validate()</code> if the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.value</code> is null. also a passthrough to the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required">required attribute</a></p>
+</li>
+</ul>
+<h2 id="functions-1">Functions</h2>
+<h3 id="updateoptions"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">updateOptions()</code></h3>
+<p>This is internally triggered by setting the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.values</code> attribute. This function syncs <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.values</code> into the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist">datalist</a> object associated to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.formElement</code> (for typeahead functionality)</p>
+<h3 id="embedlabel"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">embedLabel()</code></h3>
+<p>this handles embedding the label (called internally)</p>
+<h2 id="example">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myInput <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementInput</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'petName'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'pet name'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">maxLength</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">80</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">autocomplete</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'on'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'jazzy'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'mo'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'lucy'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'lilly'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'garfield'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">required</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>selfReference<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">name</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> -&gt; value changed from: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>oldValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> to <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementdatetime"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementDateTime</code></h1>
+<p>This class is incomplete and needs work. At present, it is effectively read-only (meaning it can  display data but cannot take user input). The <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> attribute can accept epoch (integer) or ISO-8601 format dateTime strings only. The format displayed to the user is determined by the user's locale settings (see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCore.fromEpoch()</code>)</p>
+<h2 id="example-1">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myDateTime <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementDateTime</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'pickupTime'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'pickup time'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>selfReference<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">name</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> -&gt; value changed from: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>oldValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> to <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// set value to current time</span></span></div><div class="line"><span class="syntax--source syntax--js">myDateTime<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">value</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> myDateTime<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">epochTimestamp</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementpassword"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementPassword</code></h1>
+<p>this is a char field, with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type="password"</code> and with masked out chars. You know ... like you'd use for a password. <img height="20" alt="smile" title=":smile:" class="emoji"></p>
+<p>It has no attributes and functions beyond those inherited from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementInput</code></p>
+<h2 id="example-2">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myPassword <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementPassword</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'pass'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'password'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>selfReference<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">name</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> -&gt; I gochyo password sucka!: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiselect"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUISelect</code></h1>
+<p>your basic drop-down menu. supports <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">labelLocation = 'embed'</code></p>
+<h2 id="attributes-2">Attributes</h2>
+<ul>
+<li><p><strong>values</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;array&gt;</code> - list of values for the dropdown menu.</p>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="leading-whitespace">  </span><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// as a flat list of strings</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span>noiceCoreUISelect<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">values</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span> <span class="syntax--string syntax--quoted">'option 1'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'option 2'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'option 3'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--comment syntax--line">// as an array of objects with labels (a cascading menu)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span>noiceCoreUISelect<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">values</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'cats'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'meowry'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'bootsie'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'lilly'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'chonkerton'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'mo'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'jazzy'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'dogs'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'scotty'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'missy'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'grizzly'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'molly'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--comment syntax--line">// as an array of objects (value aliases)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span>noiceCoreUISelect<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">values</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">0</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'New'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">1</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Assigned'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">2</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Error'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">3</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Work in Progress'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">4</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Resolved'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">5</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Complete'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">      </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--constant syntax--numeric">6</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'Archive'</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">  </span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+</li>
+<li><p><strong>includeNull</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;bool&gt;, default: true</code> - include a null option (i.e. "no choice"). If false, do not allow null selection.</p>
+</li>
+<li><p><strong>selectedOption</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;integer&gt;</code> - the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">index</code> of the currently selected value. Setting this value changes the selected value as well.</p>
+</li>
+<li><p><strong>selectedOptionElement</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;Element&gt;</code> - the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Option</code> element within the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">select</code> element that is currently selected</p>
+</li>
+<li><p><strong>selectedOptionLabel</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;string&gt;</code> - the 'label' (if specified) of the selected option, else the selected option's <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">textContent</code></p>
+</li>
+<li><p><strong>selectedOptionGroup</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;string&gt;</code> - the 'label' of the optionGroup parent of the currently selected option (if within a cascading menu -- see above) -- that is -- what sub-menu the selected option is inside of</p>
+</li>
+</ul>
+<h2 id="example-3">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> mySelect <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementSelect</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'petName'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'pet name'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span><span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'cats'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'meowry'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'bootsie'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'lilly'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'chonkerton'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'mo'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'jazzy'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'dogs'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--other syntax--object syntax--property">values</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'scotty'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'missy'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'grizzly'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'molly'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>selfReference<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">name</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> -&gt; value changed from: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>oldValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> to <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementtext"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementText</code></h1>
+<p>This is very similar to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementInput</code> with the exception that the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">formElement</code> is rendered as a <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;textarea&gt;</code></a>, so (if specified) the element can have multiple rows.</p>
+<h2 id="attributes-3">Attributes</h2>
+<ul>
+<li><p><strong>autocapitalize</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(none, sentences, words, characters), default: none</code> - as you might expect, if set to an option other than 'none', init-cap's sentences, words or chars</p>
+</li>
+<li><p><strong>cols</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer, default: 20</code> - allow this many characters on a single row</p>
+</li>
+<li><p><strong>rows</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer, default: 1</code> - allow this many rows</p>
+</li>
+<li><p><strong>wrap</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(off, hard, soft), default: off</code> - if set, wrap lines with the specified method (see textarea MDN docs link above)</p>
+</li>
+</ul>
+<h2 id="example-4">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myText <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementText</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'instr'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'special instructions'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">cols</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">40</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">rows</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">10</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementnumber"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementNumber</code></h1>
+<p>This is a number input with  stepper UI buttons and a specifiable step increment. <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number">See Number Input Docs on MDN</a></p>
+<p><em>NOTE:</em> hiding and otherwise CSS styling the "spinner" (value stepper) buttons is a <em>complete hassle</em> but is possible though CSS styling but is seemingly inaccessible from javascript <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-inner-spin-button">see docs</a></p>
+<h2 id="attributes-4">Attributes</h2>
+<ul>
+<li><p><strong>min</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">number</code> - minimum numeric value</p>
+</li>
+<li><p><strong>max</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">number</code> - maximum numeric value</p>
+</li>
+<li><p><strong>step</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">number</code> - increment for the stepper ("spinner") UI buttons (see docs link above)</p>
+</li>
+</ul>
+<h2 id="example-5">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myNumber <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementNumber</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'count'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'count'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">min</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">0</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">max</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">10</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">step</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">1</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementdate"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementDate</code></h1>
+<p>This is a date input with a browser-native (decidedly lo-fi) date picker. This is an extension of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementNumber</code> as this class also uses the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">min</code>, <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">max</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">step</code> attributes. This is an <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;input&gt;</code> element with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type="date"</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date">see docs on MDN</a></p>
+<p>NOTE: browser implementations of the date element vary wildly. Generally this seems ok on Firefox &amp; Safari,(mobile &amp; desktop) however these platforms don't render value increment (spinner) buttons, but instead a calendar based date-picker (which is actually quite nice) and respects <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">min</code> &amp; <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">max</code>.</p>
+<p>Overall this is pretty good, and it beats the hell out of homegrown date-picker things. That being said, check it out on your target platform before you trust it.</p>
+<h2 id="attributes-5">Attributes</h2>
+<ul>
+<li><p><strong>min</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">date string (yyyy-mm-dd)</code> - the minimum allowed date value</p>
+</li>
+<li><p><strong>max</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">date string (yyyy-mm-dd)</code> - the maximum allowed date value</p>
+</li>
+<li><p><strong>step</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - number of days for one increment of the value stepper "spinner" buttons</p>
+</li>
+</ul>
+<h2 id="example-6">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myDate <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementDate</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'bDay'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'birthday'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">min</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted syntax--template">`1974-10-03`</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">max</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted syntax--template">`2021-12-03`</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">step</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">1</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementcheckbox"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementCheckbox</code></h1>
+<p>this is an input with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type="checkbox"</code> see <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox">documentation on MDN</a>.</p>
+<h2 id="attributes-6">Attributes</h2>
+<ul>
+<li><strong>value</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - unlike the HTML checkbox primitive it is based on, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">value</code> attribute is a boolean value where <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> has the checkbox selected and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code> if not (this value is settable as well)</li>
+</ul>
+<h2 id="example-7">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myCheck <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementCheckbox</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">name</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'doIeet'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'do it?'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--string syntax--quoted">'left'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>selfReference<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">name</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> -&gt; value changed from: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>oldValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span> to <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h1 id="noicecoreuiformelementfile"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUIFormElementFile</code></h1>
+<p>This implements a file input. In addition to the good old file selector, these can be used to capture stills and video from cameras and audio from microphones via the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/capture"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">capture</code> attribute</a></p>
+<p>getting access to the File objects can be tricky and requires use of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/File"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">File API</code></a>, See also <a href="https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications">this handy documentation on MDN</a></p>
+<h2 id="attributes-7">Attributes</h2>
+<ul>
+<li><p><strong>accept</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string (mimeType)</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">accept</code> attribute</a></p>
+</li>
+<li><p><strong>multiple</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: false</code> - passthrough to <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/multiple"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">multiple</code> attribute</a></p>
+</li>
+</ul>
+<h2 id="example-8">Example</h2>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myFile <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceCoreUIFormElementFile</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">label</span><span class="syntax--keyword syntax--operator syntax--js">:</span>              <span class="syntax--string syntax--quoted">'file'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">labelLocation</span><span class="syntax--keyword syntax--operator syntax--js">:</span>      <span class="syntax--string syntax--quoted">'top'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">valueChangeCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">newValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">oldValue</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--comment syntax--block">/*</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>for the file input we get fileList objects:</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>https://developer.mozilla.org/en-US/docs/Web/API/FileList</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>you may be interested in this as well:</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>https://developer.mozilla.org/en-US/docs/Web/API/File</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>oldValue is just a second copy of newValue as the FileList</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>returned by the change event is a pointer to whatever is currently</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>selected in the file widget. If that's a problem, you could</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>override the setter and actually grab the file contents, but this</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>seems like overkill and I'm not actually sure I'd want it to work that way.</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>here's a quickie demo. if you give it a CSV file, we'll try to read it</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>and report some stats, otherwise just file properties. not testing</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">            </span>multiple files with this one though that might be a good next step</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--block"><span class="leading-whitespace">        </span>*/</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--comment syntax--line">// report new file if we've got one</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--storage syntax--type">let</span> that <span class="syntax--keyword syntax--operator syntax--js">=</span> selfReference<span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>this<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">isNotNull</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span> <span class="syntax--keyword syntax--operator syntax--js">&amp;&amp;</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">length</span> <span class="syntax--keyword syntax--operator syntax--js">&gt;</span> <span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">'new file:'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--comment syntax--line">// spit some stats</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--string syntax--quoted">'name'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'lastModified'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'size'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'type'</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">forEach</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">a</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>a <span class="syntax--keyword syntax--operator syntax--js">==</span> <span class="syntax--string syntax--quoted">'lastModified'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--constant syntax--character syntax--escape">\t</span>[<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>a<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>]: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>that<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">fromEpoch</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span>a<span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> <span class="syntax--string syntax--quoted">'dateTime'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--keyword syntax--control">else</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--constant syntax--character syntax--escape">\t</span>[<span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>a<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>]: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>newValue<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span>a<span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--comment syntax--line">// is it a csv?</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">type</span> <span class="syntax--keyword syntax--operator syntax--js">==</span> <span class="syntax--string syntax--quoted">'text/csv'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--comment syntax--line">// do csv thangs ...</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--storage syntax--type">let</span> reader <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">FileReader</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>reader<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">onload</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">evt</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--comment syntax--line">// evt.target.result has the entire csv file as a strang</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--storage syntax--type">let</span> rows <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span>evt<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">target</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">result</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">split</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--regexp"><span class="syntax--keyword syntax--operator syntax--js">/</span><span class="syntax--string syntax--quoted"><span class="syntax--constant syntax--character syntax--character-class syntax--regexp">\n</span></span><span class="syntax--keyword syntax--operator syntax--js">/</span></span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">forEach</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">row</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span><span class="syntax--variable syntax--parameter syntax--function">rowNum</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                        </span><span class="syntax--comment syntax--line">// dumb test</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                        </span>rows<span class="syntax--keyword syntax--operator syntax--js">++</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                    </span><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`<span class="syntax--constant syntax--character syntax--escape">\t</span>[CSV Row Count]: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>rows<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">                </span>reader<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">readAsText</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>newValue<span class="syntax--punctuation syntax--definition syntax--array syntax--begin syntax--bracket syntax--square">[</span><span class="syntax--constant syntax--numeric">0</span><span class="syntax--punctuation syntax--definition syntax--array syntax--end syntax--bracket syntax--square">]</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">append</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--support syntax--variable syntax--dom">document</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">body</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre></body>
+      </html>

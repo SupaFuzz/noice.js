@@ -2,8 +2,8 @@
 
 This implements a modal PWA install prompt banner looking something like this:
 
-```
-                                       /\
+```text.plain
+                                   /\
  --------------------------------------  -----------
 | <message>                  | <addtitionalContent> |
  ---------------------------------------------------

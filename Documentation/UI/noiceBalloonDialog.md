@@ -4,7 +4,7 @@ This implements a floating modal dialog with a CSS-configurable "pointer", where
 
 This is the hard-coded CSS layout, we only set poisitioning and layout options, the rest is up to you and highly configurable (for instance see CSS on the included `examplePWA` app)
 
-```
+```text.plain
          ____/\________________________
         |  <title>  | <hdrContent>      |
          -------------------------------

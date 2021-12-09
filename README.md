@@ -1,3 +1,5 @@
+![noice](Documentation/noice_logo.svg)
+
 # noice.js
 
 This is an object oriented library for building Progressive Web Apps. This isn't a framework, but an object hierarchy that one can either use directly or extend, to get all sorts of handy functionality, causing onlookers to exclaim "[`noice!`](https://youtu.be/SAfq55aiqPc)".

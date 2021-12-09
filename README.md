@@ -114,7 +114,3 @@ Amy Hicox <amy@hicox.com> aka "SupaFuzz" on github. I sketched out basic ideas b
 I hope you find it useful. If you've got contributions get in touch
 
 -Amy :smiley: :heart:
-
-```javascript
-let bullshit = this;
-```

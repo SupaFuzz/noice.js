@@ -24,8 +24,12 @@
 .startupDialogUI .msg {
 	margin:						.25em 0 .25em 0;
 }
-.startupDialogUI .startupWelcome .welcomeTitle {
+.startupDialogUI . .welcomeTitle {
 	margin: .25em 0 .25em 0;
+}
+.startupDialogUI .startupWelcome {
+	border-left: .25em solid rgba(17, 47, 65, .15);
+	padding: 1em;
 }
 .startupDialogUI .startupWelcome .welcomeMessage {
 	margin: 0;
@@ -208,7 +212,7 @@
 .dialogMessageClass {
     font-size:                  .5em;
     text-align:                 left;
-    border-left:                .25em solid rgba(17, 47, 65, .25);
+    /*border-left:                .25em solid rgba(17, 47, 65, .25);*/
     padding:                    .25em 0 .25em .5em;
 }
 .dialogContentClass button:active, .wholeassDialog a:active {

@@ -1,0 +1,760 @@
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>noiceCore</title>
+            <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(197, 200, 198); background-color: rgb(29, 31, 33); overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(155, 160, 157); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(155, 160, 157); border-color: rgb(67, 72, 76); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(67, 72, 76); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(67, 72, 76); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(48, 51, 55); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(39, 41, 44); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(67, 72, 76) rgb(67, 72, 76) rgb(53, 57, 60); border-image: initial; background-color: rgb(48, 51, 55); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; overflow-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.04); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { overflow-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; overflow-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.markdown-preview pre.editor-colors { user-select: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item input[type="checkbox"] { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.markdown-preview .task-list-item { list-style-type: none; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #c5c8c6;
+  background-color: #373b41;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #1d1f21;
+  color: #c5c8c6;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #4f5256;
+}
+pre.editor-colors .indent-guide {
+  color: #4f5256;
+}
+pre.editor-colors .invisible-character {
+  color: #4f5256;
+}
+pre.editor-colors .gutter {
+  background-color: #1d1f21;
+  color: #969896;
+}
+pre.editor-colors .gutter .line-number {
+  padding: 0 0.25em 0 0.5em;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #969896;
+}
+pre.editor-colors .invisible {
+  color: #c5c8c6;
+}
+pre.editor-colors .cursor {
+  color: #ffffff;
+}
+pre.editor-colors .selection .region {
+  background-color: #373b41;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #969896;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #b5bd68;
+}
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--control {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--operator {
+  color: #c5c8c6;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #81a2be;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #de935f;
+}
+.syntax--storage {
+  color: #b294bb;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #8abeb7;
+}
+.syntax--variable {
+  color: #cc6666;
+}
+.syntax--variable.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--variable.syntax--parameter.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--invalid.syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp {
+  color: #8abeb7;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #f0c674;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #cc6666;
+}
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #81a2be;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #f0c674;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #c5c8c6;
+}
+.syntax--support.syntax--class {
+  color: #f0c674;
+}
+.syntax--support.syntax--function {
+  color: #8abeb7;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #f0c674;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #de935f;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #81a2be;
+}
+.syntax--meta.syntax--class {
+  color: #f0c674;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--link {
+  color: #de935f;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--require {
+  color: #81a2be;
+}
+.syntax--meta.syntax--selector {
+  color: #b294bb;
+}
+.syntax--meta.syntax--separator {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--tag {
+  color: #c5c8c6;
+}
+.syntax--none {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #81a2be;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--quote {
+  color: #de935f;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #8abeb7;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #8abeb7;
+}
+/*
+   This defines styling rules for syntax classes.
+
+   See the naming conventions for a list of syntax classes:
+   https://flight-manual.atom.io/hacking-atom/sections/syntax-naming-conventions
+
+   When styling rules conflict:
+   - The last rule overrides previous rules.
+   - The rule with most classes and pseudo-classes overrides the last rule.
+*/
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--storage {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--type {
+  color: #f0c674;
+}
+.syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--function {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--variable {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--support {
+  color: #cc6666;
+}
+.syntax--entity.syntax--decorator:last-child {
+  color: #81a2be;
+}
+.syntax--entity.syntax--label {
+  text-decoration: underline;
+}
+.syntax--entity.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--entity.syntax--operator {
+  color: #81a2be;
+}
+.syntax--entity.syntax--operator.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--attribute {
+  color: #de935f;
+}
+.syntax--punctuation {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--immutable {
+  color: #b5bd68;
+}
+.syntax--string.syntax--part {
+  color: #8abeb7;
+}
+.syntax--string.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--string.syntax--regexp {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp.syntax--language {
+  color: #b294bb;
+}
+.syntax--string.syntax--regexp.syntax--variable {
+  color: #81a2be;
+}
+.syntax--string.syntax--regexp.syntax--punctuation {
+  color: #a3685a;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--code {
+  color: #8abeb7;
+}
+.syntax--text {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--list.syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--alt {
+  color: #8abeb7;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--deleted .syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--changed .syntax--punctuation {
+  color: #b294bb;
+}
+.syntax--markup.syntax--commented {
+  color: #969896;
+}
+.syntax--markup.syntax--commented .syntax--punctuation {
+  color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment.syntax--caption {
+  color: #9ea09e;
+  font-weight: bold;
+}
+.syntax--comment.syntax--term {
+  color: #a8aaa8;
+}
+.syntax--comment.syntax--punctuation {
+  color: #969896;
+  font-weight: normal;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--tag {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--variable {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--keyframe {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--constant {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--media {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset.syntax--unit {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--attribute-value {
+  color: #b5bd68;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--wildcard {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--attribute {
+  color: #c5c8c6;
+}
+</style>
+        </head>
+        <body class='markdown-preview' data-use-github-style><h1 id="noicecorejs">noiceCore.js</h1>
+<p>Core classes for the noice framework. All classes in the noice framework descend from these.</p>
+<p>This file contains the following class tree</p>
+<ul>
+<li><strong>noiceObjectCore</strong><ul>
+<li><strong>noiceCoreChildClass</strong><ul>
+<li><strong>noiceException</strong></li>
+<li><strong>noiceCoreUtility</strong><ul>
+<li><strong>noiceCoreNetworkUtility</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="noiceobjectcore">noiceObjectCore</h2>
+<p>every object in the noice framework descends from this parent class. This defines a constructor model and self-serialization accessor, plus minimal utility functions needed across all object types.</p>
+<h3 id="synopsis">Synopsis</h3>
+<pre class="editor-colors lang-javascript"><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// create object</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> myObject <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceObjectCore</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--comment syntax--line">// args</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--variable syntax--other syntax--object syntax--property">regularAttribute</span><span class="syntax--keyword syntax--operator syntax--js">:</span>   <span class="syntax--string syntax--quoted">"someValue"</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--variable syntax--other syntax--object syntax--property">_hiddenAttribute</span><span class="syntax--keyword syntax--operator syntax--js">:</span>   <span class="syntax--string syntax--quoted">"someOtherValue"</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--comment syntax--line">// defaults</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--variable syntax--other syntax--object syntax--property">hiddenAttribute</span><span class="syntax--keyword syntax--operator syntax--js">:</span>    <span class="syntax--string syntax--quoted">"again, a different value"</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span>_regularAttribute<span class="syntax--keyword syntax--operator syntax--js">:</span>  <span class="syntax--string syntax--quoted">"defaultValue"</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--comment syntax--line">// callback</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--entity syntax--name syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">selfReference</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--comment syntax--line">// do something with the newly created object here</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// dump the object to json</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> serialized <span class="syntax--keyword syntax--operator syntax--js">=</span> myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">json</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// set attribute values from json</span></span></div><div class="line"><span class="syntax--source syntax--js">myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--variable syntax--other syntax--object syntax--property syntax--unquoted">json</span> <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--string syntax--quoted syntax--template">`{"regularAttribute": "someOtherValue"}`</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// nullness checks</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">isNull</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>someRandomString<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"someRandomString is null!"</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">isNotNull</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>someRandomString<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"someRandomString is not null!"</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// what's the epoch time?</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">epochTimestamp</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// does the object have a non-null attribute?</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--keyword syntax--control">if</span> <span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>myObject<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">hasAttribute</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">'shabidoo'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span> <span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`myObject has 'shabidoo!'`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div></pre>
+<h4 id="args">args</h4>
+<ul>
+<li><p><strong>position 0</strong> the first argument to the constructor is the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code> object - is an object reference modeling user-specified arguments to the constructor every enumerable attribute will be copied into the resulting object.</p>
+</li>
+<li><p><strong>position 1</strong> the second (optional) argument to the constructor is the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{defaults}</code> object - is an object reference modelling class-default attributes, every enumerable attribute will be copied into the resulting object, however {args} overrides attributes found here</p>
+</li>
+<li><p><strong>position 2</strong> the third (optional) argument to the constructor is the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">callback</code> -- a function reference, if specified, we will call this external function with a single argument consisting of the newly constructed object, before the constructor exits.</p>
+</li>
+</ul>
+<h4 id="a-note-about-attributes">a note about attributes</h4>
+<p>anything that comes in via <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{defaults}</code> will become an object attribute. Keys on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{defaults}</code> will be set as attributes, only if a corresponding key does not exist on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code></p>
+<p>attributes that are prefixed with the underscore char <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">_</code> are created as non-enumerable (meaning they are hidden from Object.keys and
+JSON.stringify).</p>
+<p>attributes that are prefixed with a double underscore <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">__</code> are also non-enumerable, however they ARE exposed via the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.json</code> accessor,
+meaning they are restorable from JSON.</p>
+<p>IF you specify a non-enumerable underscore-prefixed attribute on either <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code> or <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{defaults}</code> the default constructor will NOT
+create attributes for the non-underscore prefixed attribute.</p>
+<p>In the example given in the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Synopsis</code> above, the default constructor will NOT create an attribute for either <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.hiddenAttribute</code> nor <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.regularAttribute</code>.</p>
+<p>The reason is that underscore-prefixed versions of each also exist, we presume there are class-defined getter and setter functions for these if we define non-underscore-prefixed versions of these attributes, the child class getters and setters will be overridden by the constructor.</p>
+<p>So instead the constructor will remove these attributes and put them in the hidden <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.__getterSetterAttributesFromInstantiation</code> key.</p>
+<p>It is then the job of the subclass. to initialize these values through their own setters after calling <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super()</code> in the constructor.</p>
+<h4 id="function-reference">function reference</h4>
+<ul>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">static mergeClassDefaults({defaults}, {args})</code>
+this is a static function for merging args to defaults and is called at the top of most every constructor across all subclasses in the framework. This merges the two given objects <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{defaults}</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code> with defaults going into the resulting object first, and args going in second so that colliding keys are overwritten by args.</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">isNull(var)</code>
+returns true if the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">var</code> has a value that is any one of the numerous ways javascript indicates "no value"</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">isNotNull(var)</code>
+inverse of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">isNull</code>. same logic, just inveterted</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">hasAttribute(str)</code>
+if the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">str</code> corresponds to an attribute of the object and the attribute <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">isNotNull()</code>, return <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> otherwise <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code></p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">epochTimestamp(bool)</code>
+if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> is false or not specified, returns the number of seconds elapsed since <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">1/1/1970 00:00:00 GMT</code>. If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> is true, returns the number of milliseconds elapsed since the same date</p>
+</li>
+</ul>
+<h4 id="attribute-reference">attribute reference</h4>
+<ul>
+<li><strong>json</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - Getting this string will return a JSON serialization of the object (as described above). Setting the value of this string will set keys on the given JSON object into the object as attributes (possibly overwriting existing values)</li>
+</ul>
+<hr>
+<h2 id="noicecorechildclass">noiceCoreChildClass</h2>
+<p>this class has no unique attributes or functions, however the constructor handles pass-through defaults (as described above) and will handle attribute initialization <em>after</em> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">super()</code> is called. So basically</p>
+<pre class="editor-colors lang-html"><div class="line"><span class="syntax--source syntax--html">descend child classes from here, unless you've got good reason not to</span></div></pre>
+<hr>
+<h2 id="noiceexception">noiceException</h2>
+<p>this is an exception class to handle exceptions thrown by our own code.</p>
+<h3>attributes</h3>
+<ul>
+<li><strong>errorNumber</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code></li>
+<li><strong>message</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code></li>
+<li><strong>thrownBy</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code></li>
+<li><strong>fatal</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> (default: <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code>)</li>
+<li><strong>sendExceptionEvent</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> (default: <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>)</li>
+<li><strong>exceptionEventName</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> (default: <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">_noiceException</code>)</li>
+</ul>
+<p>If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">sendExceptionEvent</code> is set true, the constructor will send a copy of the noiceException object to the document event defined by <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">exceptionEventName</code>. External things that might care about exception throws (for instance loggers) can subscribe to that event. One very useful application of this feature is an app-global crash recovery dialog ... for instance.</p>
+<h3 id="functions">functions</h3>
+<ul>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toString()</code>
+returns a string representation of the error</li>
+</ul>
+<hr>
+<h2 id="noicecoreutility">noiceCoreUtility</h2>
+<p>this adds utility functions to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreChildClass</code> many subclasses descend from here</p>
+<h3 id="functions-1">functions</h3>
+<ul>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toEpoch(date, fine)</code></p>
+<p>  convert the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">date</code> string to epoch (number of seconds elapsed since <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">1/1/1970 00:00:00 GMT</code>). If the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fine</code> argument is set to boolean <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, return milliseconds instead of seconds.</p>
+<p>  <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">date</code> is passed to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">Date.parse()</code> see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse">documentation on MDN</a> for details.</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fromEpoch(integer, type)</code></p>
+<p>  interpret the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> value as an epoch timestamp and return a formatted dateTime based on the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type</code></p>
+<p>  values of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">type</code></p>
+<ul>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">date</code> -          returns <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">YYYY-MM-DD</code></li>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">time</code> -          returns <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">HH:MM:SS</code></li>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">dateTime</code> -      returns <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">YYYY-MM-DDTHH:mm:ss.sssZ</code> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString">ISO 8601 Extended Format</a></li>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">dateTimeLocale</code>  returns format determined by locale and user preference <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString">Date.toLocaleString()</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">getGUID()</code></p>
+<p>  returns a globally unique identifier (GUID) <a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">see additional info</a>. This is a string that can reasonably be presumed to be globally unique.</p>
+</li>
+</ul>
+<hr>
+<h2 id="noicecorenetworkutility">noiceCoreNetworkUtility</h2>
+<p>this adds a network request dispatcher (XHR based) to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreUtility</code>. Any class that needs to interact with the network will descend from here</p>
+<h3 id="functions-2">functions</h3>
+<h4 id="fetchargs"><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fetch({args})</code></h4>
+<p>this creates an XHR of the specified <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">method</code>, pointing to the specified <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">endpoint</code> with specified <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">headers</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">content</code>, and returns a rejected or resolved promise. Rejected promises are <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceExceptions</code>, and are triggered either from timeout being exceeded or from not receiving an HTTP status response matching <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">expectHtmlStatus</code>. Resolved promises return the XHR object and the caller can work out what to do with that. <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest">See also XHR docs on MDN</a></p>
+<h5 id="args-1">args</h5>
+<ul>
+<li><p><strong>endpoint</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - URL</p>
+</li>
+<li><p><strong>method</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">enum(GET, POST, PUT, DELETE)</code> - use this method to access the URL identified by <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">endpoint</code> <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">complete method list here</a></p>
+</li>
+<li><p><strong>headers</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - an object of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{header: value, ...}</code> key value pairs as <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/setRequestHeader">described here</a></p>
+</li>
+<li><p><strong>content</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> | <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> | <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">arrayBuffer</code> - the content you want to send to the server if you're using a method that sends like <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">POST</code>. If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">encodeContent</code> is true, this value will be passed through <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">JSON.stringify()</code> before being sent <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/send">see MDN docs</a></p>
+</li>
+<li><p><strong>expectHtmlStatus</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - if the XHR returns an HTML status code other than the one you've specified here, it will reject the returned promise, generating an error. Very handy for building REST clients, for isntance</p>
+</li>
+<li><p><strong>timeout</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - abort XHR and reject promise if opened XHR persists longer than this many miliseconds (note: on Chrome and Safari the max is 2 minutes no matter what you set here)</p>
+</li>
+<li><p><strong>encodeContent</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if set true pass <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">content</code> through <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">JSON.stringify()</code> before sending</p>
+</li>
+<li><p><strong>responseType</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType">see MDN Docs</a></p>
+</li>
+<li><p><strong>progressCallback</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">function</code> - call this function asynchronously from the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">progress</code> event on the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">XHR</code> object <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/progress_event">see docs</a></p>
+</li>
+</ul>
+<h5 id="output">output</h5>
+<p>the function returns a promise that resolves to the value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this</code> inside the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">load</code> event callback on the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">XHR</code> object when the request completes. In general, you'll be wanting the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">.responseText</code> attribute of the returned object, but there's tons of stuff in there you might want <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/load_event">see docs</a></p></body>
+      </html>

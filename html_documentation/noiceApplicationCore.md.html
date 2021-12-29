@@ -1,0 +1,755 @@
+      <!DOCTYPE html>
+      <html>
+        <head>
+            <meta charset="utf-8" />
+            <title>noiceApplicationCore</title>
+            <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(197, 200, 198); background-color: rgb(29, 31, 33); overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(155, 160, 157); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(155, 160, 157); border-color: rgb(67, 72, 76); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(67, 72, 76); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(255, 255, 255); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(67, 72, 76); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(255, 255, 255); background-color: rgb(48, 51, 55); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(39, 41, 44); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(255, 255, 255); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(67, 72, 76) rgb(67, 72, 76) rgb(53, 57, 60); border-image: initial; background-color: rgb(48, 51, 55); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; overflow-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.04); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { overflow-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; overflow-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.markdown-preview pre.editor-colors { user-select: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item input[type="checkbox"] { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.markdown-preview .task-list-item { list-style-type: none; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+.line-number.bracket-matcher.bracket-matcher {
+  color: #c5c8c6;
+  background-color: #373b41;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: #1d1f21;
+  color: #c5c8c6;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #4f5256;
+}
+pre.editor-colors .indent-guide {
+  color: #4f5256;
+}
+pre.editor-colors .invisible-character {
+  color: #4f5256;
+}
+pre.editor-colors .gutter {
+  background-color: #1d1f21;
+  color: #969896;
+}
+pre.editor-colors .gutter .line-number {
+  padding: 0 0.25em 0 0.5em;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  color: #c5c8c6;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #969896;
+}
+pre.editor-colors .invisible {
+  color: #c5c8c6;
+}
+pre.editor-colors .cursor {
+  color: #ffffff;
+}
+pre.editor-colors .selection .region {
+  background-color: #373b41;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment .syntax--markup.syntax--link {
+  color: #969896;
+}
+.syntax--entity.syntax--name.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  color: #b5bd68;
+}
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--control {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--operator {
+  color: #c5c8c6;
+}
+.syntax--keyword.syntax--other.syntax--special-method {
+  color: #81a2be;
+}
+.syntax--keyword.syntax--other.syntax--unit {
+  color: #de935f;
+}
+.syntax--storage {
+  color: #b294bb;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--constant.syntax--other.syntax--color {
+  color: #8abeb7;
+}
+.syntax--constant.syntax--other.syntax--symbol {
+  color: #8abeb7;
+}
+.syntax--variable {
+  color: #cc6666;
+}
+.syntax--variable.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--variable.syntax--parameter.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--invalid.syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp {
+  color: #8abeb7;
+}
+.syntax--string.syntax--regexp .syntax--source.syntax--ruby.syntax--embedded {
+  color: #f0c674;
+}
+.syntax--string.syntax--other.syntax--link {
+  color: #cc6666;
+}
+.syntax--punctuation.syntax--definition.syntax--parameters,
+.syntax--punctuation.syntax--definition.syntax--array {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--definition.syntax--heading,
+.syntax--punctuation.syntax--definition.syntax--identity {
+  color: #81a2be;
+}
+.syntax--punctuation.syntax--definition.syntax--bold {
+  color: #f0c674;
+  font-weight: bold;
+}
+.syntax--punctuation.syntax--definition.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--punctuation.syntax--section.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--punctuation.syntax--section.syntax--method,
+.syntax--punctuation.syntax--section.syntax--class,
+.syntax--punctuation.syntax--section.syntax--inner-class {
+  color: #c5c8c6;
+}
+.syntax--support.syntax--class {
+  color: #f0c674;
+}
+.syntax--support.syntax--function {
+  color: #8abeb7;
+}
+.syntax--support.syntax--function.syntax--any-method {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--class,
+.syntax--entity.syntax--name.syntax--type.syntax--class {
+  color: #f0c674;
+}
+.syntax--entity.syntax--name.syntax--section {
+  color: #81a2be;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #de935f;
+}
+.syntax--entity.syntax--other.syntax--attribute-name.syntax--id {
+  color: #81a2be;
+}
+.syntax--meta.syntax--class {
+  color: #f0c674;
+}
+.syntax--meta.syntax--class.syntax--body {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--link {
+  color: #de935f;
+}
+.syntax--meta.syntax--method-call,
+.syntax--meta.syntax--method {
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--require {
+  color: #81a2be;
+}
+.syntax--meta.syntax--selector {
+  color: #b294bb;
+}
+.syntax--meta.syntax--separator {
+  background-color: #373b41;
+  color: #c5c8c6;
+}
+.syntax--meta.syntax--tag {
+  color: #c5c8c6;
+}
+.syntax--none {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--heading .syntax--punctuation.syntax--definition.syntax--heading {
+  color: #81a2be;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--quote {
+  color: #de935f;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--source.syntax--gfm .syntax--markup {
+  -webkit-font-smoothing: auto;
+}
+.syntax--source.syntax--gfm .syntax--link .syntax--entity {
+  color: #8abeb7;
+}
+.syntax--source.syntax--cs .syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation.syntax--string {
+  color: #cc6666;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--json > .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--constant.syntax--language.syntax--json,
+.syntax--source.syntax--json .syntax--meta.syntax--structure.syntax--array.syntax--json > .syntax--constant.syntax--language.syntax--json {
+  color: #8abeb7;
+}
+/*
+   This defines styling rules for syntax classes.
+
+   See the naming conventions for a list of syntax classes:
+   https://flight-manual.atom.io/hacking-atom/sections/syntax-naming-conventions
+
+   When styling rules conflict:
+   - The last rule overrides previous rules.
+   - The rule with most classes and pseudo-classes overrides the last rule.
+*/
+.syntax--keyword {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--storage {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--type {
+  color: #f0c674;
+}
+.syntax--keyword.syntax--operator {
+  color: #b294bb;
+}
+.syntax--keyword.syntax--function {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--variable {
+  color: #cc6666;
+}
+.syntax--keyword.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--support {
+  color: #cc6666;
+}
+.syntax--entity.syntax--decorator:last-child {
+  color: #81a2be;
+}
+.syntax--entity.syntax--label {
+  text-decoration: underline;
+}
+.syntax--entity.syntax--function {
+  color: #81a2be;
+}
+.syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--entity.syntax--operator {
+  color: #81a2be;
+}
+.syntax--entity.syntax--operator.syntax--symbolic {
+  color: #c5c8c6;
+}
+.syntax--entity.syntax--type {
+  color: #f0c674;
+}
+.syntax--entity.syntax--tag {
+  color: #cc6666;
+}
+.syntax--entity.syntax--attribute {
+  color: #de935f;
+}
+.syntax--punctuation {
+  color: #c5c8c6;
+}
+.syntax--punctuation.syntax--embedded {
+  color: #a3685a;
+}
+.syntax--string {
+  color: #b5bd68;
+}
+.syntax--string.syntax--immutable {
+  color: #b5bd68;
+}
+.syntax--string.syntax--part {
+  color: #8abeb7;
+}
+.syntax--string.syntax--interpolation {
+  color: #a3685a;
+}
+.syntax--string.syntax--regexp {
+  color: #b5bd68;
+}
+.syntax--string.syntax--regexp.syntax--language {
+  color: #b294bb;
+}
+.syntax--string.syntax--regexp.syntax--variable {
+  color: #81a2be;
+}
+.syntax--string.syntax--regexp.syntax--punctuation {
+  color: #a3685a;
+}
+.syntax--constant {
+  color: #de935f;
+}
+.syntax--constant.syntax--character {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--escape {
+  color: #b5bd68;
+}
+.syntax--constant.syntax--character.syntax--code {
+  color: #8abeb7;
+}
+.syntax--text {
+  color: #c5c8c6;
+}
+.syntax--markup.syntax--heading {
+  color: #cc6666;
+}
+.syntax--markup.syntax--list.syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--bold {
+  color: #de935f;
+  font-weight: bold;
+}
+.syntax--markup.syntax--italic {
+  color: #b294bb;
+  font-style: italic;
+}
+.syntax--markup.syntax--raw {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--link {
+  color: #81a2be;
+}
+.syntax--markup.syntax--alt {
+  color: #8abeb7;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--inserted .syntax--punctuation {
+  color: #b5bd68;
+}
+.syntax--markup.syntax--deleted {
+  color: #cc6666;
+}
+.syntax--markup.syntax--deleted .syntax--punctuation {
+  color: #cc6666;
+}
+.syntax--markup.syntax--changed {
+  color: #b294bb;
+}
+.syntax--markup.syntax--changed .syntax--punctuation {
+  color: #b294bb;
+}
+.syntax--markup.syntax--commented {
+  color: #969896;
+}
+.syntax--markup.syntax--commented .syntax--punctuation {
+  color: #969896;
+}
+.syntax--comment {
+  color: #969896;
+}
+.syntax--comment.syntax--caption {
+  color: #9ea09e;
+  font-weight: bold;
+}
+.syntax--comment.syntax--term {
+  color: #a8aaa8;
+}
+.syntax--comment.syntax--punctuation {
+  color: #969896;
+  font-weight: normal;
+}
+.syntax--invalid:not(.syntax--punctuation).syntax--illegal {
+  background-color: #cc6666;
+  color: #1d1f21;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--function.syntax--support {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--tag {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--property {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--variable {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--entity.syntax--keyframe {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--constant {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--numeric {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--media {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--offset.syntax--unit {
+  color: #c5c8c6;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color {
+  color: #8abeb7;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--color.syntax--support {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--constant.syntax--attribute-value {
+  color: #b5bd68;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector {
+  color: #de935f;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--wildcard {
+  color: #cc6666;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--id {
+  color: #81a2be;
+}
+.syntax--source.syntax--css .syntax--punctuation.syntax--selector.syntax--attribute {
+  color: #c5c8c6;
+}
+</style>
+        </head>
+        <body class='markdown-preview' data-use-github-style><h1 id="noiceapplicationcorejs">noiceApplicationCore.js</h1>
+<p>Classes for creating Progressive Web Apps (PWAs). This file contains the following classes:</p>
+<ul>
+<li><strong>noiceLogMessage</strong></li>
+<li><strong>noiceLog</strong></li>
+<li><strong>noiceApplicationCore</strong></li>
+</ul>
+<h2 id="requires">requires</h2>
+<ul>
+<li><strong>noiceCore.js</strong> (<code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreChildClass</code>, <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceCoreNetworkUtility</code>)</li>
+</ul>
+<hr>
+<h2 id="noicelogmessage">noiceLogMessage</h2>
+<p>this object models a log message</p>
+<h3>attributes</h3>
+<ul>
+<li><p><strong>message</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - content of the log message</p>
+</li>
+<li><p><strong>time</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - high resolution epochTimestamp(miliseconds)</p>
+</li>
+<li><p><strong>fatal</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default false</code>, if the log message was fatal set this boolean true</p>
+</li>
+</ul>
+<h3 id="functions">functions</h3>
+<ul>
+<li><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">toString()</code> - returns a string representation of the log message</li>
+</ul>
+<h3 id="example">example</h3>
+<pre class="editor-colors lang-javascript"><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// called with explicit arguments</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> logMesasge <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceLogMessage</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">message</span><span class="syntax--keyword syntax--operator syntax--js">:</span>    <span class="syntax--string syntax--quoted">'this is my log message'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">time</span><span class="syntax--keyword syntax--operator syntax--js">:</span>       <span class="syntax--constant syntax--numeric">1637598326401</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">fatal</span><span class="syntax--keyword syntax--operator syntax--js">:</span>      <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// toString() is called automatically when you get value in string context</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--support syntax--variable syntax--dom">console</span><span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>logMessage<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// should output</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// [1637598326401 fatal] this is my log message</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// can also be called with a string</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--comment syntax--line">// time defaults to now, fatal defaults to false</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> logMessage <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceLogMessage</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">'this is my log message'</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h2 id="noicelog">noiceLog</h2>
+<p>This is a basic logger (a chronologically ordered list of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceLogMessage</code> objects). This logger has the concept of holding a number of rows in-memory then "flushing" them (perhaps to non-volitile storage) via the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flushCallback</code>.</p>
+<h3 id="attributes-1">attributes</h3>
+<ul>
+<li><p><strong>maxLength</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer, default: 0</code> - Keep no more than this many entries in the log. Once the log has grown to this length, the oldest entry is deleted upon each additional log being added. Set a value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">0</code> for unlimited length</p>
+</li>
+<li><p><strong>autoFlush</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: false</code> - if true, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flushCallback</code> function (if specified) is called asynchronously each time a message is added to the log</p>
+</li>
+<li><p><strong>flushCallback</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">function</code> - this function is called asynchronously when the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flush()</code> function is called (either explicitly or by way of the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">autoFlush</code> flag). This function receives a JSON serialization of the entire <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">messageQueue</code></p>
+</li>
+<li><p><strong>messageQueue</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">array</code> - the array of log entries</p>
+</li>
+</ul>
+<h3 id="functions-1">functions</h3>
+<ul>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">log(message, fatal, flushImmediate)</code></p>
+<p>  this creates a new <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceLog</code> object with the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">message</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fatal</code> attributes (with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">time</code> set to current time), and appends it to the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">messageQueue</code>.</p>
+<p>  If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">maxLength</code> is exceeded, the oldest log message is pruned. if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">autoFlush</code> is set, or if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flushImmediate</code> is set, the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flush()</code> function is called.</p>
+<p>  <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">fatal</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flushImmediate</code> default false</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flush()</code></p>
+<p>  this returns a promise to call the specified <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">flushCallback()</code> (if not specified, promise will reject)</p>
+</li>
+</ul>
+<h3 id="example-1">example</h3>
+<pre class="editor-colors lang-javascript"><div class="line"><span class="syntax--source syntax--js"><span class="syntax--storage syntax--type">let</span> logger <span class="syntax--keyword syntax--operator syntax--js">=</span> <span class="syntax--keyword syntax--operator syntax--new">new</span> <span class="syntax--meta syntax--class">noiceLog</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">maxLength</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--numeric">100</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">autoFlush</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--variable syntax--other syntax--object syntax--property">flushCallback</span><span class="syntax--keyword syntax--operator syntax--js">:</span> <span class="syntax--keyword syntax--control">async</span> <span class="syntax--storage syntax--type syntax--function">function</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--variable syntax--parameter syntax--function">logJSON</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">try</span> <span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span>localStorage<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">setItem</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">'myLogs'</span><span class="syntax--meta syntax--delimiter syntax--comma">,</span> logJSON<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--keyword syntax--control">catch</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span>e<span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--begin syntax--bracket syntax--curly">{</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">            </span><span class="syntax--keyword syntax--control">throw</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted syntax--template">`localStorage.setItem failed: <span class="syntax--embedded syntax--source"><span class="syntax--punctuation syntax--section syntax--embedded">${</span>e<span class="syntax--punctuation syntax--section syntax--embedded">}</span></span>`</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">        </span><span class="syntax--keyword syntax--control">return</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--constant syntax--language syntax--boolean syntax--true">true</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="leading-whitespace">    </span><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span></span></div><div class="line"><span class="syntax--source syntax--js"><span class="syntax--punctuation syntax--definition syntax--function syntax--body syntax--end syntax--bracket syntax--curly">}</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div><div class="line"></div><div class="line"><span class="syntax--source syntax--js">logger<span class="syntax--meta syntax--delimiter syntax--period">.</span><span class="syntax--entity syntax--name syntax--function">log</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--begin syntax--bracket syntax--round">(</span><span class="syntax--string syntax--quoted">"Hi I'm a log message!"</span><span class="syntax--punctuation syntax--definition syntax--parameters syntax--end syntax--bracket syntax--round">)</span><span class="syntax--punctuation syntax--terminator syntax--statement syntax--semicolon">;</span></span></div></pre>
+<hr>
+<h2 id="noiceapplicationcore">noiceApplicationCore</h2>
+<p>This is the core of a PWA application. To write an application in noice, you'd extend this class, adding your own application-specific logic.</p>
+<p>Objects of this type can instantiate worker threads, including a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">serviceWorker</code>, provide logging infreastructure, and can store/restore themselves from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code></p>
+<h3 id="attributes-2">attributes</h3>
+<ul>
+<li><p><strong>localStorageKey</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string, default: this._className</code> - store copies of the application object state under this key in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code> when the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">save()</code> function is called</p>
+</li>
+<li><p><strong>isCrashed</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: false</code> - to check if the application has received a fatal log message (or has been explicitly crashed), check the value of this boolean. If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, we are already in a crashed state. You can crash the app by sending a fatal log message, OR by explicitly setting this attribute to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, doing so will invoke a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">store()</code> call and the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">crashCallback()</code> (if specified).</p>
+</li>
+<li><p><strong>crashCallback</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">function</code> - if specified, this function is called when the value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">isCrashed</code> is set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> from a non-true value. The function is called with a single argument, which is a reference to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this</code> (the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceApplicationCore</code> object). A handy use for this feature is to, for instance, use the crashCallback to popup a blocking dialog indicating crash and giving the user a recovery option.</p>
+</li>
+<li><p><strong>logLimit</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer, default: 0</code> - passthrough to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceLog</code> constructor (see notes above)</p>
+</li>
+<li><p><strong>startTime</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer (epochTimestamp)</code> - the high-res <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">epochTimestamp</code> at which the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceApplicationCore</code> object was created (usually this will correspond to the date/time of the last page load).</p>
+</li>
+<li><p><strong>logHistory</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - each time the app is loaded (an instance of the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceApplicationCore</code> object is created), a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceLog</code> object is created in the object on this attribute with a key corresponding to the value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.startTime</code>. In this way, the current logger is kept in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.logHistory[this.startTime]</code>, and we maintain a history of previous runs. NOTE: <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">autoFlush</code> is hard-coded <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> here so logs are immediately flushed when written.</p>
+</li>
+<li><p><strong>logInstanceLimit</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer, default: 0</code> -  limit the number of keys on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.logHistory</code> to a maximum of this number. When this number is reached, the oldest key on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">logHistory</code> will be deleted. If a value of <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">0</code> is specified, keep unlimited log instances (NOTE: until you fill up the disk quota on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code> so be careful with that)</p>
+</li>
+<li><p><strong>logToConsole</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool, default: true</code> - if set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, echo log messages as they are received to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">console.log()</code></p>
+</li>
+<li><p><strong>name</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string, default: this._className</code> - name of the application. This will be referenced in lots of places. Make it a good one.</p>
+</li>
+<li><p><strong>version</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string, default this._version</code> - version of the application. Also referenced lots of places.</p>
+</li>
+<li><p><strong>restoreOnInstantiate</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if set true, we will immediately call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">restore()</code> on instantiate (which will look for the last saved version of the object in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.localStorageKey</code>, restore object state and create a new entry on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">logHistory</code>)</p>
+</li>
+<li><p><strong>threads</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - a list of scripts to initiate on threads. Datastructure is <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{ &lt;threadName&gt;: './script.js' }</code> (it is presumed that the threads will use the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceWorkerThread</code> infrastructure for signaling between the main thread (with the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceApplicationCore</code> object and the child threads specified here)</p>
+</li>
+<li><p><strong>threadSignalHandlers</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - this is an object of callback functions for handling signals from child threads. The datastructure is of this form: <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.threadSignalHandlers[&lt;threadName&gt;][&lt;type&gt;] = function(&lt;args&gt;, &lt;selfReferehce&gt;)</code>. See <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">handleThreadMessage()</code> below.</p>
+</li>
+<li><p><strong>enableServiceWorker</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>, and we have <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">serviceWorker</code> on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.threads</code>, register it/set it up, etc on object instantiation. If set <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code>, the object will <em>not</em> instantiate the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">serviceWorker</code> even if it is specified (this can be a godsend troubleshooting cache issues)</p>
+</li>
+<li><p><strong>appMode</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - if the app is running as a standalone PWA (installed on homescreen on ios/safari, installed on desktop via chrome on windows or android), this flag will be <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code> otherwise <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code></p>
+</li>
+</ul>
+<h3 id="functions-2">functions</h3>
+<ul>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">log(message, fatal, flushImmediate)</code></p>
+<p>  passthrough to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">noiceLog</code> (see above). Log messages are stored in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.logHistory[this.startTime]</code> (see <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">logHistory</code> notes above).</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">save()</code></p>
+<p>  save object state to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code>, under <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.localStorageKey</code></p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">restore()</code></p>
+<p>  look at <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code> beneath the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.localStorageKey</code> key, if that exists, run its value through <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">JSON.parse()</code>, then set those values as object attributes (restoring the last saved state of the object). Create a new instance on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">logHistory</code> (so we don't append the last logInstance). Returns boolean <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">false</code> if no value was found in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">localStorage</code> to restore, otherwise <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">true</code>.</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">writeAppData({key:value, ...})</code></p>
+<p>  append (or overwrite) the specified key/value pairs to <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this._appData</code>, then call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.save()</code>, persisting the key/value pairs in the stored version of the object</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">getAppData(key)</code></p>
+<p>  get the current value of the given <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">key</code> on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this._appData</code>, if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">key</code> is not specified, return the entire <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this._appData</code> object. This and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">writeAppData()</code> are the "right" way to get and set values you want to be disk-persistent.</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">deleteAppData(key)</code></p>
+<p>  delete the specified <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">key</code> from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this._appData</code>, then call <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.save()</code>. If <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">key</code> is not specified, this will <strong>delete all appData!</strong> (be careful).</p>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">async threadResponse({args})</code></p>
+<p>  this will send a signal (with <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">messageType</code> and <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">data</code> specified on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">postMessage</code> argument) to the child thread identified by <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">threadName</code>, and will return a promise that resolves or rejects when the thread responds with a signal specifying a <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">messageType</code> matching <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">awaitResponseType</code>.</p>
+<p>  The promise will reject if <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">timeout</code> is exceeded or if the thread responds with a signal setting the error flag true. Otherwise will resolve with the <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">.data</code> object of the message event returned by the thread</p>
+<p>  <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{args}</code> are as follows:</p>
+<ul>
+<li><p><strong>threadName</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> - name of the thread (key on <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.threads</code> corresponding to the child thread with which you wish to communicate)</p>
+</li>
+<li><p><strong>postMessage</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">object</code> - <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{type: &lt;messageType&gt;, data: &lt;arbitrary&gt;}</code> - the content of the signal you wish to send to the child thread identified by <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">threadName</code></p>
+</li>
+<li><p><strong>awaitResponseType</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">string</code> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">&lt;messageType&gt;</code> - do not resolve the promise until the child thread responds with a signal matching this messageType</p>
+</li>
+<li><p><strong>timeout</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">integer</code> - reject the promise, if the child thread hasn't responded after this number of miliseconds</p>
+</li>
+<li><p><strong>isServiceWorker</strong> <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">bool</code> - set it true if the thread you want to talk to is the serviceWorker (they're a little different to talk to, so this flag tells the code to await potential thread wakes, etc)</p>
+</li>
+</ul>
+</li>
+<li><p><code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">handleThreadMessage({args})</code></p>
+<p>  this handles asynchronous messages sent from child threads. This is distinct from <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">threadResponse</code> above, in that this is intended to catch signals initiated by the child thread (for instance log messages, alerts, etc). This will dispatch messages to the callback function specified in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">this.threadSignalHandlers[&lt;threadName&gt;][&lt;messageType&gt;]</code> where threadName and messageType match.</p>
+<p>  callbacks in <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">threadSignalHandlers</code> are passed an object of the form <code style="font-family: Menlo, Consolas, &quot;DejaVu Sans Mono&quot;, monospace;">{ threadName: &lt;threadName&gt;, event: &lt;messageEvent&gt;}</code> <a href="https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent">see docs on MDN</a></p>
+</li>
+</ul></body>
+      </html>

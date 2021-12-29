@@ -114,7 +114,7 @@ if `bool` is false or not specified, returns the number of seconds elapsed since
 ## noiceCoreChildClass
 this class has no unique attributes or functions, however the constructor handles pass-through defaults (as described above) and will handle attribute initialization *after* `super()` is called. So basically
 
-```
+```html
 descend child classes from here, unless you've got good reason not to
 ```
 

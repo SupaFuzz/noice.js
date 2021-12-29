@@ -136,7 +136,8 @@ async startAnimation(){
     setup()
 */
 setup(){
-    this.svgDOMObject            = this.DOMElement.querySelector('svg');
+    this.svgDOMObject = this.DOMElement.querySelector('svg');
+    this.chartBknd = this.svgDOMObject.querySelector(`circle.${this.chartBackroundClass}`);
 
     let that = this;
 

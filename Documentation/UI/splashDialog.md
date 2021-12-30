@@ -140,7 +140,9 @@ var dlg = new splashDialog({
 
 * **hicox_flower** `string (SVG source)` - just included so the lib doesn't need img files. The default welcomeImage
 
+* **btnStart** `Element` - a reference to the start button element on the currently focussed message UI
 
+* **btnReload** 'Element' - a reference to the reload button element on the currently focussed message UI
 
 ## external CSS
 by default, this library only hard codes CSS directly necessary to implement layout. This is an example of external CSS to dress it up in an acceptable fashion. NOTE that this CSS includes rules to style most other noice dialogs as well as this one, so much of this can be reused:

@@ -107,6 +107,10 @@ The `./lib/UI` directory contains classes for implementation of common UI widget
     a splash screen with buttons for user interaction and many hooks for showing status (for instance spinning up indexedDB instances, fetching data from network, etc)
 
 
+## To-Do
+
+* re-factor all this into [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+
 ## Who made this?
 
 Amy Hicox <amy@hicox.com> aka "SupaFuzz" on github. I sketched out basic ideas back in 2018, but mostly this was written over the past two years of COVID lockdown. No joke I restarted work on the project like 3/2020, and well ... here we are. Who would have ever thought it'd go on long enough to write this much code?

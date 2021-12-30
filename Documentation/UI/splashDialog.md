@@ -118,7 +118,7 @@ var dlg = new splashDialog({
 
 * **userPass** `noiceCoreUIFormElementPassword` - when `display = 'auth'`, this is a reference to the formElement for the 'Password'. (`this.userPass.value` has the value)
 
-* **authErrorMessage** `string` - provide a string on this attribute to display an error message when `display = 'auth'`. If set to a `null` value, the error message element is hidden, when a non-null value is given it is shown.
+* **errorMessage** `string` - provide a string on this attribute to display an error message. If set to a `null` value, the error message element is hidden, when a non-null value is given it is shown.
 
 * **gfxScreenHolder** `noiceCoreUIScreenHolder` - this is the screenholder for the `<gfx>` section in the above diagram. You can add additional graphics to this screenholder to show graphics other than the 'pieChart' and 'welcomeImage'
 

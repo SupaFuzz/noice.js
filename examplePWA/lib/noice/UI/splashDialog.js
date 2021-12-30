@@ -56,7 +56,7 @@ constructor(args, defaults, callback){
         _display:                'welcomeMessage', // or 'auth' or 'custom'
         _showPieChart:          false,
         _runAnimation:          false,
-        _authErrorMessage:      null,
+        _errorMessage:          null,
         title:                 'startup',
         headingClass:           'dialogHeadingClass',
         contentClass:           'dialogContentClass',
@@ -198,13 +198,13 @@ setup(){
                 welcomeTitle: that.welcomeTitle,
                 welcomeMessage: that.welcomeMessage,
                 getHTMLCallback: function(s){return(`
-                    <div data-templatename="welcomeContent" class="welcomeContent" style="
+                    <div data-templatename="welcomeContent" class="welcomeContent authStartupDialog" style="
                         width: 100%;
                         height: 100%;
                         display: grid;
 	                    grid-template-rows: auto 3.5em;
                     ">
-                        <div class="startupWelcome" style="align-self:center;">
+                        <div class="startupWelcome loginUI" style="align-self:center;" data-templatename="startupWelcome">
                             <h2 class="welcomeTitle" data-templatename="welcomeTitle" data-templateattribute="true"></h2>
                             <p class="welcomeMessage" data-templatename="welcomeMessage" data-templateattribute="true"></p>
                         </div>
@@ -218,6 +218,13 @@ setup(){
                     </div>
                 `)},
                 renderCallback: function(s){
+
+                    // spawn the errorMessage
+                    s.errorMsg = document.createElement('span');
+                    s.errorMsg.className = 'errorMsg';
+                    s.errorMsg.style.display = "none";
+                    s._DOMElements.startupWelcome.appendChild(s.errorMsg);
+
                     // hook up the buttons to the callbacks
                     s._DOMElements.btnStart.addEventListener('click', function(evt){
                         if (that.startButtonCallback instanceof Function){ that.startButtonCallback(that, evt); }
@@ -267,11 +274,11 @@ setup(){
                         valueLength:    'auto'
                     }).append(s._DOMElements.startupWelcome);
 
-                    that.authErrorMsg = document.createElement('span');
-                    that.authErrorMsg.className = 'authErrorMsg';
-                    that.authErrorMsg.style.display = "none";
-                    //that.authErrorMsg.style.opacity = 0;
-                    s._DOMElements.startupWelcome.appendChild(that.authErrorMsg);
+                    // spawn the errorMessage
+                    s.errorMsg = document.createElement('span');
+                    s.errorMsg.className = 'errorMsg';
+                    s.errorMsg.style.display = "none";
+                    s._DOMElements.startupWelcome.appendChild(s.errorMsg);
 
                     // hook up the buttons to the callbacks
                     s._DOMElements.btnStart.addEventListener('click', function(evt){
@@ -352,14 +359,19 @@ set runAnimation(v){
 
 
 /*
-    authErrorMessage
+    errorMessage
 */
-get authErrorMessage(){ return(this._authErrorMessage); }
-set authErrorMessage(v){
-    this._authErrorMessage = v;
-    if (this.authErrorMsg instanceof Element){
-        this.authErrorMsg.textContent = this._authErrorMessage;
-        this.authErrorMsg.style.display = (this.isNull(this._authErrorMessage))?'none':'block';
+get errorMessage(){ return(this._errorMessage); }
+set errorMessage(v){
+    this._errorMessage = v;
+
+    if (
+        (this.msgScreenHolder instanceof noiceCoreUIScreenHolder) &&
+        (this.msgScreenHolder.getUI(this.msgScreenHolder.currentUI) instanceof noiceCoreUIScreen) &&
+        (this.msgScreenHolder.getUI(this.msgScreenHolder.currentUI).errorMsg instanceof Element)
+    ){
+        this.msgScreenHolder.getUI(this.msgScreenHolder.currentUI).errorMsg.textContent = this._errorMessage;
+        this.msgScreenHolder.getUI(this.msgScreenHolder.currentUI).errorMsg.style.display = (this.isNull(this._errorMessage))?'none':'block';
     }
 }
 

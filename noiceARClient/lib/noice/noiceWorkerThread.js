@@ -61,14 +61,10 @@ signalParent(args){
     }else
     */
 
-console.log(`signalParent:`)
-
     // post message to threadHandle and fallback to broadcastChannel if we can't
     if (this.threadHandle.postMessage instanceof Function){
-        console.log("threadHandle")
         this.threadHandle.postMessage(args);
     }else if (this.broadcastChannel.postMessage instanceof Function){
-        console.log("broadcastChannel")
         this.broadcastChannel.postMessage(args)
     }else{
         console.log(`[${this.threadName}] signalParent() cannot find a recipient for message: ${JSON.stringify(args)}`);

@@ -28,8 +28,13 @@ constructor(args, defaults, callback){
     // setup handlers
     let that = this;
     that.threadHandle.addEventListener('message', function(evt){ that.signalFromParent(evt); });
-    that.broadcastChannel = new BroadcastChannel(that.threadName);
-    that.broadcastChannel.addEventListener('message', function(evt){ that.broadcastSignal(evt); });
+    try {
+        that.broadcastChannel = new BroadcastChannel(that.threadName);
+        that.broadcastChannel.addEventListener('message', function(evt){ that.broadcastSignal(evt); });
+    }catch(e){
+        delete(that.broadcastChannel);
+        that.log('BroadcastChannel API is not supported on this client, disabling fallback thread messaging mechanism');
+    }
 
     that.log('loaded');
 }
@@ -64,7 +69,7 @@ signalParent(args){
     // post message to threadHandle and fallback to broadcastChannel if we can't
     if (this.threadHandle.postMessage instanceof Function){
         this.threadHandle.postMessage(args);
-    }else if (this.broadcastChannel.postMessage instanceof Function){
+    }else if ((this.hasOwnProperty('broadcastChannel')) && (this.broadcastChannel.postMessage instanceof Function)){
         this.broadcastChannel.postMessage(args)
     }else{
         console.log(`[${this.threadName}] signalParent() cannot find a recipient for message: ${JSON.stringify(args)}`);

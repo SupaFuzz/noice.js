@@ -212,8 +212,8 @@ setup(){
                             display: flex;
 	                        flex-direction: row-reverse;
                         ">
-                            <button data-templatename="btnStart" style="display:${that.showStartButton?'block':'none'};">${that.startButtonText}</button>
-                            <button data-templatename="btnReload" style="display:${that.showReloadButton?'block':'none'};">${that.reloadButtonText}</button>
+                            <button data-templatename="btnStart" class="btnStart" style="display:${that.showStartButton?'block':'none'};">${that.startButtonText}</button>
+                            <button data-templatename="btnReload" class="btnUpdate" style="display:${that.showReloadButton?'block':'none'};">${that.reloadButtonText}</button>
                         </div>
                     </div>
                 `)},
@@ -250,8 +250,8 @@ setup(){
                             display: flex;
 	                        flex-direction: row-reverse;
                         ">
-                            <button data-templatename="btnStart" style="display:${that.showStartButton?'block':'none'};">${that.startButtonText}</button>
-                            <button data-templatename="btnReload" style="display:${that.showReloadButton?'block':'none'};">${that.reloadButtonText}</button>
+                            <button data-templatename="btnStart" class="btnStart" style="display:${that.showStartButton?'block':'none'};">${that.startButtonText}</button>
+                            <button data-templatename="btnReload" class="btnUpdate" style="display:${that.showReloadButton?'block':'none'};">${that.reloadButtonText}</button>
                         </div>
                     </div>
                 `)},

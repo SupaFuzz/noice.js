@@ -15,11 +15,12 @@ class noiceWorkerThread extends noiceCoreNetworkUtility {
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
         // object infrastructure
-        _version:       2,
+        _version:       2.2,
         _className:     'noiceWorkerThread',
         threadHandle:   self,
         threadName:     'noiceWorkerThread',
         debug:          false,
+        logPrefix:      true,
         signalHandlers: {}
         // insert default attributes here
 
@@ -67,7 +68,12 @@ signalParent(args){
     */
 
     // post message to threadHandle and fallback to broadcastChannel if we can't
-    if (this.threadHandle.postMessage instanceof Function){
+    if (
+        (this) &&
+        (this.threadHandle) &&
+        (this.threadHandle.postMessage) &&
+        (this.threadHandle.postMessage instanceof Function)
+    ){
         this.threadHandle.postMessage(args);
     }else if ((this.hasOwnProperty('broadcastChannel')) && (this.broadcastChannel.postMessage instanceof Function)){
         this.broadcastChannel.postMessage(args)
@@ -149,10 +155,20 @@ broadcastSignal(evt){
 */
 log(message, fatal){
     //if (this.debug){ console.log(`thread debug [${this.threadName}] | log | ${message} ${(fatal===true)?'| fatal':''}`) }
+
+    let prefix = '';
+    if (this.logPrefix){
+        prefix = `[${this.threadName}`;
+        if (this.hasOwnProperty('version')){
+            prefix += ` v${this.version}`;
+        }
+        prefix += '] ';
+    }
+
     this.signalParent({
         type:       'log',
         data:   {
-            message:    message,
+            message:    `${prefix}${message}`,
             fatal:      (fatal === true)
         }
     });

@@ -50,7 +50,7 @@ class noiceCoreUIFormElement extends noiceCoreUIElement {
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:                       2,
+        _version:                       2.1,
         _className:                     'noiceCoreUIFormElement',
         _enable:                        true,
         _label:                         null,
@@ -70,6 +70,7 @@ constructor(args, defaults, callback){
         removedCallback:                null,
         normalizeUpperCase:             false,
         trimWhitespace:                 false,
+        xssFilterEnable:                false,
         _dir:                           'ltr',
         _labelClass:                    'ncufeLabel',
         _fieldClass:                    'ncuFormElementField',
@@ -406,6 +407,11 @@ setValue(v){
     // strip leading and trailing whitespace here if we have the flag
     if ((this.trimWhitespace == true) && this.isNotNull(v)){
         v = v.trim();
+    }
+
+    // xss filtering
+    if ((this.xssFilterEnable == true) && this.isNotNull(vt)){
+        vt = this.xssFilter(vt);
     }
 
     // handle the callback if we have one
@@ -843,6 +849,24 @@ set externalButtons(v){
         });
         that._externalButtons = tmp
     }
+}
+
+
+
+
+/*
+    xssFilter(string)
+    returns as sanitized of a string as we know how to do.
+    override this function if you want to point to an external library
+    or what have you. This is called by default in the value setter
+    if the xssFilterEnable attribute is set true.
+
+    this approach is super-naive I might add, but it's better than nothing
+*/
+xssFilter(str){
+    let div = document.createElement('div');
+    div.textContent = str;
+    return(div.innerHTML);
 }
 
 

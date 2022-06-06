@@ -266,7 +266,7 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:               1,
+        _version:               1.1,
         _className:             'noiceCoreUIFormView',
         _config:                {},
         _formElements:          {},
@@ -1123,10 +1123,11 @@ executeSaveFilters(inputData){
 
     hence async writing to network or db or whatever should happen in the callback
 */
-save(filterInputData){
+save(filterInputData, bypassAlert){
     let that = this;
     let filterPipeData = (filterInputData instanceof Object)?filterInputData:{};
     let filterAbort = false;
+    let alertBypass = (bypassAlert == true);
     return(new Promise(function(toot, boot){
 
         // execute save filters
@@ -1140,7 +1141,7 @@ save(filterInputData){
                 messageNumber:   54,
             }));
             filterAbort = true;
-            alert('errors prevented record save');
+            if (! alertBypass){ alert('errors prevented record save'); }
 
         }).then(function(filterOutputData){
 

@@ -266,7 +266,7 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:               1.1,
+        _version:               1.2,
         _className:             'noiceCoreUIFormView',
         _config:                {},
         _formElements:          {},
@@ -916,7 +916,7 @@ dirtyRecordAreYouSure(boolArg){
         }
 
         try {
-            let prompt = new noiceCoreUIYNDialog(dialogArgs).show(that.DOMElement);
+            let prompt = new noiceCoreUIYNDialog(dialogArgs).show();
         }catch(e){
             boot(e);
         }

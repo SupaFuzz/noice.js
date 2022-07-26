@@ -1255,7 +1255,7 @@ class noiceCoreUIFormElementSelect extends noiceCoreUIFormElement {
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:                           1.1,
+        _version:                           1.2,
         _className:                         'noiceCoreUISelect',
         _values:                            [],
         _selectedOption:                    null,
@@ -1263,7 +1263,8 @@ constructor(args, defaults, callback){
         captureValueOn:                     'input',
         includeNull:                        true,
         labelValueList:                     [],
-        valueList:                          []
+        valueList:                          [],
+        embeddedLabelClass:                 'noiceCoreUIFormElementSelectEmbeddedLabelClass'
     }, defaults), callback);
 } // end constructor
 

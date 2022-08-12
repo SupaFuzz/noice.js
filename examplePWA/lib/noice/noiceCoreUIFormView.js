@@ -266,7 +266,7 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:               1.2,
+        _version:               1.3,
         _className:             'noiceCoreUIFormView',
         _config:                {},
         _formElements:          {},
@@ -994,11 +994,12 @@ validate(){
                     if ((callbackErrors instanceof Array) && (callbackErrors.length > 0)){
                         callbackErrors.forEach(function(b){ that.validationErrors.push(b); });
                     }
+
+                    // back atcha
+                    if (that._rowHandle instanceof Object){ that._rowHandle.status = 'error'; }
+                    toot(that.validationErrors.length == 0);
                 }
 
-                // back atcha
-                if (that._rowHandle instanceof Object){ that._rowHandle.status = 'error'; }
-                toot(that.validationErrors.length == 0);
             });
         }
     }));
@@ -1134,13 +1135,13 @@ save(filterInputData, bypassAlert){
         that.executeSaveFilters(filterPipeData).catch(function(error){
 
             // abort from saveFilter error
+            filterAbort = true;
             boot(new noiceException({
                 message:        `saveFilter threw error preventing save: ${error.toString()}`,
                 thrownBy:       `${that._className} | save`,
                 error:           error,
                 messageNumber:   54,
             }));
-            filterAbort = true;
             if (! alertBypass){ alert('errors prevented record save'); }
 
         }).then(function(filterOutputData){
@@ -1159,6 +1160,7 @@ save(filterInputData, bypassAlert){
 
                         // execute the callback if we've got one, else just toot the filter output
                         if (that.recordSaveCallback instanceof Function){
+                            let abrt = false;
                             that.recordSaveCallback(that, filterOutputData).catch(function(error){
 
                                 // recordSaveCallback threw
@@ -1170,7 +1172,7 @@ save(filterInputData, bypassAlert){
                                 }));
 
                             }).then(function(saveOutput){
-                                toot(saveOutput);
+                                if (! abrt){ toot(saveOutput); }
                             });
                         }else{
                             toot(filterOutputData);

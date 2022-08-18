@@ -1436,12 +1436,13 @@ class noiceCoreUIScreenHolder extends noiceCoreUIOverlay {
 // minimal constructor
 constructor(args, defaults, callback){
     let _classDefaults = noiceObjectCore.mergeClassDefaults({
-        _version:           1.1,
+        _version:           1.2,
         _className:         'noiceCoreUIScreenHolder',
         _defaultUI:         '',
         _showDefaultUI:     false,
         currentUI:          null,
         ignoreFocusErrors:  false,
+        debug:              false,
         UIList:            {},
         _html:              ''
     }, defaults);
@@ -1613,21 +1614,37 @@ listUIs(){ return(Object.keys(this.UIList)); }
     async function of each child UI with the
     specified args.
 */
-async sendMessage(args){
+sendMessage(args){
     let that = this;
-    let pk = [];
-    this.listUIs().forEach(function(UIName){
-        pk.push(this.UIList[UIName].receiveMessage(args));
-    }, this);
-    await Promise.all(pk).catch(function(error){
-        throw(new noiceException({
-            message:        `cailed to send message to all UIs: ${error}`,
-            messageNumber:   420,
-            thrownBy:       `${that._className}/sendMessage`,
-            errorObject:    error
-        }));
-    });
-    return(true);
+    return(new Promise(function(toot, boot){
+        let pk = [];
+        let pkErrors = [];
+        that.listUIs().forEach(function(UIName){
+            pk.push(new Promise(function(t, b){
+                let abrt = false;
+                that.UIList[UIName].receiveMessage(args).catch(function(error){
+                    pkErrors.push(error);
+                    abrt = true;
+                    if (that.debug){ console.log(`${that._className} v${that._version} | sendMessage() | failed on UI: ${$UIName} | ${error}`); }
+                    b(error);
+                }).then(function(){if (! abrt){
+                    t(true)
+                }});
+            }));
+        });
+        Promise.all(pk).then(function(){
+            if (pkErrors.length > 0){
+                boot(new noiceException({
+                    message:        `${that._className} v${that._version} | sendMessge() | failed to send message to all UIs: ${error}`,
+                    messageNumber:   420,
+                    thrownBy:       `${that._className}/sendMessage`,
+                    errorObject:    error
+                }));
+            }else{
+                toot(true);
+            }
+        });
+    }));
 }
 
 

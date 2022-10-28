@@ -1963,7 +1963,7 @@ setSelected(v){
             if (that.DOMElement instanceof Element){ that.DOMElement.dataset.selected = that._selected; }
             toot(that._selected);
         }).catch(function(error){
-            that._app.log(`${that._className} v${that._version} | setSelected(${v}) attribute setter | ${that.guid} selectCallback() cancelled select: ${error}`);
+            console.log(`${that._className} v${that._version} | setSelected(${v}) attribute setter | ${that.guid} selectCallback() cancelled select: ${error}`);
             boot(error);
         });
     }));

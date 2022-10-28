@@ -1898,3 +1898,143 @@ setup(){
 }
 
 }
+
+
+
+
+/*
+noiceCoreUISelecableObject
+.locked [bool]      echoed on .dataset, true disables selectCallback
+.selected [bool]    echoed on .dataset construct thine css accordingly. ye verily
+.selectable [bool]  this also sets up or tears down the click handler
+async selectCallback(newBool, oldBool, selfRef) boot aborts select
+async setSelected(bool) promise resolves after selectCallback()
+async removeCallback(selfRef)   boot aborts remove
+
+override html getter, the rest is up to you
+*/
+class noiceCoreUISelecableObject extends noiceCoreUIElement {
+
+
+
+
+/*
+    constructor
+*/
+constructor(args, defaults, callback){
+    super(
+        args,
+        noiceObjectCore.mergeClassDefaults({
+            _version:       1,
+            _className:     'noiceCoreUISelecableObject',
+            _selected:      false,
+            _selectable:    true,
+            _locked:        false,
+            _selectHandler: null
+        }, defaults),
+        callback
+    );
+    this.guid = this.getGUID();
+    this.DOMElement.dataset.guid = this.guid;
+
+    // init DOM-linked attributes
+    ['selected', 'selectable', 'locked'].forEach((a) => { this[a] = this[a]; }, this)
+} // end constructor
+
+
+
+
+/*
+    selected [bool]
+*/
+get selected(){ return(this._selected); }
+set selected(v){ this.setSelected(v); }
+setSelected(v){
+    let that = this;
+    return(new Promise(function(toot, boot){
+        new Promise(function(_t, _b){
+            if (that.selectCallback instanceof Function){
+                that.selectCallback((v == true), that._selected, that).then(() => { _t(true); }).catch((error) => { _b(error); });
+            }else{
+                _t(true);
+            }
+        }).then(function(){
+            that._selected = (v == true);
+            if (that.DOMElement instanceof Element){ that.DOMElement.dataset.selected = that._selected; }
+            toot(that._selected);
+        }).catch(function(error){
+            that._app.log(`${that._className} v${that._version} | setSelected(${v}) attribute setter | ${that.guid} selectCallback() cancelled select: ${error}`);
+            boot(error);
+        });
+    }));
+}
+
+
+
+/*
+    selectable [bool]
+    NOTE: the selectHandler does not fire if *.locked == true
+    you can still set selected programatically via the getter/setter
+    and setSelected() while locked, but noy by click
+*/
+get selectable(){ return(this._selectable); }
+set selectable(v){
+    if (this.DOMElement instanceof Element){
+        if ((v == true) && (! (this.selectHandler instanceof Function))){
+            this.selectHandler = this.getEventListenerWrapper(function(evt, myself){
+                if (! myself.locked){ myself.selected = (! myself.selected); }
+            });
+            this.DOMElement.addEventListener('click', this.selectHandler);
+        } else if ((v !== true) && (this.selectHandler instanceof Function)){
+            this.DOMElement.removeEventListener('click', this.selectHandler)
+            delete(this.selectHandler);
+            this.selected = false;
+        }
+        this.DOMElement.dataset.selectable = (v == true);
+    }
+    this._selectable = (v === true);
+}
+
+
+
+/*
+    locked [bool]
+*/
+get locked(){ return(this._locked); }
+set locked(v){
+    this._locked = (v==true);
+    if (this.DOMElement instanceof Element){ this.DOMElement.dataset.locked = this._locked; }
+}
+
+
+
+
+/*
+    remove override for removeCallback() stuff
+*/
+remove(){
+    let that = this;
+    new Promise((toot, boot) => {
+        if (that.removeCallback instanceof Function){
+            that.removeCallback(that).then(() => { toot(true); }).catch((e) => { boot(e); });
+        }else{
+            toot(true);
+        }
+    }).then(() => {
+
+        // from super
+        this._documentFragment.appendChild(this.DOMElement);
+        this.onScreen = false;
+
+    }).catch((error) => {
+
+        // actually I really don't care
+        console.log(`${that._className} v${that._version} | remove() | removeCallback() aborted remove: ${error}`);
+
+    });
+}
+
+
+
+
+}

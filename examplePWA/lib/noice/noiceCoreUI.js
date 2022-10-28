@@ -1935,7 +1935,8 @@ constructor(args, defaults, callback){
         callback
     );
     this.guid = this.DOMElement.id;
-
+    this.DOMElement.dataset.guid = this.guid;
+    
     // init DOM-linked attributes
     ['selected', 'selectable', 'locked'].forEach((a) => { this[a] = this[a]; }, this)
 } // end constructor

@@ -266,7 +266,7 @@ static getFormElement(fieldType, fieldConfig, mergeConfig){
 */
 constructor(args, defaults, callback){
     super(args, noiceObjectCore.mergeClassDefaults({
-        _version:               1.4,
+        _version:               1.41,
         _className:             'noiceCoreUIFormView',
         _config:                {},
         _formElements:          {},
@@ -602,7 +602,13 @@ set tempName(v){
     this._tempName = v;
     if (this.formMode == 'create'){
         if (this.tempRecordIdentifier instanceof Element){
-            this.tempRecordIdentifier.textContent = this._tempName;
+            if (this._tempName instanceof Element){
+                this.tempRecordIdentifier.innerHTML = '';
+                this.tempRecordIdentifier.appendChild(this._tempName);
+            }else{
+                this.tempRecordIdentifier.textContent = this._tempName;
+            }
+
         }
     }
 }

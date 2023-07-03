@@ -65,6 +65,74 @@
                 insert shenannigans here
             */
 
+
+            document.addEventListener("DOMContentLoaded", function(evt){
+                let info = document.createElement('ul');
+                info.style.color = "rgb(240,240,240)";
+                info.style.textAlign = 'left';
+                info.style.fontSize = '.5em';
+                info.style.maxHeight = '40vh';
+                info.style.overflowY = 'scroll';
+
+                let FUCK_YOU = {};
+                for (let p in navigator){
+                    FUCK_YOU[p] = navigator[p]
+                }
+
+                Object.keys(FUCK_YOU).sort().forEach(function(a){
+                    info.insertAdjacentHTML('beforeend', `<li>[${a}]: ${FUCK_YOU[a]}</li>`)
+                });
+                document.body.append(info);
+
+                function identify(){
+
+                    if (navigator){
+
+                        // detect iOS
+                        if (
+                            ('vendor' in navigator) &&
+                            (/Apple/.test(navigator.vendor)) &&
+                            ('maxTouchPoints' in navigator) &&
+                            (parseInt(navigator.maxTouchPoints) > 0)
+                        ){
+                            return('Safari Mobile');
+
+                        // detect desktop safari
+                        } else if (
+                            ('vendor' in navigator) &&
+                            (/Apple/.test(navigator.vendor)) &&
+                            ('maxTouchPoints' in navigator) &&
+                            (parseInt(navigator.maxTouchPoints) == 0)
+                        ){
+                            return('Safari');
+
+                        // detect chrome
+                        } else if (
+                            ('vendor' in navigator) &&
+                            (/Google/.test(navigator.vendor)) &&
+                            (/Chrome\//.test(navigator.userAgent))
+                        ){
+                            return('Chrome');
+
+                        // detect edge
+                        }else if (
+                            (/Edg\//.test(navigator.userAgent)) ||
+                            (/Edge\//.test(navigator.userAgent))
+                        ){
+                            return('Edge');
+
+                        // detect firefox
+                        }else if (
+                            (/Firefox\//.test(navigator.userAgent))
+                        ){
+                            return('Firefox');
+                        }
+                    }
+                }
+                document.body.insertAdjacentHTML('beforeend', `<h2 style="color:rgb(240,240,240);">detected: ${identify()}</h2>`);
+
+            });
+
         </script>
     </head>
     <body></body>
